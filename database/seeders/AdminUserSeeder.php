@@ -22,3 +22,16 @@ class AdminUserSeeder extends Seeder
         );
     }
 }
+
+/*
+en server 
+ User::updateOrCreate(
+            ['phone' => '+59171039910'],
+            [
+                'name' => 'Administrador Principal',
+                'email' => 'admin@ifenotes.com',
+                'password' => Hash::make('#ifenotas26*'),
+                'is_admin' => true,
+                'is_follower_unlocked' => true,
+            ]
+*/

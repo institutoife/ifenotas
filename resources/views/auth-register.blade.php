@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ife notas - crear cuenta</title>
   <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root{--bg:#f3fbfa;--card:#fff;--text:rgb(55,95,122);--muted:#587486;--line:#d6ebe8;--primary:rgb(38,186,165);--primary-dark:rgb(55,95,122)}
     @font-face{font-family:"GlyphaLTStd";src:url("/fonts/GlyphaLTStd-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
@@ -19,6 +20,10 @@
     input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;color:var(--primary-dark)}
     input:focus{outline:2px solid rgba(38,186,165,.22);border-color:var(--primary)}
     input[readonly]{background:#eef8f6;font-weight:600}
+    .password-wrap{position:relative}
+    .password-wrap input{padding-right:46px}
+    .toggle-password{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:var(--primary-dark);cursor:pointer;border-radius:8px}
+    .toggle-password:focus{outline:2px solid rgba(38,186,165,.22)}
     .btn{width:100%;border:0;border-radius:10px;padding:10px;font-weight:600;background:var(--primary);color:#fff;margin-top:10px;cursor:pointer}
     .error{background:#fdecec;color:#8b1f1f;border-radius:10px;padding:9px;margin-bottom:8px}
     .back{display:inline-block;margin-top:10px;color:var(--primary-dark);text-decoration:none}
@@ -32,12 +37,29 @@
     <label for="phone">Número</label>
     <div class="row"><input value="+591" readonly><input id="phone" name="phone" type="tel" inputmode="numeric" pattern="\d{8}" maxlength="8" required></div>
     <label for="password">Contraseña</label>
-    <input id="password" name="password" type="password" minlength="6" required>
+    <div class="password-wrap">
+      <input id="password" name="password" type="password" minlength="6" required>
+      <button class="toggle-password" type="button" data-toggle-password aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
+    </div>
     <label for="password_confirmation">Confirmar contraseña</label>
-    <input id="password_confirmation" name="password_confirmation" type="password" minlength="6" required>
+    <div class="password-wrap">
+      <input id="password_confirmation" name="password_confirmation" type="password" minlength="6" required>
+      <button class="toggle-password" type="button" data-toggle-password aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
+    </div>
     <button class="btn" type="submit">Crear cuenta</button>
     <a class="back" href="{{ route('auth') }}">Volver</a>
   </form>
+  <script>
+    document.querySelectorAll('[data-toggle-password]').forEach((button) => {
+      button.addEventListener('click', function () {
+        const input = this.parentElement.querySelector('input');
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        this.setAttribute('aria-label', visible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+        this.innerHTML = visible ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+      });
+    });
+  </script>
 </body>
 </html>
 
