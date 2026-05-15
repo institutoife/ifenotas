@@ -14,8 +14,8 @@ class AdminUserSeeder extends Seeder
             ['phone' => '+59170000000'],
             [
                 'name' => 'Administrador Principal',
-                'email' => 'admin@notes.local',
-                'password' => Hash::make('Admin12345!'),
+                'email' => 'admin@ifenotes.com',
+                'password' => Hash::make('ife123456'),
                 'is_admin' => true,
                 'is_follower_unlocked' => true,
             ]
