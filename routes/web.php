@@ -14,7 +14,11 @@ Route::middleware('guest')->group(function (): void {
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [AcademicAppController::class, 'dashboard'])->name('dashboard');
     Route::post('/logout', [AcademicAppController::class, 'logout'])->name('logout');
+    Route::get('/schools/search', [AcademicAppController::class, 'searchSchools'])->name('schools.search');
+    Route::post('/profile', [AcademicAppController::class, 'updateProfile'])->name('profile.update');
     Route::post('/calculations', [AcademicAppController::class, 'saveCalculation'])->name('calculations.save');
+    Route::post('/simulations', [AcademicAppController::class, 'saveSimulation'])->name('simulations.save');
+    Route::post('/ai-chat', [AcademicAppController::class, 'aiChat'])->name('ai.chat');
     Route::post('/request-enable', [AcademicAppController::class, 'requestEnable'])->name('request.enable');
 
     Route::get('/admin', [AcademicAppController::class, 'admin'])->name('admin');

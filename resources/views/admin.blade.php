@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de administraci髇</title>
+    <title>ife notas - administraci贸n</title>
+    <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
     <style>
-        :root{--bg:#f5f7f8;--card:#fff;--text:#1f2933;--muted:#66717d;--line:#d9e0e6;--primary:#1f7a6e;--soft:#e7f3f1}
+        :root{--bg:#f3fbfa;--card:#fff;--text:rgb(55,95,122);--muted:#587486;--line:#d6ebe8;--primary:rgb(38,186,165);--primary-dark:rgb(55,95,122);--soft:#e6f8f5}
+        @font-face{font-family:"GlyphaLTStd";src:url("/fonts/GlyphaLTStd-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
         *{box-sizing:border-box}
         body{margin:0;font-family:"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
         .wrap{max-width:980px;margin:0 auto;padding:16px}
-        .head,.card{background:var(--card);border:1px solid var(--line);border-radius:12px}
+        .head,.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(55,95,122,.07)}
         .head{padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
         .sub{margin-top:4px;color:var(--muted);font-size:.92rem}
         .card{margin-top:12px;padding:12px}
         .row{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
-        .btn{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer;background:#fff;color:var(--text);text-decoration:none}
+        .btn{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer;background:#fff;color:var(--primary-dark);text-decoration:none}
         .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
-        .btn-soft{background:var(--soft);border-color:var(--soft);color:var(--primary)}
+        .btn-soft{background:var(--soft);border-color:var(--soft);color:var(--primary-dark)}
         .link{color:var(--primary);text-decoration:none;font-weight:600}
+        .brand-name{font-family:"GlyphaLTStd","Segoe UI",sans-serif;text-transform:lowercase;letter-spacing:0}
+        .logo{display:inline-block;width:128px;max-height:38px;object-fit:contain;vertical-align:middle}
         @media (max-width:800px){.row{grid-template-columns:1fr}}
     </style>
 </head>
@@ -25,8 +29,8 @@
 <div class="wrap">
     <div class="head">
         <div>
-            <strong>Panel de administraci髇</strong>
-            <div class="sub">Gesti髇 de usuarios y solicitudes</div>
+            <strong><img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas"> - administraci贸n</strong>
+            <div class="sub">Gesti贸n de usuarios y solicitudes</div>
         </div>
         <a href="{{ route('dashboard') }}" class="btn btn-soft">Volver</a>
     </div>
@@ -51,7 +55,7 @@
 
     <div class="card">
         <h3>Usuarios</h3>
-        <div class="row" style="border-top:0;font-weight:700;"><div>Tel閒ono</div><div>Rol</div><div>Simulador</div><div>Acci髇</div></div>
+        <div class="row" style="border-top:0;font-weight:700;"><div>Tel茅fono</div><div>Rol</div><div>Simulador</div><div>Acci贸n</div></div>
         @foreach($users as $u)
             <div class="row">
                 <div>{{ $u->phone ?? '-' }}</div>
@@ -66,3 +70,4 @@
 </div>
 </body>
 </html>
+
