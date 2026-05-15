@@ -14,6 +14,8 @@
     .container{max-width:920px;margin:0 auto;padding:20px 16px}
     .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:0 14px 36px rgba(55,95,122,.08)}
     .hero{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px;align-items:center}
+    .hero-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .hero-isologo{width:54px;height:54px;object-fit:contain;border-radius:12px;border:1px solid var(--line)}
     .logo{display:block;width:min(260px,100%);height:auto;margin-bottom:12px}
     .author{width:100%;aspect-ratio:1;object-fit:cover;object-position:center 18%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(55,95,122,.12)}
     h1,h2{margin:0 0 10px}
@@ -55,7 +57,10 @@
     <section class="panel">
       <div class="hero">
         <div>
-          <img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas">
+          <div class="hero-brand">
+            <img class="hero-isologo" src="{{ asset('images/isologo.jpg') }}" alt="Isologo de ife notas">
+            <img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas">
+          </div>
           <p>Una herramienta simple para saber cuánto necesitas en los próximos trimestres y tomar decisiones a tiempo.</p>
           <div class="actions">
             <a class="btn btn-primary" href="{{ route('login.view') }}">Iniciar sesión</a>
