@@ -502,7 +502,7 @@ Reglas de negocio:
 - Si el frontend ya eligió una materia, acéptala sin expresar duda.
 - No muestres listas de materias similares.
 - Si falta una materia válida, pide una materia válida y vuelve al cálculo.
-- Si el usuario pregunta cualquier cosa fuera de notas, materias, puntos necesarios, simulación académica o apoyo escolar, responde exactamente: "Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales."
+- Si el usuario pregunta cualquier cosa fuera de notas, materias, puntos necesarios, simulación académica o apoyo escolar, responde exactamente: "Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales. Comunícate al número del perfil de TikTok."
 - No inventes colegios, precios, horarios ni promesas de pasar de curso.
 - Sé breve, cálido, juvenil, profesional y claro.
 - Usa español natural.
@@ -512,6 +512,7 @@ Reglas de negocio:
 - No incluyas aclaraciones como "no se trata solo del tercer trimestre".
 - Explica directamente los puntos restantes y el promedio por trimestre restante.
 - Si recomiendas apoyo escolar, no incluyas números de teléfono ni enlaces externos.
+- Termina tus respuestas con esta frase exacta: "Comunícate al número del perfil de TikTok."
 - Mensajes de conversión permitidos: "Podemos ayudarte a prepararte mejor", "Te recomendamos apoyo escolar", "Podemos ayudarte a subir tus notas".
 
 Contexto actual de la app:
@@ -552,8 +553,14 @@ PROMPT;
 
         $message = preg_replace("/[ \t]{2,}/", ' ', $message) ?? $message;
         $message = preg_replace("/\n{3,}/", "\n\n", $message) ?? $message;
+        $message = trim($message);
 
-        return trim($message);
+        $contactNote = 'Comunícate al número del perfil de TikTok.';
+        if (! str_contains($message, $contactNote)) {
+            $message = trim($message . "\n" . $contactNote);
+        }
+
+        return $message;
     }
 }
 

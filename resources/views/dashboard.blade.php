@@ -677,7 +677,7 @@ function greetingMessage(){
     return `${greeting} ¿Con qué materia quisieras empezar?`;
 }
 function outOfScopeMessage(){
-    return 'Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales.';
+    return 'Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales. Comunícate al número del perfil de TikTok.';
 }
 function reminderMessage(){
     return '¿Qué otra materia quieres saber cuántos puntos te hacen falta para pasar de curso?';
@@ -846,7 +846,7 @@ async function handleChatAnswer(answer){
         firstTerm.value = chatDraft.first;
         syncUI();
         const needed = Math.max(0, PASS_SCORE - chatDraft.first);
-        await addAiBubble(`Materia: ${chatDraft.subject}. Nota primer trimestre: ${chatDraft.first}. Puntos restantes para pasar de curso entre segundo y tercer trimestre: ${needed}. Promedio aproximado por trimestre restante: ${Math.ceil(needed / 2)}. Explica el resultado de forma directa y ofrece apoyo escolar sin incluir números ni enlaces externos.`);
+        await addAiBubble(`Materia: ${chatDraft.subject}. Nota primer trimestre: ${chatDraft.first}. Puntos restantes para pasar de curso entre segundo y tercer trimestre: ${needed}. Promedio aproximado por trimestre restante: ${Math.ceil(needed / 2)}. Explica el resultado de forma directa y ofrece apoyo escolar sin incluir números ni enlaces externos. Termina con: Comunícate al número del perfil de TikTok.`);
         chatStep = 'restart';
         updateChatInput();
     }
