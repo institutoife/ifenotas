@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -166,7 +166,7 @@
     <nav class="nav" aria-label="Acciones principales">
         <button class="nav-btn active" data-target="calcular" type="button">CALCULAR</button>
         <button class="nav-btn" data-target="simulador" type="button">SIMULADOR</button>
-        <button class="nav-btn" data-target="chat" type="button">CHAT</button>
+        <button class="nav-btn" data-target="chat" type="button">CHATO</button>
         <button class="nav-btn" data-target="historial" type="button">HISTORIAL</button>
         <button class="nav-btn" data-target="perfil" type="button">MI PERFIL</button>
     </nav>
