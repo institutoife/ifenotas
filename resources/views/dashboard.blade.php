@@ -78,7 +78,6 @@
         .profile-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
         .profile-fields .full{grid-column:1 / -1}
         .profile-note{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:16px;color:var(--secondary);font-weight:800;line-height:1.35}
-        .whatsapp-dot{width:22px;height:22px;border-radius:50%;background:var(--white);color:var(--primary);display:grid;place-items:center;font-size:.78rem;font-weight:950}
         .sim-layout{display:grid;gap:18px}
         .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
         .score{border:1px solid var(--line);border-radius:16px;background:var(--white);padding:16px;text-align:center}
@@ -163,6 +162,10 @@
         </div>
     </header>
 
+    @if(session('status'))
+        <div class="profile-note">{{ session('status') }}</div>
+    @endif
+
     <nav class="nav" aria-label="Acciones principales">
         <button class="nav-btn active" data-target="calcular" type="button">CALCULAR</button>
         <button class="nav-btn" data-target="simulador" type="button">SIMULADOR</button>
@@ -176,7 +179,7 @@
             <div class="section-head">
                 <div>
                     <h1>Calcula tu ruta para pasar de curso</h1>
-                    <p class="lead">Ingresa tu nota y materia. El resultado queda listo para enviarse por WhatsApp.</p>
+                    <p class="lead">Ingresa tu nota y materia. Guardaremos el resultado para que puedas revisarlo cuando quieras.</p>
                 </div>
             </div>
 
@@ -205,7 +208,7 @@
                             <option>Lengua Extranjera</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary btn-full" type="submit"><span class="whatsapp-dot">W</span> Enviar</button>
+                    <button class="btn btn-primary btn-full" type="submit">Calcular y guardar</button>
                 </form>
 
                 <aside class="support-card" aria-live="polite">
@@ -250,8 +253,8 @@
                             <input id="guardianName" name="guardian_name" value="{{ $user->guardian_name }}" placeholder="Opcional">
                         </div>
                         <div>
-                            <label for="guardianPhone">WhatsApp del apoderado</label>
-                            <input id="guardianPhone" name="guardian_phone" value="{{ $user->guardian_phone }}" inputmode="tel" placeholder="Ej: 71324941">
+                            <label for="guardianPhone">Teléfono del apoderado</label>
+                            <input id="guardianPhone" name="guardian_phone" value="{{ $user->guardian_phone }}" inputmode="tel" placeholder="Opcional">
                         </div>
                     </div>
                     <div>
@@ -286,15 +289,8 @@
 
             @unless($user->is_follower_unlocked)
                 <div class="locked-panel">
-                    <div class="locked-title">Esta sección es solo para seguidores.</div>
-                    <p class="lead">Síguenos en TikTok y solicita la habilitación para usar el simulador.</p>
-                    <div class="locked-actions">
-                        <form method="POST" action="{{ route('request.enable') }}">
-                            @csrf
-                            <button class="btn btn-primary" type="submit"><span class="whatsapp-dot">W</span> Ya te sigo, habilitar</button>
-                        </form>
-                        <a class="btn btn-dark" href="https://www.tiktok.com/@ife_educabol" target="_blank" rel="noopener">Ir a TikTok para seguir</a>
-                    </div>
+                    <div class="locked-title">Tu acceso se habilitará automáticamente.</div>
+                    <p class="lead">Actualiza la página en unos segundos para usar el simulador.</p>
                 </div>
             @else
 
@@ -327,22 +323,15 @@
                 @if($user->is_follower_unlocked)
                     <div class="top-actions">
                         <button class="btn" data-target="historial" type="button">Historial</button>
-                        <a class="btn btn-primary" href="https://wa.me/59171324941" target="_blank" rel="noopener"><span class="whatsapp-dot">W</span> WhatsApp</a>
+                        <a class="btn btn-primary" href="https://www.tiktok.com/@ife_educabol" target="_blank" rel="noopener">Ver perfil</a>
                     </div>
                 @endif
             </div>
 
             @unless($user->is_follower_unlocked)
                 <div class="locked-panel">
-                    <div class="locked-title">Esta sección es solo para seguidores.</div>
-                    <p class="lead">Síguenos en TikTok y solicita la habilitación para conversar con el chat académico.</p>
-                    <div class="locked-actions">
-                        <form method="POST" action="{{ route('request.enable') }}">
-                            @csrf
-                            <button class="btn btn-primary" type="submit"><span class="whatsapp-dot">W</span> Ya te sigo, habilitar</button>
-                        </form>
-                        <a class="btn btn-dark" href="https://www.tiktok.com/@ife_educabol" target="_blank" rel="noopener">Ir a TikTok para seguir</a>
-                    </div>
+                    <div class="locked-title">Tu acceso se habilitará automáticamente.</div>
+                    <p class="lead">Actualiza la página en unos segundos para usar el chat académico.</p>
                 </div>
             @else
 
@@ -396,8 +385,7 @@ const routes = {
     profile: @json(route('profile.update')),
     calculations: @json(route('calculations.save')),
     simulations: @json(route('simulations.save')),
-    aiChat: @json(route('ai.chat')),
-    whatsapp: 'https://wa.me/59171324941'
+    aiChat: @json(route('ai.chat'))
 };
 const csrf = @json(csrf_token());
 const state = {
@@ -558,7 +546,7 @@ function syncSimulatorFromForm(){
     simNoteCard?.classList.toggle('has-note', state.first > 0);
 }
 function supportMessage(){
-    if (state.first < 45) return 'Te recomendamos reforzar esta materia con apoyo escolar, contáctanos al 71324941.';
+    if (state.first < 45) return 'Te recomendamos reforzar esta materia con apoyo escolar. Escríbenos desde nuestros perfiles oficiales.';
     if (state.first < 70) return 'Podemos ayudarte a prepararte mejor para el segundo y tercer trimestre.';
     return 'También podemos ayudarte a adelantar temas y perfeccionar tu nivel.';
 }
@@ -579,27 +567,6 @@ function syncUI(){
     state.second = secondTerm ? clamp(secondTerm.value) : state.second;
     syncSimulatorFromForm();
     updateSimulator({ syncForm: false });
-}
-function whatsappText(){
-    const remaining = totalNeeded();
-    const average = averageNeeded();
-
-    return [
-        '*IFE NOTAS*',
-        '*Cálculo para pasar de curso*',
-        '',
-        '------------------------------',
-        `*Materia:* ${state.subject}`,
-        `*Nota 1er trimestre:* ${state.first}/100`,
-        `*Puntos que faltan:* ${remaining}`,
-        `*Promedio sugerido:* ${average} puntos`,
-        '------------------------------',
-        '',
-        `Para pasar de curso necesitas reunir aproximadamente *${average} puntos por trimestre* en el 2do y 3er trimestre.`,
-        '',
-        '*Sugerencia:*',
-        supportMessage()
-    ].join('\n');
 }
 async function postJson(url, payload){
     const response = await fetch(url, {
@@ -710,7 +677,7 @@ function greetingMessage(){
     return `${greeting} ¿Con qué materia quisieras empezar?`;
 }
 function outOfScopeMessage(){
-    return 'Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Tengo mis homólogos que son de uso general, consulta al WhatsApp 71039910.';
+    return 'Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales.';
 }
 function reminderMessage(){
     return '¿Qué otra materia quieres saber cuántos puntos te hacen falta para pasar de curso?';
@@ -732,42 +699,20 @@ function sanitizeAiReply(text){
         .replace(/para alcanzar la nota m[ií]nima(?:\s+de\s+\d+)?/gi, 'para pasar de curso')
         .replace(/nota m[ií]nima(?:\s+anual)?(?:\s+de\s+\d+)?/gi, 'puntos necesarios para pasar de curso');
 
-    clean = clean.replace(/\[([^\]]+)\]\(https:\/\/wa\.me\/59171324941[^\s)]*\)?/g, '$1: https://wa.me/59171324941');
-
-    const seenLinks = new Set();
-    clean = clean.replace(/https:\/\/wa\.me\/59171324941[^\s]*/g, (link) => {
-        const cleanLink = 'https://wa.me/59171324941';
-        const trailingText = link.slice(cleanLink.length);
-        if (seenLinks.has('support')) return '';
-        seenLinks.add('support');
-        return `${cleanLink}${trailingText.replace(/[/?&=#%\w-]+/g, '').replace(/[)\].,;:!?]+$/, '')}`;
-    });
+    clean = clean.replace(/\[([^\]]+)\]\(https:\/\/wa\.me\/[^\s)]*\)?/g, '$1');
+    clean = clean.replace(/https:\/\/wa\.me\/[^\s]*/g, '');
 
     return clean.replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
 }
 function formatChatText(text){
     const fragment = document.createDocumentFragment();
-    const parts = sanitizeAiReply(text).split(/(\*\*[^*]+\*\*|https:\/\/wa\.me\/59171324941[^\s]*)/g);
+    const parts = sanitizeAiReply(text).split(/(\*\*[^*]+\*\*)/g);
 
     parts.forEach((part) => {
         if (part.startsWith('**') && part.endsWith('**')) {
             const strong = document.createElement('strong');
             strong.textContent = part.slice(2, -2);
             fragment.appendChild(strong);
-            return;
-        }
-
-        if (part.startsWith('https://wa.me/59171324941')) {
-            const link = document.createElement('a');
-            const cleanHref = 'https://wa.me/59171324941';
-            const trailingText = part.slice(cleanHref.length).replace(/[/?&=#%\w-]+/g, '').replace(/[)\].,;:!?]+$/, '');
-            link.href = cleanHref;
-            link.target = '_blank';
-            link.rel = 'noopener';
-            link.className = 'chat-link';
-            link.textContent = 'WhatsApp';
-            fragment.appendChild(link);
-            if (trailingText) fragment.appendChild(document.createTextNode(trailingText));
             return;
         }
 
@@ -901,7 +846,7 @@ async function handleChatAnswer(answer){
         firstTerm.value = chatDraft.first;
         syncUI();
         const needed = Math.max(0, PASS_SCORE - chatDraft.first);
-        await addAiBubble(`Materia: ${chatDraft.subject}. Nota primer trimestre: ${chatDraft.first}. Puntos restantes para pasar de curso entre segundo y tercer trimestre: ${needed}. Promedio aproximado por trimestre restante: ${Math.ceil(needed / 2)}. Explica el resultado de forma directa y ofrece apoyo escolar por WhatsApp sin duplicar enlaces.`);
+        await addAiBubble(`Materia: ${chatDraft.subject}. Nota primer trimestre: ${chatDraft.first}. Puntos restantes para pasar de curso entre segundo y tercer trimestre: ${needed}. Promedio aproximado por trimestre restante: ${Math.ceil(needed / 2)}. Explica el resultado de forma directa y ofrece apoyo escolar sin incluir números ni enlaces externos.`);
         chatStep = 'restart';
         updateChatInput();
     }
@@ -984,10 +929,12 @@ document.getElementById('calculateForm').addEventListener('submit', async (event
     event.preventDefault();
     syncUI();
 
-    window.open(`${routes.whatsapp}?text=${encodeURIComponent(whatsappText())}`, '_blank', 'noopener');
-
     if (state.first > 0) {
         postJson(routes.calculations, calculationPayload()).catch(() => {});
+    }
+
+    if (supportRotator) {
+        supportRotator.textContent = `Resultado guardado. ${supportMessage()}`;
     }
 });
 
@@ -1051,4 +998,3 @@ setInterval(() => {
 </script>
 </body>
 </html>
-

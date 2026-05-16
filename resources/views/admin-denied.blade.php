@@ -20,11 +20,7 @@
   <div class="card">
     <h1><img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas"></h1>
     <p>Este enlace es solo para administradores.</p>
-    <p>Si ya sigues a ife notas en TikTok, puedes solicitar la habilitación del simulador y chat.</p>
-    <form method="POST" action="{{ route('request.enable') }}">
-      @csrf
-      <button class="btn" type="submit">Ya te sigo, habilitar</button>
-    </form>
+    <p>El simulador y chat se habilitan automáticamente para las cuentas nuevas.</p>
   </div>
 </body>
 </html>

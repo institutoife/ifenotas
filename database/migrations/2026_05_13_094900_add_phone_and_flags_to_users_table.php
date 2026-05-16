@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table): void {
             $table->string('phone')->nullable()->unique()->after('email');
             $table->boolean('is_admin')->default(false)->after('remember_token');
-            $table->boolean('is_follower_unlocked')->default(false)->after('is_admin');
+            $table->boolean('is_follower_unlocked')->default(true)->after('is_admin');
         });
     }
 

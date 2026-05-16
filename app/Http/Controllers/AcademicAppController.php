@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -57,7 +56,7 @@ class AcademicAppController extends Controller
             'email' => str_replace('+', '', $phone) . '@notes.local',
             'phone' => $phone,
             'password' => Hash::make($validated['password']),
-            'is_follower_unlocked' => false,
+            'is_follower_unlocked' => true,
             'is_admin' => User::count() === 0,
         ]);
 
@@ -209,7 +208,7 @@ class AcademicAppController extends Controller
 
         if (! $user->is_follower_unlocked) {
             return response()->json([
-                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación por WhatsApp.',
+                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación desde tu perfil.',
             ], 403);
         }
 
@@ -250,7 +249,7 @@ class AcademicAppController extends Controller
 
         if (! $user->is_follower_unlocked) {
             return response()->json([
-                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación por WhatsApp.',
+                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación desde tu perfil.',
             ], 403);
         }
 
@@ -320,21 +319,12 @@ class AcademicAppController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $enableRequest = EnableRequest::firstOrCreate([
+        EnableRequest::firstOrCreate([
             'user_id' => $user->id,
             'status' => 'pending',
         ]);
 
-        $link = URL::temporarySignedRoute(
-            'admin.requests.show',
-            now()->addDays(7),
-            ['enableRequest' => $enableRequest->id]
-        );
-
-        $message = "Te sigo, habilítame por favor. Usuario: {$user->phone}. Link para habilitar inmediatamente: {$link}";
-        $waLink = 'https://wa.me/59171039910?text=' . urlencode($message);
-
-        return redirect($waLink);
+        return back()->with('status', 'Solicitud recibida. Revisaremos tu perfil para habilitar el simulador y el chat.');
     }
 
     public function admin(Request $request): View
@@ -512,7 +502,7 @@ Reglas de negocio:
 - Si el frontend ya eligió una materia, acéptala sin expresar duda.
 - No muestres listas de materias similares.
 - Si falta una materia válida, pide una materia válida y vuelve al cálculo.
-- Si el usuario pregunta cualquier cosa fuera de notas, materias, puntos necesarios, simulación académica o apoyo escolar, responde exactamente: "Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Tengo mis homólogos que son de uso general, consulta al WhatsApp 71039910."
+- Si el usuario pregunta cualquier cosa fuera de notas, materias, puntos necesarios, simulación académica o apoyo escolar, responde exactamente: "Estoy especializado en decirte cuántos puntos necesitas para pasar de curso. Para otros temas, revisa nuestros perfiles oficiales."
 - No inventes colegios, precios, horarios ni promesas de pasar de curso.
 - Sé breve, cálido, juvenil, profesional y claro.
 - Usa español natural.
@@ -521,7 +511,7 @@ Reglas de negocio:
 - No uses markdown pesado; respuestas de 2 a 5 líneas.
 - No incluyas aclaraciones como "no se trata solo del tercer trimestre".
 - Explica directamente los puntos restantes y el promedio por trimestre restante.
-- Si invitas a WhatsApp, incluye el enlace https://wa.me/59171324941 como máximo una vez. No dupliques enlaces ni repitas el enlace al final.
+- Si recomiendas apoyo escolar, no incluyas números de teléfono ni enlaces externos.
 - Mensajes de conversión permitidos: "Podemos ayudarte a prepararte mejor", "Te recomendamos apoyo escolar", "Podemos ayudarte a subir tus notas".
 
 Contexto actual de la app:
@@ -557,18 +547,8 @@ PROMPT;
     {
         $message = preg_replace('/para alcanzar la nota m[ií]nima(?:\s+de\s+\d+)?/iu', 'para pasar de curso', $message) ?? $message;
         $message = preg_replace('/nota m[ií]nima(?:\s+anual)?(?:\s+de\s+\d+)?/iu', 'puntos necesarios para pasar de curso', $message) ?? $message;
-        $message = preg_replace('/\[([^\]]+)\]\(https:\/\/wa\.me\/59171324941[^\s)]*\)?/u', '$1: https://wa.me/59171324941', $message) ?? $message;
-
-        $seenLinks = [];
-        $message = preg_replace_callback('/https:\/\/wa\.me\/59171324941[^\s]*/', function (array $match) use (&$seenLinks): string {
-            if (isset($seenLinks['support'])) {
-                return '';
-            }
-
-            $seenLinks['support'] = true;
-
-            return 'https://wa.me/59171324941';
-        }, $message) ?? $message;
+        $message = preg_replace('/\[([^\]]+)\]\(https:\/\/wa\.me\/[^\s)]*\)?/u', '$1', $message) ?? $message;
+        $message = preg_replace('/https:\/\/wa\.me\/[^\s]+/u', '', $message) ?? $message;
 
         $message = preg_replace("/[ \t]{2,}/", ' ', $message) ?? $message;
         $message = preg_replace("/\n{3,}/", "\n\n", $message) ?? $message;

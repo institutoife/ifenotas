@@ -84,9 +84,6 @@
                 </div>
                 <div class="actions-inline">
                     <form method="POST" action="{{ route('admin.toggleFollower', $u) }}">@csrf<button class="btn btn-primary" type="submit">Cambiar</button></form>
-                    @if($u->is_follower_unlocked && $u->phone)
-                        <a class="btn btn-soft" target="_blank" rel="noopener" href="https://wa.me/{{ preg_replace('/\D+/', '', $u->phone) }}?text={{ urlencode('Hola, ya habilitamos tu acceso al simulador y al chat de ife notas. Ya puedes ingresar a tu cuenta y usar esas secciones.') }}">Avisar</a>
-                    @endif
                 </div>
             </div>
         @endforeach
