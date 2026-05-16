@@ -26,6 +26,7 @@
     .toggle-password:focus{outline:2px solid rgba(38,186,165,.22)}
     .btn{display:block;width:100%;border:0;border-radius:10px;padding:10px;font-weight:600;background:var(--primary);color:#fff;margin-top:10px;cursor:pointer;text-align:center;text-decoration:none}
     .btn-soft{background:#e6f8f5;color:var(--primary-dark)}
+    .btn-create{background:rgb(55,95,122);color:#fff}
     .error{background:#fdecec;color:#8b1f1f;border-radius:10px;padding:9px;margin-bottom:8px}
     .back{display:inline-block;margin-top:10px;color:var(--primary-dark);text-decoration:none}
   </style>
@@ -43,7 +44,7 @@
       <button class="toggle-password" type="button" data-toggle-password aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
     </div>
     <button class="btn" type="submit">Entrar</button>
-    <a class="btn btn-soft" href="{{ route('register.view') }}">Crear cuenta</a>
+    <a class="btn btn-create" href="{{ route('register.view') }}">Crear cuenta</a>
     <a class="back" href="{{ route('auth') }}">Volver</a>
   </form>
   <script>

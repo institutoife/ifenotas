@@ -27,6 +27,7 @@
     .btn{display:inline-block;text-decoration:none;border-radius:10px;padding:10px 14px;font-weight:600}
     .btn-primary{background:var(--primary);color:#fff}
     .btn-soft{background:var(--primary-soft);color:var(--primary-dark)}
+    .btn-create{background:rgb(55,95,122);color:#fff}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
     .wide-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
     .item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}
@@ -67,7 +68,7 @@
           <p class="hero-copy" data-typewriter="Para empezar crea tu cuenta. Dentro tendrás el cálculo de notas, el simulador y el chat para saber cuánto necesitas en los próximos trimestres."></p>
           <div class="actions">
             <a class="btn btn-primary" href="{{ route('login.view') }}">Iniciar sesión</a>
-            <a class="btn btn-soft" href="{{ route('register.view') }}">Crear cuenta</a>
+            <a class="btn btn-create" href="{{ route('register.view') }}">Crear cuenta</a>
           </div>
         </div>
         <img class="author" src="{{ asset('images/david.png') }}" alt="David, autor de ife notas">
@@ -139,14 +140,31 @@
     if (typewriter) {
       const text = typewriter.dataset.typewriter || '';
       let index = 0;
+      let deleting = false;
 
       function writeText() {
         typewriter.textContent = text.slice(0, index);
-        index += 1;
 
-        if (index <= text.length) {
+        if (!deleting && index < text.length) {
+          index += 1;
           setTimeout(writeText, 38);
+          return;
         }
+
+        if (!deleting && index === text.length) {
+          deleting = true;
+          setTimeout(writeText, 5000);
+          return;
+        }
+
+        if (deleting && index > 0) {
+          index -= 1;
+          setTimeout(writeText, 18);
+          return;
+        }
+
+        deleting = false;
+        setTimeout(writeText, 450);
       }
 
       writeText();
