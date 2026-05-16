@@ -20,6 +20,9 @@
     .author{width:100%;aspect-ratio:1;object-fit:cover;object-position:center 18%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(55,95,122,.12)}
     h1,h2{margin:0 0 10px}
     p{margin:0;color:var(--muted)}
+    .hero-copy{min-height:3.7em;font-size:1.14rem;font-weight:600;color:var(--primary-dark)}
+    .hero-copy::after{content:"";display:inline-block;width:2px;height:1em;margin-left:3px;background:var(--primary);vertical-align:-.12em;animation:blink .85s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
     .actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
     .btn{display:inline-block;text-decoration:none;border-radius:10px;padding:10px 14px;font-weight:600}
     .btn-primary{background:var(--primary);color:#fff}
@@ -61,7 +64,7 @@
             <img class="hero-isologo" src="{{ asset('images/isologo.jpg') }}" alt="Isologo de ife notas">
             <img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas">
           </div>
-          <p>Una herramienta simple para saber cuánto necesitas en los próximos trimestres y tomar decisiones a tiempo.</p>
+          <p class="hero-copy" data-typewriter="Para empezar crea tu cuenta. Dentro tendrás el cálculo de notas, el simulador y el chat para saber cuánto necesitas en los próximos trimestres."></p>
           <div class="actions">
             <a class="btn btn-primary" href="{{ route('login.view') }}">Iniciar sesión</a>
             <a class="btn btn-soft" href="{{ route('register.view') }}">Crear cuenta</a>
@@ -131,6 +134,23 @@
     </section>
   </main>
   <footer><span class="brand-name">ife notas</span></footer>
+  <script>
+    const typewriter = document.querySelector('[data-typewriter]');
+    if (typewriter) {
+      const text = typewriter.dataset.typewriter || '';
+      let index = 0;
+
+      function writeText() {
+        typewriter.textContent = text.slice(0, index);
+        index += 1;
+
+        if (index <= text.length) {
+          setTimeout(writeText, 38);
+        }
+      }
+
+      writeText();
+    }
+  </script>
 </body>
 </html>
-

@@ -204,6 +204,15 @@ class AcademicAppController extends Controller
 
     public function saveSimulation(Request $request): JsonResponse
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (! $user->is_follower_unlocked) {
+            return response()->json([
+                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación por WhatsApp.',
+            ], 403);
+        }
+
         $validated = $request->validate([
             'subject' => ['required', 'string', 'max:80'],
             'first_term' => ['required', 'integer', 'min:0', 'max:100'],
@@ -212,9 +221,6 @@ class AcademicAppController extends Controller
             'status' => ['required', Rule::in(['ok', 'warning', 'risk', 'passed'])],
             'summary' => ['required', 'string', 'max:500'],
         ]);
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $calculation = Calculation::create([
             'user_id' => $user->id,
@@ -239,6 +245,15 @@ class AcademicAppController extends Controller
 
     public function aiChat(Request $request): JsonResponse
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (! $user->is_follower_unlocked) {
+            return response()->json([
+                'message' => 'Esta sección es solo para seguidores. Solicita la habilitación por WhatsApp.',
+            ], 403);
+        }
+
         $validated = $request->validate([
             'message' => ['required', 'string', 'max:800'],
             'history' => ['nullable', 'array', 'max:12'],
@@ -305,7 +320,7 @@ class AcademicAppController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $enableRequest = EnableRequest::create([
+        $enableRequest = EnableRequest::firstOrCreate([
             'user_id' => $user->id,
             'status' => 'pending',
         ]);
@@ -316,13 +331,13 @@ class AcademicAppController extends Controller
             ['enableRequest' => $enableRequest->id]
         );
 
-        $message = "Hola, solicito habilitación del simulador. Usuario: {$user->phone}. Revisar solicitud: {$link}";
-        $waLink = 'https://wa.me/59171324941?text=' . urlencode($message);
+        $message = "Te sigo, habilítame por favor. Usuario: {$user->phone}. Link para habilitar inmediatamente: {$link}";
+        $waLink = 'https://wa.me/59171039910?text=' . urlencode($message);
 
         return redirect($waLink);
     }
 
-    public function admin(): View
+    public function admin(Request $request): View
     {
         /** @var User $user */
         $user = Auth::user();
@@ -331,12 +346,66 @@ class AcademicAppController extends Controller
             return view('admin-denied');
         }
 
+        $calculationFilters = [
+            'subject' => (string) $request->query('subject', ''),
+            'quality' => (string) $request->query('quality', ''),
+            'kind' => (string) $request->query('kind', ''),
+            'status' => (string) $request->query('status', ''),
+            'search' => trim((string) $request->query('search', '')),
+        ];
+
         $users = User::query()->latest()->get();
         $pendingRequests = EnableRequest::with('user')->where('status', 'pending')->latest()->get();
+        $subjects = Calculation::query()
+            ->select('subject')
+            ->distinct()
+            ->orderBy('subject')
+            ->pluck('subject');
+
+        $calculations = Calculation::with(['user', 'school'])
+            ->when($calculationFilters['subject'] !== '', function ($query) use ($calculationFilters): void {
+                $query->where('subject', $calculationFilters['subject']);
+            })
+            ->when($calculationFilters['kind'] !== '', function ($query) use ($calculationFilters): void {
+                $query->where('kind', $calculationFilters['kind']);
+            })
+            ->when($calculationFilters['status'] !== '', function ($query) use ($calculationFilters): void {
+                $query->where('status', $calculationFilters['status']);
+            })
+            ->when($calculationFilters['quality'] === 'bad', function ($query): void {
+                $query->where('first_term', '<', 51);
+            })
+            ->when($calculationFilters['quality'] === 'regular', function ($query): void {
+                $query->whereBetween('first_term', [51, 69]);
+            })
+            ->when($calculationFilters['quality'] === 'good', function ($query): void {
+                $query->where('first_term', '>=', 70);
+            })
+            ->when($calculationFilters['search'] !== '', function ($query) use ($calculationFilters): void {
+                $search = $calculationFilters['search'];
+
+                $query->where(function ($query) use ($search): void {
+                    $query->where('subject', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($query) use ($search): void {
+                            $query->where('phone', 'like', "%{$search}%")
+                                ->orWhere('name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('school', function ($query) use ($search): void {
+                            $query->where('nombre', 'like', "%{$search}%")
+                                ->orWhere('codigo_rue', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->latest()
+            ->limit(200)
+            ->get();
 
         return view('admin', [
             'users' => $users,
             'pendingRequests' => $pendingRequests,
+            'subjects' => $subjects,
+            'calculations' => $calculations,
+            'calculationFilters' => $calculationFilters,
         ]);
     }
 

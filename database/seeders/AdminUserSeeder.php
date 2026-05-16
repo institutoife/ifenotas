@@ -11,11 +11,11 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['phone' => '+59170000000'],
+            ['phone' => '+59171039910'],
             [
                 'name' => 'Administrador Principal',
                 'email' => 'admin@ifenotes.com',
-                'password' => Hash::make('ife123456'),
+                'password' => Hash::make('#ifenotas26*'),
                 'is_admin' => true,
                 'is_follower_unlocked' => true,
             ]

@@ -58,6 +58,13 @@
         input,select{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--white);color:var(--secondary);min-height:50px;padding:12px 13px;font:inherit}
         input:focus,select:focus{outline:3px solid rgba(38,186,165,.18);border-color:var(--primary)}
         .note-input{font-size:1.65rem;font-weight:900;min-height:68px}
+        .note-field{display:grid;gap:7px}
+        .note-field .note-input:placeholder-shown{animation:notePulse 1.55s ease-in-out infinite;border-color:rgba(38,186,165,.65);box-shadow:0 0 0 0 rgba(38,186,165,.26)}
+        .note-hint{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-size:.9rem;font-weight:900;animation:hintNudge 1.4s ease-in-out infinite}
+        .note-hint::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--primary)}
+        .note-field:has(.note-input:not(:placeholder-shown)) .note-hint{display:none}
+        @keyframes notePulse{50%{box-shadow:0 0 0 8px rgba(38,186,165,.12)}}
+        @keyframes hintNudge{50%{transform:translateX(5px)}}
         .result-box{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:16px}
         .result-number{font-size:clamp(2.2rem,7vw,4.4rem);line-height:1;font-weight:950;color:var(--secondary);letter-spacing:0}
         .result-label{font-weight:900;margin-top:6px}
@@ -79,7 +86,14 @@
         .score strong{display:block;font-size:clamp(2rem,7vw,4.5rem);line-height:1;color:var(--secondary);margin-top:6px}
         .score-input{width:100%;border:0;background:transparent;color:var(--secondary);font-size:clamp(2rem,7vw,4.5rem);line-height:1;font-weight:950;text-align:center;margin-top:6px;min-height:72px;padding:0}
         .score-input:focus{outline:3px solid rgba(38,186,165,.18);border-radius:12px}
+        .sim-note-card{animation:notePulse 1.55s ease-in-out infinite;border-color:rgba(38,186,165,.65)}
+        .sim-note-card.has-note{animation:none;border-color:var(--line)}
+        .sim-note-card .note-hint{justify-content:center;margin-top:8px}
+        .sim-note-card.has-note .note-hint{display:none}
         .range-panel{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+        .locked-panel{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:12px;max-width:680px}
+        .locked-title{font-size:1.3rem;font-weight:950;color:var(--secondary)}
+        .locked-actions{display:flex;gap:10px;flex-wrap:wrap}
         input[type=range]{accent-color:var(--primary);padding:0;border:0;background:transparent;min-height:42px}
         .state-message{border:1px solid var(--line);border-left:8px solid var(--secondary);background:var(--white);border-radius:14px;padding:14px;font-weight:800}
         .state-message.passed{border-color:rgba(38,186,165,.35);border-left-color:var(--ok);background:rgba(38,186,165,.1);color:var(--secondary)}
@@ -100,6 +114,12 @@
             40%{transform:translateY(-4px);opacity:1}
         }
         .chat-form{display:grid;grid-template-columns:1fr auto;gap:10px}
+        .chat-input-wrap{position:relative}
+        .chat-input-wrap input{padding-right:38px}
+        .chat-input-wrap::after{content:"";position:absolute;right:16px;top:50%;width:9px;height:9px;border-radius:50%;background:var(--primary);transform:translateY(-50%);animation:chatPulse 1.4s ease-in-out infinite}
+        .chat-input-wrap:focus-within::after,.chat-input-wrap.has-text::after{display:none}
+        .chat-input-wrap input:placeholder-shown{animation:notePulse 1.55s ease-in-out infinite;border-color:rgba(38,186,165,.65)}
+        @keyframes chatPulse{50%{transform:translateY(-50%) scale(1.5);opacity:.35}}
         .history{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
         .history-item{padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem;color:var(--muted)}
         .select2-container{width:100%!important}
@@ -162,9 +182,10 @@
 
             <div class="calc-grid">
                 <form class="form-stack" id="calculateForm">
-                    <div>
+                    <div class="note-field">
                         <label for="firstTerm">Nota</label>
                         <input class="note-input" id="firstTerm" type="number" min="0" max="100" step="1" placeholder="Ingresa tu nota del primer trimestre" inputmode="numeric" required>
+                        <div class="note-hint">Escribe aquí tu nota de 0 a 100</div>
                     </div>
                     <div>
                         <label for="subject">Materia</label>
@@ -263,9 +284,27 @@
                 </div>
             </div>
 
+            @unless($user->is_follower_unlocked)
+                <div class="locked-panel">
+                    <div class="locked-title">Esta sección es solo para seguidores.</div>
+                    <p class="lead">Síguenos en TikTok y solicita la habilitación para usar el simulador.</p>
+                    <div class="locked-actions">
+                        <form method="POST" action="{{ route('request.enable') }}">
+                            @csrf
+                            <button class="btn btn-primary" type="submit"><span class="whatsapp-dot">W</span> Ya te sigo, habilitar</button>
+                        </form>
+                        <a class="btn btn-dark" href="https://www.tiktok.com/@ife_educabol" target="_blank" rel="noopener">Ir a TikTok para seguir</a>
+                    </div>
+                </div>
+            @else
+
             <div class="sim-layout">
                 <div class="score-grid">
-                    <div class="score"><span>Primer trimestre</span><input class="score-input" id="simFirstInput" type="number" min="0" max="100" step="1" inputmode="numeric" value="0"></div>
+                        <div class="score sim-note-card" id="simNoteCard">
+                            <span>Primer trimestre</span>
+                            <input class="score-input" id="simFirstInput" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="Nota">
+                            <div class="note-hint">Ingresa tu nota para empezar la simulación</div>
+                        </div>
                     <div class="score"><span>Segundo trimestre</span><strong id="simSecond">50</strong></div>
                     <div class="score"><span>Tercer trimestre necesario</span><strong id="simThird">0</strong></div>
                 </div>
@@ -276,6 +315,7 @@
                     <div class="state-message" id="simMessage">Mueve la barra para simular escenarios.</div>
                 </div>
             </div>
+            @endunless
         </section>
 
         <section class="section" id="chat">
@@ -284,19 +324,38 @@
                     <h1>Chat académico</h1>
                     <p class="lead">Una conversación rápida para calcular otra materia o reforzar tu plan de estudio.</p>
                 </div>
-                <div class="top-actions">
-                    <button class="btn" data-target="historial" type="button">Historial</button>
-                    <a class="btn btn-primary" href="https://wa.me/59171324941" target="_blank" rel="noopener"><span class="whatsapp-dot">W</span> WhatsApp</a>
-                </div>
+                @if($user->is_follower_unlocked)
+                    <div class="top-actions">
+                        <button class="btn" data-target="historial" type="button">Historial</button>
+                        <a class="btn btn-primary" href="https://wa.me/59171324941" target="_blank" rel="noopener"><span class="whatsapp-dot">W</span> WhatsApp</a>
+                    </div>
+                @endif
             </div>
 
-            <div class="chat-shell">
-                <div class="chatbox" id="chatbox"></div>
-                <form class="chat-form" id="chatForm">
-                    <input id="chatInput" autocomplete="off" placeholder="Escribe tu respuesta">
-                    <button class="btn btn-dark" type="submit">Responder</button>
-                </form>
-            </div>
+            @unless($user->is_follower_unlocked)
+                <div class="locked-panel">
+                    <div class="locked-title">Esta sección es solo para seguidores.</div>
+                    <p class="lead">Síguenos en TikTok y solicita la habilitación para conversar con el chat académico.</p>
+                    <div class="locked-actions">
+                        <form method="POST" action="{{ route('request.enable') }}">
+                            @csrf
+                            <button class="btn btn-primary" type="submit"><span class="whatsapp-dot">W</span> Ya te sigo, habilitar</button>
+                        </form>
+                        <a class="btn btn-dark" href="https://www.tiktok.com/@ife_educabol" target="_blank" rel="noopener">Ir a TikTok para seguir</a>
+                    </div>
+                </div>
+            @else
+
+                <div class="chat-shell">
+                    <div class="chatbox" id="chatbox"></div>
+                    <form class="chat-form" id="chatForm">
+                        <div class="chat-input-wrap" id="chatInputWrap">
+                            <input id="chatInput" autocomplete="off" placeholder="Escribe tu respuesta">
+                        </div>
+                        <button class="btn btn-dark" type="submit">Responder</button>
+                    </form>
+                </div>
+            @endunless
 
         </section>
 
@@ -331,6 +390,7 @@
 <script>
 const PASS_SCORE = {{ $passScore }};
 const USER_NAME = @json(trim($user->name ?? ''));
+const IS_FOLLOWER_UNLOCKED = @json($user->is_follower_unlocked);
 const routes = {
     schools: @json(route('schools.search')),
     profile: @json(route('profile.update')),
@@ -367,11 +427,13 @@ const firstTerm = document.getElementById('firstTerm');
 const subject = document.getElementById('subject');
 const secondTerm = document.getElementById('secondTerm');
 const simFirstInput = document.getElementById('simFirstInput');
+const simNoteCard = document.getElementById('simNoteCard');
 const simSecond = document.getElementById('simSecond');
 const simThird = document.getElementById('simThird');
 const simMessage = document.getElementById('simMessage');
 const chatbox = document.getElementById('chatbox');
 const chatInput = document.getElementById('chatInput');
+const chatInputWrap = document.getElementById('chatInputWrap');
 const supportRotator = document.getElementById('supportRotator');
 const profileStatus = document.getElementById('profileStatus');
 const profileName = document.getElementById('profileName');
@@ -473,6 +535,8 @@ function recommendation(){
     return 'Rojo: con este escenario no te alcanza, porque necesitarias mas de 100 en el tercer trimestre.';
 }
 function updateSimulator(options = {}){
+    if (!IS_FOLLOWER_UNLOCKED || !simFirstInput || !secondTerm || !simSecond || !simThird || !simMessage) return;
+
     const syncForm = options.syncForm ?? true;
     state.first = simFirstInput.value === '' ? 0 : sanitizeGradeInput(simFirstInput);
     state.subject = subject.value || state.subject;
@@ -485,9 +549,13 @@ function updateSimulator(options = {}){
     simThird.textContent = third > 100 ? '100+' : third;
     simMessage.className = `state-message ${statusFor(third)}`;
     simMessage.textContent = recommendation();
+    simNoteCard?.classList.toggle('has-note', state.first > 0);
 }
 function syncSimulatorFromForm(){
+    if (!simFirstInput) return;
+
     simFirstInput.value = firstTerm.value === '' ? '' : String(state.first);
+    simNoteCard?.classList.toggle('has-note', state.first > 0);
 }
 function supportMessage(){
     if (state.first < 45) return 'Te recomendamos reforzar esta materia con apoyo escolar, contáctanos al 71324941.';
@@ -499,7 +567,7 @@ function syncUI(){
     if (clean === '') {
         state.first = 0;
         state.subject = subject.value;
-        state.second = clamp(secondTerm.value);
+        state.second = secondTerm ? clamp(secondTerm.value) : state.second;
         syncSimulatorFromForm();
         updateSimulator({ syncForm: false });
         return;
@@ -508,7 +576,7 @@ function syncUI(){
     state.first = Math.min(100, Number(clean));
     firstTerm.value = String(state.first);
     state.subject = subject.value;
-    state.second = clamp(secondTerm.value);
+    state.second = secondTerm ? clamp(secondTerm.value) : state.second;
     syncSimulatorFromForm();
     updateSimulator({ syncForm: false });
 }
@@ -573,6 +641,7 @@ function simulationPayload(){
     };
 }
 function saveSimulationSoon(){
+    if (!IS_FOLLOWER_UNLOCKED) return;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
         if (state.first > 0) postJson(routes.simulations, simulationPayload()).catch(() => {});
@@ -844,8 +913,8 @@ function showSection(target){
     });
     document.querySelectorAll('.section').forEach((item) => item.classList.remove('active'));
     document.getElementById(target).classList.add('active');
-    if (target === 'simulador') updateSimulator();
-    if (target === 'chat' && !chatStarted) startChat();
+    if (target === 'simulador' && IS_FOLLOWER_UNLOCKED) updateSimulator();
+    if (target === 'chat' && IS_FOLLOWER_UNLOCKED && !chatStarted) startChat();
 }
 document.querySelectorAll('[data-target]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -901,11 +970,15 @@ $(function(){
 
 firstTerm.addEventListener('input', syncUI);
 subject.addEventListener('change', syncUI);
-simFirstInput.addEventListener('input', updateSimulator);
-simFirstInput.addEventListener('change', updateSimulator);
-secondTerm.addEventListener('input', updateSimulator);
-secondTerm.addEventListener('change', () => { updateSimulator(); saveSimulationSoon(); });
-secondTerm.addEventListener('pointerup', () => { updateSimulator(); saveSimulationSoon(); });
+if (simFirstInput) {
+    simFirstInput.addEventListener('input', updateSimulator);
+    simFirstInput.addEventListener('change', updateSimulator);
+}
+if (secondTerm) {
+    secondTerm.addEventListener('input', updateSimulator);
+    secondTerm.addEventListener('change', () => { updateSimulator(); saveSimulationSoon(); });
+    secondTerm.addEventListener('pointerup', () => { updateSimulator(); saveSimulationSoon(); });
+}
 
 document.getElementById('calculateForm').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -948,11 +1021,19 @@ document.getElementById('clearSchoolBtn').addEventListener('click', async () => 
     profileStatus.textContent = 'Colegio eliminado. Puedes usar la app sin seleccionar uno.';
 });
 
-document.getElementById('chatForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    await handleChatAnswer(chatInput.value.trim());
-    chatInput.value = '';
-});
+const chatForm = document.getElementById('chatForm');
+if (chatForm && chatInput) {
+    chatInput.addEventListener('input', () => {
+        chatInputWrap?.classList.toggle('has-text', chatInput.value.trim() !== '');
+    });
+
+    chatForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        await handleChatAnswer(chatInput.value.trim());
+        chatInput.value = '';
+        chatInputWrap?.classList.remove('has-text');
+    });
+}
 
 syncUI();
 setInterval(() => {

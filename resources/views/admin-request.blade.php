@@ -24,7 +24,7 @@
         <p><strong>Estado:</strong> {{ $enableRequest->status }}</p>
         <form method="POST" action="{{ route('admin.requests.approve', $enableRequest) }}">
             @csrf
-            <button type="submit" class="btn">Dar de alta y habilitar simulador</button>
+            <button type="submit" class="btn">Dar de alta y habilitar simulador y chat</button>
         </form>
         <a href="{{ route('admin') }}" class="link">Volver al panel de administración</a>
     </div>

@@ -24,7 +24,8 @@
     .password-wrap input{padding-right:46px}
     .toggle-password{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:var(--primary-dark);cursor:pointer;border-radius:8px}
     .toggle-password:focus{outline:2px solid rgba(38,186,165,.22)}
-    .btn{width:100%;border:0;border-radius:10px;padding:10px;font-weight:600;background:var(--primary);color:#fff;margin-top:10px;cursor:pointer}
+    .btn{display:block;width:100%;border:0;border-radius:10px;padding:10px;font-weight:600;background:var(--primary);color:#fff;margin-top:10px;cursor:pointer;text-align:center;text-decoration:none}
+    .btn-soft{background:#e6f8f5;color:var(--primary-dark)}
     .error{background:#fdecec;color:#8b1f1f;border-radius:10px;padding:9px;margin-bottom:8px}
     .back{display:inline-block;margin-top:10px;color:var(--primary-dark);text-decoration:none}
   </style>
@@ -42,6 +43,7 @@
       <button class="toggle-password" type="button" data-toggle-password aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
     </div>
     <button class="btn" type="submit">Entrar</button>
+    <a class="btn btn-soft" href="{{ route('register.view') }}">Crear cuenta</a>
     <a class="back" href="{{ route('auth') }}">Volver</a>
   </form>
   <script>
