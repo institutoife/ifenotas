@@ -157,6 +157,7 @@
             </div>
         </div>
         <div class="top-actions">
+            <a href="{{ route('live.notes') }}" class="btn btn-primary" target="_blank" rel="noopener">LIVE</a>
             @if($user->is_admin)<a href="{{ route('admin') }}" class="btn">Admin</a>@endif
             <form action="{{ route('logout') }}" method="POST">@csrf<button class="btn btn-dark" type="submit">Salir</button></form>
         </div>

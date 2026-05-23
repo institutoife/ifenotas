@@ -34,6 +34,13 @@ class AcademicAppController extends Controller
         return view('auth-register');
     }
 
+    public function liveNotes(): View
+    {
+        return view('live-notas', [
+            'passScore' => self::PASS_SCORE,
+        ]);
+    }
+
     public function register(Request $request): RedirectResponse
     {
         $validated = $request->validate([

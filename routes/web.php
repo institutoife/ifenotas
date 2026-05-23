@@ -3,6 +3,8 @@
 use App\Http\Controllers\AcademicAppController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/live-notas', [AcademicAppController::class, 'liveNotes'])->name('live.notes');
+
 Route::middleware('guest')->group(function (): void {
     Route::get('/', [AcademicAppController::class, 'showAuth'])->name('auth');
     Route::get('/login', [AcademicAppController::class, 'showLogin'])->name('login.view');
