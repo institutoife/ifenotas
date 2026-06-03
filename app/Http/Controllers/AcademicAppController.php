@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Calculation;
 use App\Models\EnableRequest;
+use App\Models\LivePrizeWinner;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +39,33 @@ class AcademicAppController extends Controller
     {
         return view('live-notas', [
             'passScore' => self::PASS_SCORE,
+        ]);
+    }
+
+    public function liveWinners(): JsonResponse
+    {
+        $winners = LivePrizeWinner::query()
+            ->latest()
+            ->limit(40)
+            ->get()
+            ->map(fn (LivePrizeWinner $winner): array => $this->formatLiveWinner($winner));
+
+        return response()->json(['winners' => $winners]);
+    }
+
+    public function storeLiveWinner(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'winner_name' => ['required', 'string', 'max:120'],
+            'prize' => ['required', 'string', 'max:160'],
+            'drawn_number' => ['nullable', 'integer', 'min:1', 'max:29'],
+        ]);
+
+        $winner = LivePrizeWinner::create($validated);
+
+        return response()->json([
+            'saved' => true,
+            'winner' => $this->formatLiveWinner($winner),
         ]);
     }
 
@@ -474,6 +502,17 @@ class AcademicAppController extends Controller
             'rue' => $school->codigo_rue,
             'location' => $location,
             'details' => $details,
+        ];
+    }
+
+    private function formatLiveWinner(LivePrizeWinner $winner): array
+    {
+        return [
+            'id' => $winner->id,
+            'name' => $winner->winner_name,
+            'prize' => $winner->prize,
+            'number' => $winner->drawn_number,
+            'date' => $winner->created_at?->format('d/m H:i') ?? '',
         ];
     }
 

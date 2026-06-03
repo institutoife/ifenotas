@@ -4,6 +4,8 @@ use App\Http\Controllers\AcademicAppController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/live-notas', [AcademicAppController::class, 'liveNotes'])->name('live.notes');
+Route::get('/live-ganadores', [AcademicAppController::class, 'liveWinners'])->name('live.winners.index');
+Route::post('/live-ganadores', [AcademicAppController::class, 'storeLiveWinner'])->name('live.winners.store');
 
 Route::middleware('guest')->group(function (): void {
     Route::get('/', [AcademicAppController::class, 'showAuth'])->name('auth');
