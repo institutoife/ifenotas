@@ -333,17 +333,27 @@
             right:18px;
             bottom:18px;
             z-index:30;
+            display:grid;
+            place-items:center;
+            width:58px;
+            height:58px;
             border:0;
-            border-radius:999px;
+            border-radius:50%;
             background:linear-gradient(135deg,#26baa5,#375f7a);
             color:#fff;
-            padding:14px 20px;
-            font-size:clamp(.95rem,1.6vw,1.2rem);
-            font-weight:1000;
-            text-transform:uppercase;
+            padding:0;
             cursor:pointer;
             box-shadow:0 16px 34px rgba(55,95,122,.28);
             transition:transform .16s ease, box-shadow .16s ease, filter .16s ease;
+        }
+        .prize-open svg{
+            width:30px;
+            height:30px;
+            fill:none;
+            stroke:currentColor;
+            stroke-width:2.2;
+            stroke-linecap:round;
+            stroke-linejoin:round;
         }
         .prize-open:hover{
             transform:translateY(-2px) scale(1.04);
@@ -932,11 +942,13 @@
             .prize-open{
                 right:10px;
                 bottom:max(10px,env(safe-area-inset-bottom));
-                min-height:44px;
-                padding:10px 14px;
-                font-size:.72rem;
+                width:46px;
+                height:46px;
+                min-height:46px;
+                padding:0;
                 box-shadow:0 10px 20px rgba(55,95,122,.25);
             }
+            .prize-open svg{width:24px;height:24px}
         }
         @media(max-width:380px){
             .live-shell{padding-left:7px;padding-right:7px}
@@ -962,7 +974,7 @@
                 height:90svh;
                 min-height:0;
                 padding:clamp(4px,.8svh,8px) 8px;
-                grid-template-rows:10% 34% 21% 32%;
+                grid-template-rows:10% 34% 32% 21%;
                 align-content:space-between;
                 gap:clamp(3px,.7svh,7px);
                 overflow:hidden;
@@ -1116,23 +1128,6 @@
             </div>
         </section>
 
-        <section class="progress-zone" aria-live="polite">
-            <div class="total-score">Suma total <strong id="totalScore">153</strong></div>
-            <div class="status-title" id="statusTitle">Ingresa la nota</div>
-            <div class="progress-wrap">
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-marker" id="progressMarker"></div>
-                <input class="range-control" id="secondRange" type="range" min="0" max="100" value="77" aria-label="Nota del segundo trimestre">
-                <div class="progress-labels">
-                    <span>0</span>
-                    <span>Segundo trimestre</span>
-                    <span>100</span>
-                </div>
-            </div>
-        </section>
-
         <section class="summary" id="summaryPanel">
             <div class="missing">
                 <span>Puntos que faltan desde el primer trimestre</span>
@@ -1150,9 +1145,30 @@
                 <div class="helper-text" id="helperText">Con primer trimestre 0, segundo 77 y tercero 76 suma 153.</div>
             </div>
         </section>
+
+        <section class="progress-zone" aria-live="polite">
+            <div class="total-score">Suma total <strong id="totalScore">153</strong></div>
+            <div class="status-title" id="statusTitle">Ingresa la nota</div>
+            <div class="progress-wrap">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-marker" id="progressMarker"></div>
+                <input class="range-control" id="secondRange" type="range" min="0" max="100" value="77" aria-label="Nota del segundo trimestre">
+                <div class="progress-labels">
+                    <span>0</span>
+                    <span>Segundo trimestre</span>
+                    <span>100</span>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <button class="prize-open" id="prizeOpen" type="button">Abrir sorteo</button>
+    <button class="prize-open" id="prizeOpen" type="button" aria-label="Abrir sorteo" title="Abrir sorteo">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5C10 6 12 7 12 7Zm0 0h4.5A2.5 2.5 0 1 0 14 4.5C14 6 12 7 12 7Z"/>
+        </svg>
+    </button>
 
     <div class="prize-modal" id="prizeModal" hidden role="dialog" aria-modal="true" aria-labelledby="prizeTitle">
         <div class="prize-card">
