@@ -948,6 +948,121 @@
             .target-box strong{font-size:clamp(2rem,11vw,2.8rem)}
             .prize-number-wrap{width:min(140px,46vw)}
         }
+        @media(max-width:780px) and (orientation:portrait){
+            body{
+                height:100svh;
+                min-height:100svh;
+                display:grid;
+                place-items:center;
+                overflow:hidden;
+            }
+            .live-shell{
+                width:100%;
+                height:90vh;
+                height:90svh;
+                min-height:0;
+                padding:clamp(4px,.8svh,8px) 8px clamp(48px,7svh,58px);
+                grid-template-rows:minmax(0,.62fr) minmax(0,2.25fr) minmax(0,1.25fr) minmax(0,2.2fr);
+                gap:clamp(3px,.7svh,7px);
+                overflow:hidden;
+            }
+            .live-header{
+                min-height:0;
+                gap:clamp(2px,.45svh,5px);
+                overflow:hidden;
+            }
+            .live-logo{
+                width:min(150px,44vw);
+                max-height:min(44px,5.4svh);
+            }
+            .live-marquee-message{
+                padding:clamp(4px,.7svh,7px) 18px;
+                font-size:clamp(.72rem,min(3.5vw,1.8svh),1.05rem);
+            }
+            .note-grid{
+                min-height:0;
+                grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr);
+                gap:clamp(4px,.7svh,8px);
+                overflow:hidden;
+            }
+            .note-grid .note-card:first-child,
+            .note-card{
+                min-height:0;
+                height:100%;
+            }
+            .note-card{
+                padding:clamp(4px,1svh,9px) 6px;
+                gap:clamp(2px,.55svh,5px);
+            }
+            .note-label{
+                font-size:clamp(.62rem,min(2.8vw,1.7svh),.86rem);
+            }
+            .note-input,.note-value{
+                font-size:clamp(2.45rem,min(17vw,8svh),4.6rem);
+            }
+            .over-label{
+                top:clamp(30px,4.8svh,40px);
+                font-size:clamp(.58rem,1.35svh,.68rem);
+            }
+            .progress-zone{
+                min-height:0;
+                gap:clamp(1px,.45svh,4px);
+                padding:0 2px;
+                overflow:hidden;
+            }
+            .total-score{
+                font-size:clamp(.7rem,min(3.4vw,1.6svh),1rem);
+            }
+            .total-score strong{
+                font-size:clamp(1.7rem,min(10vw,5.6svh),2.8rem);
+            }
+            .status-title{
+                font-size:clamp(1.55rem,min(10vw,5.8svh),3rem);
+            }
+            .progress-wrap{
+                min-height:0;
+                padding:clamp(7px,1.25svh,11px) 0 2px;
+            }
+            .progress-track{height:clamp(18px,3.7svh,28px)}
+            .progress-marker{
+                width:clamp(30px,5.2svh,40px);
+                height:clamp(30px,5.2svh,40px);
+            }
+            .range-control{
+                top:0;
+                height:clamp(38px,6svh,48px);
+            }
+            .progress-labels{
+                font-size:clamp(.56rem,1.35svh,.72rem);
+            }
+            .summary{
+                min-height:0;
+                gap:clamp(3px,.7svh,8px);
+                padding:clamp(5px,1svh,10px) 8px;
+                overflow:hidden;
+            }
+            .missing span,.target-box span{
+                font-size:clamp(.58rem,min(2.7vw,1.5svh),.82rem);
+            }
+            .missing strong{
+                font-size:clamp(2.45rem,min(17vw,7.6svh),5rem);
+            }
+            .target-grid{
+                min-height:0;
+                gap:clamp(3px,.65svh,7px);
+            }
+            .target-box{
+                min-height:0;
+                padding:clamp(3px,.7svh,7px) 4px;
+            }
+            .target-box strong{
+                font-size:clamp(1.85rem,min(11vw,5.7svh),3.15rem);
+            }
+            .helper-text{
+                font-size:clamp(.62rem,min(3vw,1.55svh),.92rem);
+                line-height:1.12;
+            }
+        }
         @media(max-width:780px) and (orientation:landscape){
             .live-shell{padding-bottom:66px}
             .note-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
