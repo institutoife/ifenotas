@@ -714,140 +714,130 @@
             }
             .live-shell{
                 width:100%;
-                min-height:0;
-                height:100svh;
-                padding:4px 6px 38px;
-                display:flex;
-                flex-direction:column;
-                gap:4px;
-                overflow:hidden;
+                min-height:100svh;
+                padding:8px 10px 76px;
+                gap:10px;
             }
             .live-header{
-                flex:0 0 auto;
                 min-height:auto;
-                gap:2px;
+                gap:6px;
             }
             .live-logo{
-                width:min(112px,36vw);
-                max-height:30px;
+                width:min(168px,48vw);
+                max-height:50px;
             }
-            .live-marquee{width:100%}
             .live-marquee{
-                flex:0 0 auto;
-                border-radius:8px;
+                width:100%;
+                border-radius:10px;
                 box-shadow:0 5px 14px rgba(55,95,122,.08);
             }
             .live-marquee-message{
-                font-size:clamp(.78rem,3.5vw,1.05rem);
-                padding:4px 14px;
+                font-size:clamp(.9rem,3.7vw,1.1rem);
+                padding:7px 20px;
             }
             .note-grid{
-                flex:0 0 auto;
-                grid-template-columns:repeat(3,minmax(0,1fr));
-                gap:4px;
+                grid-template-columns:repeat(2,minmax(0,1fr));
+                gap:8px;
+            }
+            .note-grid .note-card:first-child{
+                grid-column:1 / -1;
+                min-height:128px;
             }
             .note-card{
-                min-height:58px;
-                border-width:2px;
-                border-radius:9px;
-                padding:4px 3px;
-                gap:1px;
+                min-height:108px;
+                border-width:3px;
+                border-radius:16px;
+                padding:10px 8px;
+                gap:5px;
                 box-shadow:0 8px 20px rgba(55,95,122,.08);
             }
-            .note-card::after{height:4px}
+            .note-card::after{height:6px}
             .note-label{
-                font-size:clamp(.46rem,2vw,.6rem);
-                line-height:1;
+                font-size:clamp(.7rem,3vw,.88rem);
+                line-height:1.08;
             }
             .note-input,.note-value{
-                font-size:clamp(1.55rem,11.5vw,2.45rem);
-                line-height:.9;
+                font-size:clamp(3.25rem,17vw,4.6rem);
+                line-height:.86;
             }
             .over-label{
-                top:24px;
-                right:4px;
-                padding:3px 5px;
-                font-size:.58rem;
+                top:40px;
+                right:7px;
+                padding:4px 7px;
+                font-size:.68rem;
             }
             .progress-zone{
-                flex:0 0 auto;
-                gap:2px;
-                padding:0;
+                gap:5px;
+                padding:4px 2px;
             }
             .total-score{
-                font-size:clamp(.62rem,2.8vw,.82rem);
+                font-size:clamp(.9rem,3.8vw,1.15rem);
             }
             .total-score strong{
-                font-size:clamp(1.35rem,8vw,2.05rem);
+                font-size:clamp(2.2rem,11vw,3.1rem);
             }
             .status-title{
-                font-size:clamp(1.18rem,8.2vw,2.15rem);
-                line-height:.84;
+                font-size:clamp(2rem,11vw,3.25rem);
+                line-height:.9;
             }
             .progress-wrap{
-                padding:5px 0 0;
+                padding:12px 0 6px;
             }
             .progress-track{
-                height:16px;
+                height:28px;
                 box-shadow:inset 0 0 0 3px rgba(255,255,255,.72), 0 9px 22px var(--state-shadow);
             }
             .progress-marker{
-                width:25px;
-                height:25px;
-                border-width:3px;
-                box-shadow:0 6px 14px var(--state-shadow), 0 0 0 3px rgba(255,255,255,.42);
+                width:40px;
+                height:40px;
+                border-width:5px;
+                box-shadow:0 6px 14px var(--state-shadow), 0 0 0 5px rgba(255,255,255,.42);
             }
             .range-control{
-                top:5px;
-                height:18px;
+                top:4px;
+                height:48px;
             }
             .progress-labels{
-                margin-top:0;
-                font-size:.5rem;
+                margin-top:3px;
+                font-size:.72rem;
                 gap:6px;
             }
             .summary{
-                flex:1 1 auto;
-                min-height:0;
-                grid-template-columns:.72fr 1.28fr;
-                gap:4px;
-                border-width:2px;
-                border-radius:10px;
-                padding:4px;
-                box-shadow:0 7px 16px var(--state-shadow);
-                overflow:hidden;
+                grid-template-columns:1fr;
+                gap:10px;
+                border-width:3px;
+                border-radius:18px;
+                padding:14px 10px;
+                box-shadow:0 10px 24px var(--state-shadow);
             }
             .missing span,.target-box span{
-                font-size:clamp(.45rem,1.9vw,.58rem);
-                line-height:1;
+                font-size:clamp(.72rem,3vw,.88rem);
+                line-height:1.1;
             }
             .missing{
                 display:grid;
                 align-content:center;
             }
             .missing strong{
-                font-size:clamp(1.45rem,9vw,2.2rem);
-                line-height:.82;
+                font-size:clamp(3.7rem,20vw,5.4rem);
+                line-height:.9;
             }
             .target-grid{
-                gap:4px;
-                min-height:0;
+                gap:8px;
             }
             .target-box{
-                min-height:34px;
+                min-height:82px;
                 border-width:2px;
-                border-radius:7px;
-                padding:3px;
+                border-radius:12px;
+                padding:9px 5px;
             }
             .target-box strong{
-                font-size:clamp(1rem,6.4vw,1.55rem);
-                line-height:.85;
+                font-size:clamp(2.3rem,12vw,3.25rem);
+                line-height:.9;
             }
             .helper-text{
-                font-size:clamp(.48rem,2vw,.62rem);
-                line-height:1.05;
-                max-height:2.2em;
-                overflow:hidden;
+                font-size:clamp(.82rem,3.4vw,1rem);
+                line-height:1.25;
             }
             .prize-modal{
                 align-items:start;
@@ -940,49 +930,30 @@
             .winner-detail strong{font-size:.9rem}
             .winner-detail span{font-size:.78rem}
             .prize-open{
-                right:8px;
-                bottom:8px;
-                padding:7px 9px;
-                font-size:.62rem;
+                right:10px;
+                bottom:max(10px,env(safe-area-inset-bottom));
+                min-height:44px;
+                padding:10px 14px;
+                font-size:.72rem;
                 box-shadow:0 10px 20px rgba(55,95,122,.25);
             }
         }
         @media(max-width:380px){
-            .live-shell{padding-left:4px;padding-right:4px}
-            .note-grid{gap:3px}
-            .note-card{min-height:54px;padding:3px 2px}
-            .note-label{font-size:.42rem}
-            .note-input,.note-value{font-size:clamp(1.35rem,10.2vw,2.05rem)}
-            .status-title{font-size:clamp(1.05rem,7.5vw,1.8rem)}
-            .target-box strong{font-size:clamp(.92rem,5.9vw,1.35rem)}
+            .live-shell{padding-left:7px;padding-right:7px}
+            .note-grid{gap:6px}
+            .note-card{min-height:100px;padding:8px 5px}
+            .note-label{font-size:.66rem}
+            .note-input,.note-value{font-size:clamp(2.8rem,16vw,3.7rem)}
+            .status-title{font-size:clamp(1.8rem,10vw,2.65rem)}
+            .target-box strong{font-size:clamp(2rem,11vw,2.8rem)}
             .prize-number-wrap{width:min(140px,46vw)}
         }
-        @media(max-width:780px) and (max-height:700px){
-            .live-shell{
-                gap:2px;
-                padding-top:3px;
-            }
-            .live-logo{
-                width:min(96px,30vw);
-                max-height:24px;
-            }
-            .live-marquee-message{
-                padding:3px 12px;
-                font-size:clamp(.68rem,3vw,.9rem);
-            }
-            .note-card{min-height:48px}
-            .note-label{font-size:.4rem}
-            .note-input,.note-value{font-size:clamp(1.22rem,9.2vw,1.82rem)}
-            .total-score strong{font-size:clamp(1.12rem,6.8vw,1.72rem)}
-            .status-title{font-size:clamp(.95rem,6.8vw,1.58rem)}
-            .progress-wrap{padding-top:4px}
-            .progress-track{height:14px}
-            .progress-marker{width:22px;height:22px}
-            .progress-labels{font-size:.46rem}
-            .missing strong{font-size:clamp(1.18rem,7.4vw,1.78rem)}
-            .target-box{min-height:30px}
-            .target-box strong{font-size:clamp(.82rem,5.2vw,1.2rem)}
-            .helper-text{font-size:.46rem}
+        @media(max-width:780px) and (orientation:landscape){
+            .live-shell{padding-bottom:66px}
+            .note-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+            .note-grid .note-card:first-child{grid-column:auto;min-height:104px}
+            .note-card{min-height:104px}
+            .summary{grid-template-columns:.75fr 1.25fr}
         }
         @media(max-height:720px) and (min-width:781px){
             .live-shell{gap:4px;padding-top:4px}
@@ -1132,12 +1103,10 @@
         const winnerName = document.getElementById('winnerName');
         const winnerPrize = document.getElementById('winnerPrize');
         const winnerList = document.getElementById('winnerList');
-        const PRIZE_INTERVAL_MS = 5 * 60 * 1000;
         const PRIZE_SPIN_MS = 2000;
         const PRIZE_MAX_NUMBER = 29;
         const WINNERS_STORAGE_KEY = 'ifeLiveWinners';
         const WINNERS_URL = '{{ route('live.winners.index') }}';
-        let prizeTimer = null;
         let prizeSpinTimer = null;
         let currentPrizeNumber = null;
         let winners = [];
@@ -1429,14 +1398,6 @@
             }, 62);
         }
 
-        function schedulePrizeModal(){
-            prizeTimer = window.setInterval(() => {
-                if (prizeModal.hidden) {
-                    openPrizeModal();
-                }
-            }, PRIZE_INTERVAL_MS);
-        }
-
         firstTerm.addEventListener('input', resetScenarioFromFirst);
         firstTerm.addEventListener('change', resetScenarioFromFirst);
         firstTerm.addEventListener('focus', () => firstTerm.select());
@@ -1467,7 +1428,6 @@
         loadWinners();
         renderWinners();
         syncWinners();
-        schedulePrizeModal();
     </script>
 </body>
 </html>

@@ -157,7 +157,7 @@
             </div>
         </div>
         <div class="top-actions">
-            <a href="{{ route('live.notes') }}" class="btn btn-primary" target="_blank" rel="noopener">LIVE</a>
+            <a href="{{ route('live.notes') }}" class="btn btn-primary" target="_blank" rel="noopener">SIMULADOR</a>
             @if($user->is_admin)<a href="{{ route('admin') }}" class="btn">Admin</a>@endif
             <form action="{{ route('logout') }}" method="POST">@csrf<button class="btn btn-dark" type="submit">Salir</button></form>
         </div>
@@ -169,7 +169,7 @@
 
     <nav class="nav" aria-label="Acciones principales">
         <button class="nav-btn active" data-target="calcular" type="button">CALCULAR</button>
-        <button class="nav-btn" data-target="simulador" type="button">SIMULADOR</button>
+        <button class="nav-btn" data-target="simulador" type="button">SIMULAR</button>
         <button class="nav-btn" data-target="chat" type="button">CHATO</button>
         <button class="nav-btn" data-target="historial" type="button">HISTORIAL</button>
         <button class="nav-btn" data-target="perfil" type="button">MI PERFIL</button>
@@ -179,7 +179,7 @@
         <section class="section active" id="calcular">
             <div class="section-head">
                 <div>
-                    <h1>Calcula tu ruta para pasar de curso</h1>
+                    <h1>Calcula tu nota para pasar de curso</h1>
                     <p class="lead">Ingresa tu nota y materia. Guardaremos el resultado para que puedas revisarlo cuando quieras.</p>
                 </div>
             </div>
