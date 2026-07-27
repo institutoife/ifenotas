@@ -948,7 +948,7 @@
             .target-box strong{font-size:clamp(2rem,11vw,2.8rem)}
             .prize-number-wrap{width:min(140px,46vw)}
         }
-        @media(max-width:780px) and (orientation:portrait){
+        @media(max-width:780px){
             body{
                 height:100svh;
                 min-height:100svh;
@@ -961,8 +961,9 @@
                 height:90vh;
                 height:90svh;
                 min-height:0;
-                padding:clamp(4px,.8svh,8px) 8px clamp(48px,7svh,58px);
-                grid-template-rows:minmax(0,.62fr) minmax(0,2.25fr) minmax(0,1.25fr) minmax(0,2.2fr);
+                padding:clamp(4px,.8svh,8px) 8px;
+                grid-template-rows:10% 34% 21% 32%;
+                align-content:space-between;
                 gap:clamp(3px,.7svh,7px);
                 overflow:hidden;
             }
@@ -1062,12 +1063,18 @@
                 font-size:clamp(.62rem,min(3vw,1.55svh),.92rem);
                 line-height:1.12;
             }
+            .prize-open{
+                bottom:max(2px,env(safe-area-inset-bottom));
+            }
         }
         @media(max-width:780px) and (orientation:landscape){
-            .live-shell{padding-bottom:66px}
-            .note-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-            .note-grid .note-card:first-child{grid-column:auto;min-height:104px}
-            .note-card{min-height:104px}
+            .live-shell{padding-bottom:clamp(4px,.8svh,8px)}
+            .note-grid{
+                grid-template-columns:repeat(3,minmax(0,1fr));
+                grid-template-rows:minmax(0,1fr);
+            }
+            .note-grid .note-card:first-child{grid-column:auto;min-height:0}
+            .note-card{min-height:0}
             .summary{grid-template-columns:.75fr 1.25fr}
         }
         @media(max-height:720px) and (min-width:781px){
