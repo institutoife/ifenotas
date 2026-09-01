@@ -3,7 +3,10 @@
 use App\Http\Controllers\AcademicAppController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/live-notas', [AcademicAppController::class, 'liveNotes'])->name('live.notes');
+Route::get('/simulador-notas', [AcademicAppController::class, 'notesSimulator'])->name('notes.simulator');
+Route::redirect('/simulador-tercer-trimestre', '/simulador-notas');
+Route::redirect('/live-notas', '/simulador-notas')->name('live.notes');
+Route::get('/live-sorteo', [AcademicAppController::class, 'liveNotes'])->name('live.prize');
 Route::get('/live-ganadores', [AcademicAppController::class, 'liveWinners'])->name('live.winners.index');
 Route::post('/live-ganadores', [AcademicAppController::class, 'storeLiveWinner'])->name('live.winners.store');
 
@@ -21,8 +24,6 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/schools/search', [AcademicAppController::class, 'searchSchools'])->name('schools.search');
     Route::post('/profile', [AcademicAppController::class, 'updateProfile'])->name('profile.update');
     Route::post('/calculations', [AcademicAppController::class, 'saveCalculation'])->name('calculations.save');
-    Route::post('/simulations', [AcademicAppController::class, 'saveSimulation'])->name('simulations.save');
-    Route::post('/ai-chat', [AcademicAppController::class, 'aiChat'])->name('ai.chat');
     Route::post('/request-enable', [AcademicAppController::class, 'requestEnable'])->name('request.enable');
 
     Route::get('/admin', [AcademicAppController::class, 'admin'])->name('admin');

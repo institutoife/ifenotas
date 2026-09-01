@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ife notas - iniciar sesión</title>
-  <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ asset('images/icono-ife-educabol-instituto-formacion-educabol.svg') }}" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root{--bg:#f3fbfa;--card:#fff;--text:rgb(55,95,122);--muted:#587486;--line:#d6ebe8;--primary:rgb(38,186,165);--primary-dark:rgb(55,95,122)}
@@ -34,7 +34,7 @@
 <body>
   <form class="card" method="POST" action="{{ route('login') }}">
     @csrf
-    <h1><img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas"></h1>
+    <h1><img class="logo" src="{{ asset('images/logo-ife-educabol-instituto-formacion-educabol.svg') }}" alt="Logo de IFE Educabol"></h1>
     @if ($errors->any())<div class="error">{{ $errors->first() }}</div>@endif
     <label for="phone">Número</label>
     <div class="row"><input value="+591" readonly><input id="phone" name="phone" type="tel" inputmode="numeric" pattern="\d{8}" maxlength="8" required></div>

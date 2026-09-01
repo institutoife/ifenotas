@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ife notas - solicitud</title>
-    <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/icono-ife-educabol-instituto-formacion-educabol.svg') }}" type="image/svg+xml">
     <style>
         :root{--bg:#f3fbfa;--card:#fff;--text:rgb(55,95,122);--muted:#587486;--line:#d6ebe8;--primary:rgb(38,186,165);--primary-dark:rgb(55,95,122)}
         @font-face{font-family:"GlyphaLTStd";src:url("/fonts/GlyphaLTStd-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
@@ -19,12 +19,12 @@
 </head>
 <body>
     <div class="card">
-        <h1><img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas"></h1>
+        <h1><img class="logo" src="{{ asset('images/logo-ife-educabol-instituto-formacion-educabol.svg') }}" alt="Logo de IFE Educabol"></h1>
         <p><strong>Usuario:</strong> {{ $enableRequest->user?->phone ?? 'No disponible' }}</p>
         <p><strong>Estado:</strong> {{ $enableRequest->status }}</p>
         <form method="POST" action="{{ route('admin.requests.approve', $enableRequest) }}">
             @csrf
-            <button type="submit" class="btn">Dar de alta y habilitar simulador y chat</button>
+            <button type="submit" class="btn">Dar de alta y habilitar simulador</button>
         </form>
         <a href="{{ route('admin') }}" class="link">Volver al panel de administración</a>
     </div>

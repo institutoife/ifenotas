@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ife notas - administración</title>
-    <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/icono-ife-educabol-instituto-formacion-educabol.svg') }}" type="image/svg+xml">
     <style>
         :root{--bg:#f3fbfa;--card:#fff;--text:rgb(55,95,122);--muted:#587486;--line:#d6ebe8;--primary:rgb(38,186,165);--primary-dark:rgb(55,95,122);--soft:#e6f8f5;--ok:#138a4d;--ok-bg:#e8f8ef;--danger:#c83232;--danger-bg:#fdeaea;--warn:#9a6a00;--warn-bg:#fff4d6}
         @font-face{font-family:"GlyphaLTStd";src:url("/fonts/GlyphaLTStd-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
@@ -44,7 +44,7 @@
 <div class="wrap">
     <div class="head">
         <div>
-            <strong><img class="logo" src="{{ asset('images/logo.png') }}" alt="ife notas"> - administración</strong>
+            <strong><img class="logo" src="{{ asset('images/logo-ife-educabol-instituto-formacion-educabol.svg') }}" alt="Logo de IFE Educabol"> - administración</strong>
             <div class="sub">Gestión de usuarios y solicitudes</div>
         </div>
         <a href="{{ route('dashboard') }}" class="btn btn-soft">Volver</a>

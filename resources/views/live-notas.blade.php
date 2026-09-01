@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ife notas - live</title>
-    <link rel="icon" href="{{ asset('images/ife.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/icono-ife-educabol-instituto-formacion-educabol.svg') }}" type="image/svg+xml">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <style>
         :root{
@@ -48,6 +48,25 @@
             gap:3px;
             min-height:auto;
         }
+        .third-term-access{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+            width:min(760px,96vw);
+            border:2px solid rgba(38,186,165,.38);
+            border-radius:16px;
+            background:#fff;
+            color:var(--secondary);
+            padding:10px 14px;
+            text-decoration:none;
+            box-shadow:0 10px 24px rgba(55,95,122,.1);
+            transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+        }
+        .third-term-access:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:0 14px 30px rgba(38,186,165,.18)}
+        .third-term-access strong{display:block;font-size:clamp(.9rem,1.8vw,1.15rem)}
+        .third-term-access span span{display:block;margin-top:2px;color:var(--muted);font-size:clamp(.75rem,1.4vw,.95rem)}
+        .third-term-access b{flex:0 0 auto;border-radius:999px;background:var(--primary);color:#fff;padding:8px 12px;font-size:.82rem}
         .live-logo{
             display:block;
             width:min(360px,70vw);
@@ -732,6 +751,10 @@
                 min-height:auto;
                 gap:6px;
             }
+            .third-term-access{width:100%;padding:7px 9px;border-radius:10px;gap:8px}
+            .third-term-access strong{font-size:clamp(.68rem,2.8vw,.84rem)}
+            .third-term-access span span{font-size:clamp(.58rem,2.35vw,.72rem)}
+            .third-term-access b{padding:6px 8px;font-size:.62rem}
             .live-logo{
                 width:min(168px,48vw);
                 max-height:50px;
@@ -1103,7 +1126,11 @@
 <body>
     <main class="live-shell" id="liveShell">
         <header class="live-header">
-            <img class="live-logo" src="{{ asset('images/ife.png') }}" alt="ife notas">
+            <img class="live-logo" src="{{ asset('images/logo-ife-educabol-instituto-formacion-educabol.svg') }}" alt="Logo de IFE Educabol">
+            <a class="third-term-access" href="{{ route('notes.simulator') }}">
+                <span><strong>¿Cuántas notas ya tienes?</strong><span>Elige 1 o 2 notas y simula el siguiente trimestre.</span></span>
+                <b>Abrir</b>
+            </a>
             <a class="live-marquee" href="https://notas.ife.bo" target="_blank" rel="noopener" aria-label="Abrir notas.ife.bo">
                 <div class="live-marquee-track">
                     <span class="live-marquee-message">Comenta tu nota del primer trimestre y Sígueme. App: notas.ife.bo</span>

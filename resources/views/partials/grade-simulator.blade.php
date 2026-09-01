@@ -1,0 +1,81 @@
+<style>
+    .ife-sim{
+        --sim-state:#26baa5;--sim-soft:rgba(38,186,165,.12);--sim-shadow:rgba(38,186,165,.3);
+        --general-state:var(--sim-state);--general-soft:var(--sim-soft);
+        width:min(900px,100%);margin:0 auto;color:#375f7a
+    }
+    .ife-sim *{box-sizing:border-box}.ife-sim button,.ife-sim input{font:inherit}.ife-sim [hidden]{display:none!important}
+    .mode-question{text-align:center;margin:0 0 12px;font-size:clamp(1.8rem,6.5vw,3.4rem);line-height:1}
+    .mode-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .mode-card{min-height:210px;border:4px solid #d6e8e5;border-radius:22px;background:#fff;color:#375f7a;padding:14px;cursor:pointer;text-align:center;display:grid;place-items:center;box-shadow:0 14px 32px rgba(55,95,122,.12);transition:.16s}
+    .mode-card:hover,.mode-card:focus-visible{border-color:#26baa5;transform:translateY(-3px);outline:none}
+    .mode-number{display:block;color:#26baa5;font-size:clamp(5rem,17vw,8rem);font-weight:1000;line-height:.78}.mode-card strong{display:block;margin-top:10px;font-size:clamp(1.3rem,4.5vw,1.9rem)}.mode-card small{display:block;margin-top:5px;color:#607987;font-size:.92rem}
+    .sim-workspace{border:9px solid var(--sim-state);border-radius:26px;background:linear-gradient(155deg,var(--sim-soft) 0%,rgba(255,255,255,.94) 68%,var(--sim-soft) 100%);padding:clamp(9px,2vw,18px);box-shadow:0 0 0 3px var(--sim-soft),0 22px 54px var(--sim-shadow);transition:background .16s,border-color .16s,box-shadow .16s}
+    .sim-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}.change-mode{min-height:36px;border:1px solid rgba(55,95,122,.25);border-radius:999px;background:#fff;color:#375f7a;padding:5px 10px;font-size:.75rem;font-weight:900;cursor:pointer}.mode-current{font-size:.74rem;font-weight:1000}
+    .known-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.known-fields.one{grid-template-columns:minmax(0,390px);justify-content:center}.grade-field{display:grid;gap:3px;text-align:center}.grade-field label{font-size:.72rem;font-weight:1000;text-transform:uppercase}.grade-field input{width:100%;min-height:78px;border:3px solid rgba(55,95,122,.2);border-radius:14px;color:#375f7a;background:#fff;outline:none;text-align:center;font-size:clamp(3.5rem,14.5vw,5.8rem);font-weight:1000;line-height:.84;padding:0 2px}.grade-field input:focus{border-color:#26baa5;box-shadow:0 0 0 4px rgba(38,186,165,.14)}.grade-field input.invalid{border-color:#ef4444}.grade-error{min-height:.9em;color:#ef4444;font-size:.68rem;font-weight:900}
+    .result-stage{margin-top:6px}.main-result{border:5px solid var(--general-state);border-radius:20px;background:var(--general-soft);padding:8px 7px;text-align:center;transition:.16s}.main-kicker{display:block;font-size:clamp(.86rem,3vw,1.15rem);font-weight:1000;letter-spacing:.08em}.main-number{display:block;color:var(--general-state);font-size:clamp(7rem,29vw,13rem);font-weight:1000;line-height:.72;transition:color .16s,transform .12s}.main-number.pulse{animation:numberPulse .18s ease}.main-result.impossible .main-number{font-size:clamp(7rem,28vw,12rem)}.main-status{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border-radius:999px;background:var(--general-state);color:#fff;padding:8px 16px;font-size:clamp(1.2rem,5vw,2rem);font-weight:1000}.state-dot{width:.7em;height:.7em;border:3px solid #fff;border-radius:50%}
+    .notes-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.note-result{min-height:118px;border:3px solid rgba(55,95,122,.2);border-radius:14px;background:rgba(255,255,255,.92);padding:6px 2px;text-align:center;display:grid;align-content:center}.note-result span{font-size:.72rem;font-weight:1000}.note-result strong{font-size:clamp(3.4rem,14vw,6.4rem);line-height:.82}.note-result small{margin-top:5px;color:#607987;font-size:.64rem;font-weight:1000;letter-spacing:.08em}.note-result.active{border-color:var(--sim-state);background:var(--sim-soft)}.note-result.active strong{color:var(--sim-state)}
+    .slider-block{margin-top:8px}.slider-title{display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px;font-size:clamp(.85rem,3vw,1.1rem);font-weight:1000}.slider-value-wrap{text-align:right}.slider-title strong{display:block;color:var(--sim-state);font-size:clamp(4.5rem,20vw,8rem);line-height:.72}.slider-outcome{display:block;color:var(--sim-state);font-size:clamp(.9rem,3.8vw,1.35rem);font-weight:1000}.ife-sim.mode-two [data-slider-value]{display:none}
+    .sim-range-wrap{position:relative;padding:34px 2px 19px}.sim-zones{position:absolute;inset:46px 2px auto;height:26px;border-radius:999px;background:#d6e8e5;box-shadow:inset 0 0 0 4px rgba(255,255,255,.6)}.sim-range{position:relative;z-index:2;width:100%;height:46px;margin:0;appearance:none;background:transparent;cursor:pointer}.sim-range::-webkit-slider-runnable-track{height:26px;background:transparent}.sim-range::-webkit-slider-thumb{appearance:none;width:58px;height:58px;margin-top:-16px;border:8px solid #fff;border-radius:50%;background:var(--sim-state);box-shadow:0 8px 22px var(--sim-shadow),0 0 0 3px var(--sim-state);transition:background .12s}.sim-range::-moz-range-track{height:26px;background:transparent}.sim-range::-moz-range-thumb{width:42px;height:42px;border:8px solid #fff;border-radius:50%;background:var(--sim-state);box-shadow:0 8px 22px var(--sim-shadow)}
+    .pass-marker{position:absolute;z-index:1;top:0;transform:translateX(-50%);pointer-events:none;text-align:center}.pass-marker span{display:block;white-space:nowrap;border:3px solid #fff;border-radius:999px;background:#375f7a;color:#fff;padding:4px 8px;font-size:clamp(.7rem,2.8vw,.95rem);font-weight:1000;box-shadow:0 4px 10px rgba(55,95,122,.25)}.pass-marker::after{content:"";display:block;width:7px;height:64px;margin:2px auto;background:#375f7a;border:2px solid #fff;border-radius:8px}.range-legend{display:flex;justify-content:space-between;color:#375f7a;font-size:clamp(.68rem,2.5vw,.86rem);font-weight:1000}.whatsapp-result{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:7px;border-radius:12px;background:#25d366;color:#fff;text-decoration:none;font-size:clamp(.9rem,3.5vw,1.1rem);font-weight:1000;box-shadow:0 8px 20px rgba(37,211,102,.24)}.sim-pending{opacity:.38;pointer-events:none}
+    @keyframes numberPulse{50%{transform:scale(1.035)}}
+    @media(max-width:580px){.mode-options{gap:7px}.mode-card{min-height:170px;padding:8px;border-radius:16px}.mode-card small{font-size:.72rem}.sim-workspace{border-width:8px;border-radius:20px;padding:7px;box-shadow:0 0 0 2px var(--sim-soft),0 16px 38px var(--sim-shadow)}.grade-field input{min-height:64px;font-size:clamp(3.35rem,17vw,5rem);padding:0 1px}.main-result{border-width:4px;padding:6px}.main-number{font-size:clamp(7.2rem,36vw,11rem)}.main-status{margin-top:10px;padding:7px 13px}.notes-row{gap:4px}.note-result{min-height:100px;border-radius:11px}.note-result strong{font-size:clamp(3.25rem,17vw,5.2rem)}.slider-title strong{font-size:clamp(4.7rem,23vw,7rem)}.sim-range-wrap{padding-top:34px}.sim-zones{height:24px}.sim-range::-webkit-slider-runnable-track{height:24px}.whatsapp-result{min-height:48px}}
+    @media(max-width:350px){.mode-options{grid-template-columns:1fr}.mode-card{min-height:130px}.mode-number{font-size:4.2rem}.main-number{font-size:6.5rem}.note-result strong{font-size:2.8rem}}
+    @media(prefers-reduced-motion:reduce){.ife-sim *{animation:none!important;transition:none!important}}
+</style>
+
+<div class="ife-sim" data-pass-score="{{ $passScore }}" data-high-grade-threshold="{{ $highGradeThreshold }}">
+    <section class="mode-picker">
+        <h1 class="mode-question">¿Cuántas notas ya tienes?</h1>
+        <div class="mode-options">
+            <button class="mode-card" type="button" data-mode="one"><span><span class="mode-number">1</span><strong>UNA NOTA</strong><small>1.º trimestre</small></span></button>
+            <button class="mode-card" type="button" data-mode="two"><span><span class="mode-number">2</span><strong>DOS NOTAS</strong><small>1.º y 2.º trimestre</small></span></button>
+        </div>
+    </section>
+
+    <section class="sim-workspace" hidden>
+        <div class="sim-toolbar"><button class="change-mode" type="button">← Cambiar</button><span class="mode-current"></span></div>
+        <div class="known-fields">
+            <div class="grade-field"><label for="ifeFirstTerm">1.º · Real</label><input id="ifeFirstTerm" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="0–100"><span class="grade-error" data-error="first"></span></div>
+            <div class="grade-field second-known"><label for="ifeSecondTerm">2.º · Real</label><input id="ifeSecondTerm" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="0–100"><span class="grade-error" data-error="second"></span></div>
+        </div>
+
+        <div class="result-stage sim-pending">
+            <div class="main-result"><span class="main-kicker">NECESITAS</span><strong class="main-number">—</strong><span class="main-status"><i class="state-dot"></i><b>INGRESA TUS NOTAS</b></span></div>
+            <div class="notes-row">
+                <div class="note-result"><span>1.º</span><strong data-note="first">—</strong><small>REAL</small></div>
+                <div class="note-result"><span>2.º</span><strong data-note="second">—</strong><small data-role="second">SIMULADO</small></div>
+                <div class="note-result active"><span>3.º</span><strong data-note="third">—</strong><small data-role="third">NECESITAS</small></div>
+            </div>
+            <div class="slider-block">
+                <div class="slider-title"><span data-slider-label>SIMULA EL 2.º TRIMESTRE</span><span class="slider-value-wrap"><strong data-slider-value>50</strong><b class="slider-outcome"></b></span></div>
+                <div class="sim-range-wrap"><div class="sim-zones"></div><div class="pass-marker"><span data-marker-label>MÍNIMO</span></div><input class="sim-range" type="range" min="0" max="100" value="50" aria-label="Nota simulada"><div class="range-legend"><span data-legend-left>REPRUEBA</span><span data-legend-right>APRUEBA</span></div></div>
+            </div>
+            <a class="whatsapp-result" href="#" target="_blank" rel="noopener">Enviar resultado por WhatsApp</a>
+        </div>
+    </section>
+</div>
+
+<script src="{{ asset('js/ife-grade-engine.js') }}"></script>
+<script>
+(function(){
+    const root=document.querySelector('.ife-sim');if(!root||!window.IfeGradeEngine)return;
+    const passScore=Number(root.dataset.passScore),highGradeThreshold=Number(root.dataset.highGradeThreshold);
+    const picker=root.querySelector('.mode-picker'),workspace=root.querySelector('.sim-workspace'),fields=root.querySelector('.known-fields'),secondKnown=root.querySelector('.second-known'),firstInput=root.querySelector('#ifeFirstTerm'),secondInput=root.querySelector('#ifeSecondTerm'),stage=root.querySelector('.result-stage'),range=root.querySelector('.sim-range'),zones=root.querySelector('.sim-zones'),marker=root.querySelector('.pass-marker'),mainNumber=root.querySelector('.main-number');let mode=null,currentResult=null;
+    const palettes={green:['#16a34a','rgba(22,163,74,.15)','rgba(22,163,74,.34)'],orange:['#f59e0b','rgba(245,158,11,.17)','rgba(245,158,11,.36)'],red:['#ef4444','rgba(239,68,68,.16)','rgba(239,68,68,.34)']};
+    function grade(input,key){const raw=input.value.trim(),error=root.querySelector(`[data-error="${key}"]`);let value=null,message='';if(raw===''){if(input.dataset.touched)message='Ingresa esta nota.'}else{const number=Number(raw);if(Number.isInteger(number)&&number>=0&&number<=100)value=number;else message='Usa un entero de 0 a 100.'}input.classList.toggle('invalid',!!message);input.setAttribute('aria-invalid',message?'true':'false');error.textContent=message;return value}
+    function applyPalette(prefix,tone){const colors=palettes[tone];root.style.setProperty(`--${prefix}-state`,colors[0]);root.style.setProperty(`--${prefix}-soft`,colors[1]);if(prefix==='sim')root.style.setProperty('--sim-shadow',colors[2]);return colors}
+    function theme(scenarioTone,generalTone){const scenario=applyPalette('sim',scenarioTone);applyPalette('general',generalTone);document.body.style.background=`linear-gradient(155deg,${scenario[1]},#f5f9f9 72%)`;document.body.style.transition='background .16s ease'}
+    function pulse(){mainNumber.classList.remove('pulse');void mainNumber.offsetWidth;mainNumber.classList.add('pulse')}
+    function selectMode(next){mode=next;root.classList.toggle('mode-one',mode==='one');root.classList.toggle('mode-two',mode==='two');picker.hidden=true;workspace.hidden=false;secondKnown.hidden=mode==='one';fields.classList.toggle('one',mode==='one');root.querySelector('.mode-current').textContent=mode==='one'?'1 NOTA':'2 NOTAS';root.querySelector('[data-slider-label]').textContent=mode==='one'?'SIMULA EL 2.º TRIMESTRE':'SIMULA EL 3.º TRIMESTRE';root.querySelector('[data-role="second"]').textContent=mode==='one'?'SIMULADO':'REAL';root.querySelector('[data-role="third"]').textContent=mode==='one'?'NECESITAS':'SIMULADO';root.querySelector('[data-legend-left]').textContent=mode==='one'?'0 · NO ALCANZA':'0 · REPRUEBA';root.querySelector('[data-legend-right]').textContent=mode==='one'?'VAS BIEN · 100':'APRUEBA · 100';firstInput.focus();update()}
+    function update(){
+        const first=grade(firstInput,'first'),second=mode==='two'?grade(secondInput,'second'):0,ready=first!==null&&(mode==='one'||second!==null);stage.classList.toggle('sim-pending',!ready);if(!ready){currentResult=null;return}
+        currentResult=IfeGradeEngine.calculate({mode,first,second,simulated:Number(range.value),passScore,highGradeThreshold});const r=currentResult,impossible=r.requiredThird>100,scenarioTone=mode==='two'&&!r.projectedPass?'red':r.status.tone;theme(scenarioTone,r.status.tone);
+        const main=root.querySelector('.main-result');main.classList.toggle('impossible',impossible);root.querySelector('.main-kicker').textContent=impossible?'NI CON':'NECESITAS';mainNumber.textContent=impossible?'100':r.requiredThird;root.querySelector('.main-status b').textContent=impossible?'ALCANZA · REPROBADO':r.status.label;root.querySelector('[data-note="first"]').textContent=r.first;root.querySelector('[data-note="second"]').textContent=r.second;root.querySelector('[data-note="third"]').textContent=mode==='one'?(impossible?'100':r.requiredThird):r.third;root.querySelector('[data-slider-value]').textContent=range.value;root.querySelector('.slider-outcome').textContent=mode==='two'?(r.projectedPass?'APRUEBA':'REPRUEBA'):r.status.label;pulse();
+        marker.style.transform=r.slider.marker>=92?'translateX(-100%)':'translateX(-50%)';marker.style.left=`${r.slider.marker}%`;
+        if(mode==='one'){zones.style.background=`linear-gradient(90deg,#ef4444 0 ${r.slider.redEnd}%,#f59e0b ${r.slider.redEnd}% ${r.slider.orangeEnd}%,#16a34a ${r.slider.orangeEnd}% 100%)`;marker.hidden=r.slider.marker<=0;root.querySelector('[data-marker-label]').textContent=`${r.slider.marker} MÍNIMO`}else{const cutoff=r.slider.marker;zones.style.background=impossible?'#ef4444':r.requiredThird<=0?'#16a34a':`linear-gradient(90deg,#ef4444 0 ${cutoff}%,#16a34a ${cutoff}% 100%)`;marker.hidden=impossible||r.requiredThird<=0;root.querySelector('[data-marker-label]').textContent=`${r.requiredThird} MÍNIMO`}
+        root.querySelector('.whatsapp-result').href=`https://wa.me/?text=${encodeURIComponent(IfeGradeEngine.buildWhatsAppMessage(r))}`;
+    }
+    root.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.mode)));root.querySelector('.change-mode').addEventListener('click',()=>{workspace.hidden=true;picker.hidden=false;mode=null;currentResult=null;document.body.style.background=''});[firstInput,secondInput].forEach(input=>{input.addEventListener('input',update);input.addEventListener('blur',()=>{input.dataset.touched='1';update()})});range.addEventListener('input',update);const initialMode=new URLSearchParams(window.location.search).get('mode');if(initialMode==='one'||initialMode==='two')selectMode(initialMode);
+}());
+</script>
