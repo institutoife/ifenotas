@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -22,8 +23,15 @@ class AcademicAppController extends Controller
 
     public function showAuth(): View
     {
+        DB::table('page_counters')
+            ->where('page', 'homepage')
+            ->increment('visits');
+
         return view('welcome', [
             'ife' => config('ife'),
+            'visitorCount' => DB::table('page_counters')
+                ->where('page', 'homepage')
+                ->value('visits'),
         ]);
     }
 

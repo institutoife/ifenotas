@@ -47,6 +47,23 @@ class ThirdTermSimulatorTest extends TestCase
             ->assertRedirect('/simulador-notas');
     }
 
+    public function test_homepage_counter_starts_at_eight_hundred_thousand_and_increments(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('800.000')
+            ->assertSee('personas visitaron esta p&aacute;gina', false);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('800.001');
+
+        $this->assertDatabaseHas('page_counters', [
+            'page' => 'homepage',
+            'visits' => 800001,
+        ]);
+    }
+
     public function test_legacy_third_term_url_redirects_to_unified_simulator(): void
     {
         $this->get('/simulador-tercer-trimestre')
