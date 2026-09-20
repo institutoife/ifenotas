@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/request-enable', [AcademicAppController::class, 'requestEnable'])->name('request.enable');
 
     Route::get('/admin', [AcademicAppController::class, 'admin'])->name('admin');
+    Route::post('/admin/settings/tiktok-followers', [AcademicAppController::class, 'updateTikTokFollowers'])->name('admin.tiktok-followers.update');
     Route::post('/admin/users/{user}/toggle-follower', [AcademicAppController::class, 'toggleFollower'])->name('admin.toggleFollower');
     Route::get('/admin/requests/{enableRequest}', [AcademicAppController::class, 'showEnableRequest'])->name('admin.requests.show')->middleware('signed');
     Route::post('/admin/requests/{enableRequest}/approve', [AcademicAppController::class, 'approveEnableRequest'])->name('admin.requests.approve');

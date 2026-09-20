@@ -37,7 +37,9 @@
         .status-regular{background:var(--warn-bg);color:var(--warn);border:1px solid rgba(154,106,0,.22)}
         .brand-name{font-family:"GlyphaLTStd","Segoe UI",sans-serif;text-transform:lowercase;letter-spacing:0}
         .logo{display:inline-block;width:128px;max-height:38px;object-fit:contain;vertical-align:middle}
+        .setting-form{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:10px;align-items:end;max-width:520px}.setting-meta{margin:8px 0 0;color:var(--muted);font-size:.86rem}
         @media (max-width:900px){.row,.filters,.calc-row{grid-template-columns:1fr}.calc-head{display:none}}
+        @media (max-width:520px){.setting-form{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
@@ -53,6 +55,20 @@
     @if(session('status'))
         <div class="card">{{ session('status') }}</div>
     @endif
+
+    <div class="card">
+        <h3>Comunidad TikTok</h3>
+        <form class="setting-form" method="POST" action="{{ route('admin.tiktok-followers.update') }}">
+            @csrf
+            <div class="field">
+                <label for="tiktokFollowers">Seguidores de TikTok</label>
+                <input id="tiktokFollowers" name="followers" type="number" min="0" max="2000000000" step="1" inputmode="numeric" value="{{ old('followers', $tiktokFollowers) }}" placeholder="Ingresa el número real" required>
+                @error('followers')<span class="sub">{{ $message }}</span>@enderror
+            </div>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </form>
+        <p class="setting-meta">Última actualización: {{ $tiktokFollowersUpdatedAt?->format('d/m/Y H:i') ?? 'Sin datos todavía' }}</p>
+    </div>
 
     <div class="card">
         <h3>Solicitudes pendientes</h3>

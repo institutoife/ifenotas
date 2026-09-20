@@ -7,6 +7,7 @@ use App\Models\EnableRequest;
 use App\Models\LivePrizeWinner;
 use App\Models\School;
 use App\Models\User;
+use App\Services\TikTokFollowerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class AcademicAppController extends Controller
     private const PASS_SCORE = 153;
     private const HIGH_THIRD_TERM_SCORE = 70;
 
-    public function showAuth(): View
+    public function showAuth(TikTokFollowerService $tiktokFollowers): View
     {
         DB::table('page_counters')
             ->where('page', 'homepage')
@@ -32,6 +33,7 @@ class AcademicAppController extends Controller
             'visitorCount' => DB::table('page_counters')
                 ->where('page', 'homepage')
                 ->value('visits'),
+            'tiktokFollowers' => $tiktokFollowers->followers(),
         ]);
     }
 
@@ -268,7 +270,7 @@ class AcademicAppController extends Controller
         return back()->with('status', 'Solicitud recibida. Revisaremos tu perfil para habilitar el simulador.');
     }
 
-    public function admin(Request $request): View
+    public function admin(Request $request, TikTokFollowerService $tiktokFollowers): View
     {
         /** @var User $user */
         $user = Auth::user();
@@ -331,13 +333,35 @@ class AcademicAppController extends Controller
             ->limit(200)
             ->get();
 
+        $tiktokSnapshot = $tiktokFollowers->snapshot();
+
         return view('admin', [
             'users' => $users,
             'pendingRequests' => $pendingRequests,
             'subjects' => $subjects,
             'calculations' => $calculations,
             'calculationFilters' => $calculationFilters,
+            'tiktokFollowers' => $tiktokSnapshot['value'],
+            'tiktokFollowersUpdatedAt' => $tiktokSnapshot['updated_at'],
         ]);
+    }
+
+    public function updateTikTokFollowers(Request $request, TikTokFollowerService $tiktokFollowers): RedirectResponse
+    {
+        /** @var User $actor */
+        $actor = Auth::user();
+
+        if (! $actor->is_admin) {
+            return redirect()->route('admin')->with('status', 'No tienes permisos de administrador para modificar esta información.');
+        }
+
+        $validated = $request->validate([
+            'followers' => ['required', 'integer', 'min:0', 'max:2000000000'],
+        ]);
+
+        $tiktokFollowers->storeManual((int) $validated['followers'], $actor);
+
+        return back()->with('status', 'Seguidores de TikTok actualizados correctamente.');
     }
 
     public function showEnableRequest(EnableRequest $enableRequest): View
