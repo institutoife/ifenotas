@@ -8,12 +8,12 @@
     function defaultSlider(mode, first, second, passScore) {
         return Math.max(0, Math.min(100, mode === 'two' ? passScore - first - second : passScore - first - 100));
     }
-    function create(root) {
+    function create(root, onConsult = () => {}) {
         const status = root.querySelector('[data-save-status]');
         const controls = root.querySelector('[data-consult-controls]');
         const subject = root.querySelector('[data-consult-subject]');
         const button = root.querySelector('[data-consult-button]');
-        let current = null, busy = false, pending = null, signature = '';
+        let current = null, busy = false, pending = null, signature = '', consultedSignature = null;
         function uuid() {
             if (global.crypto?.randomUUID) return global.crypto.randomUUID();
             const bytes = global.crypto.getRandomValues(new Uint8Array(16));
@@ -24,7 +24,7 @@
         }
         function sync() {
             const next = current ? `${current.first}:${current.second}:${subject.value}` : '';
-            if (next !== signature) { signature = next; pending = null; status.textContent = ''; }
+            if (next !== signature) { signature = next; consultedSignature = null; pending = null; status.textContent = ''; }
             button.disabled = busy;
         }
         function update(mode, first, second) {
@@ -34,11 +34,14 @@
                 && first >= 0 && first <= 100 && second >= 0 && second <= 100 ? {first, second} : null;
             sync();
         }
-        subject.addEventListener('change', sync);
+        subject.addEventListener('change', () => { sync(); onConsult(); });
+        subject.addEventListener('click', () => { try { subject.showPicker?.(); } catch (error) { /* Native select remains available. */ } });
         button.addEventListener('click', async () => {
             if (busy) return;
             if (!current) { status.textContent = 'Completa las dos notas entre 0 y 100.'; return; }
             if (!subject.value) { status.textContent = 'Elige una materia antes de consultar.'; subject.focus(); return; }
+            consultedSignature = signature;
+            onConsult();
             pending ??= {...current, subject: subject.value, submission_id: uuid()};
             const payload = pending, submittedSignature = signature;
             busy = true; button.disabled = true; button.textContent = 'Consultando…';
@@ -62,7 +65,7 @@
                 busy = false; button.disabled = false; button.textContent = 'Consultar';
             }
         });
-        return {update};
+        return {update, hasConsulted: () => !!current && consultedSignature === signature};
     }
     global.IfeSimulatorRecords = {create, clampInput, defaultSlider};
 }(window));

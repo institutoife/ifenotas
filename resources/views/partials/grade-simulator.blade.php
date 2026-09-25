@@ -14,6 +14,7 @@
     .sim-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}.change-mode{min-height:36px;border:1px solid rgba(55,95,122,.25);border-radius:999px;background:#fff;color:#375f7a;padding:5px 10px;font-size:.75rem;font-weight:900;cursor:pointer}.mode-current{font-size:.74rem;font-weight:1000}
     .known-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.known-fields.one{grid-template-columns:minmax(0,390px);justify-content:center}.grade-field{display:grid;gap:3px;text-align:center}.grade-field label{font-size:.72rem;font-weight:1000;text-transform:uppercase}.grade-field input{width:100%;min-height:78px;border:3px solid rgba(55,95,122,.2);border-radius:14px;color:#375f7a;background:#fff;outline:none;text-align:center;font-size:clamp(3.5rem,14.5vw,5.8rem);font-weight:1000;line-height:.84;padding:0 2px}.grade-field input:focus{border-color:#26baa5;box-shadow:0 0 0 4px rgba(38,186,165,.14)}.grade-field input.invalid{border-color:#ef4444}.grade-error{min-height:.9em;color:#ef4444;font-size:.68rem;font-weight:900}
     .consult-row{display:grid;grid-template-columns:minmax(0,56%) minmax(0,40%);column-gap:4%;align-items:end;margin:6px 0}.consult-field{display:grid;gap:4px;min-width:0;font-size:.8rem;font-weight:800}.consult-field select{width:100%;min-width:0;min-height:44px;padding:8px;border:1px solid #b9d3d0;border-radius:10px;background:#fff;color:#375f7a;font:inherit}.consult-button{min-height:44px;padding:8px;border:0;border-radius:10px;background:#159987;color:#fff;font-weight:900;cursor:pointer}.consult-button:disabled{opacity:.6;cursor:wait}.consult-button:focus-visible,.consult-field select:focus-visible{outline:3px solid #375f7a;outline-offset:2px}
+    .consult-field{position:relative}.consult-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.consult-field select{display:block;min-height:52px;cursor:pointer;padding:12px;font-size:16px;touch-action:manipulation}.consult-button{min-height:52px}
     .result-stage{margin-top:6px}.main-result{border:5px solid var(--general-state);border-radius:20px;background:var(--general-soft);padding:8px 7px;text-align:center;transition:.16s}.main-kicker{display:block;font-size:clamp(.86rem,3vw,1.15rem);font-weight:1000;letter-spacing:.08em}.main-number{display:block;color:var(--general-state);font-size:clamp(7rem,29vw,13rem);font-weight:1000;line-height:.72;transition:color .16s,transform .12s}.main-number.pulse{animation:numberPulse .18s ease}.main-result{container-type:inline-size}.main-result.impossible .main-number{font-size:clamp(1rem,8vw,5.5rem);font-size:var(--aplazado-size,12cqi);line-height:1.1;letter-spacing:0;white-space:nowrap;max-width:100%}.main-result.impossible .main-number.pulse{animation:none;transform:none}.main-result.impossible .main-kicker{display:none}.main-result.impossible .main-status{max-width:100%;font-size:clamp(.85rem,4vw,1.35rem)}.main-status{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border-radius:999px;background:var(--general-state);color:#fff;padding:8px 16px;font-size:clamp(1.2rem,5vw,2rem);font-weight:1000}.state-dot{width:.7em;height:.7em;border:3px solid #fff;border-radius:50%}
     .notes-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.note-result{min-height:118px;border:3px solid rgba(55,95,122,.2);border-radius:14px;background:rgba(255,255,255,.92);padding:6px 2px;text-align:center;display:grid;align-content:center}.note-result span{font-size:.72rem;font-weight:1000}.note-result strong{font-size:clamp(3.4rem,14vw,6.4rem);line-height:.82}.note-result small{margin-top:5px;color:#607987;font-size:.64rem;font-weight:1000;letter-spacing:.08em}.note-result.active{border-color:var(--sim-state);background:var(--sim-soft)}.note-result.active strong{color:var(--sim-state)}
     .slider-block{margin-top:8px}.slider-title{display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px;font-size:clamp(.85rem,3vw,1.1rem);font-weight:1000}.slider-value-wrap{text-align:right}.slider-title strong{display:block;color:var(--sim-state);font-size:clamp(4.5rem,20vw,8rem);line-height:.72}.slider-outcome{display:block;color:var(--sim-state);font-size:clamp(.9rem,3.8vw,1.35rem);font-weight:1000}.ife-sim.mode-two [data-slider-value]{display:none}
@@ -48,11 +49,11 @@
         </div>
 
         <div class="consult-row" data-consult-controls hidden>
-            <label class="consult-field">Materia<select data-consult-subject required><option value="">Elige una materia</option>@foreach(config('ife.subjects') as $subject)<option value="{{ $subject }}">{{ $subject }}</option>@endforeach</select></label>
+            <label class="consult-field"><span class="consult-label">Materia</span><select data-consult-subject required><option value="">Elige una materia</option>@foreach(config('ife.subjects') as $subject)<option value="{{ $subject }}">{{ $subject }}</option>@endforeach</select></label>
             <button type="button" class="consult-button" data-consult-button>Consultar</button>
         </div>
         <p style="font-size:.75rem;margin:4px 0" role="status" data-save-status></p>
-        <div class="result-stage sim-pending">
+        <div class="result-stage sim-pending" hidden>
             <div class="main-result"><span class="main-kicker">NECESITAS</span><strong class="main-number">—</strong><span class="main-status"><i class="state-dot"></i><b>INGRESA TUS NOTAS</b></span></div>
             <div class="notes-row">
                 <div class="note-result"><span>1.º</span><strong data-note="first">—</strong><small>REAL</small></div>
@@ -73,11 +74,11 @@
 </div>
 
 <script src="{{ asset('js/ife-grade-engine.js') }}"></script>
-<script src="{{ asset('js/ife-simulator-records.js').'?v=2' }}"></script>
+<script src="{{ asset('js/ife-simulator-records.js').'?v=3' }}"></script>
 <script>
 (function(){
     const root=document.querySelector('.ife-sim');if(!root||!window.IfeGradeEngine)return;
-    const records=IfeSimulatorRecords.create(root);let knownNotes='';
+    const records=IfeSimulatorRecords.create(root, () => update());let knownNotes='';
     const passScore=Number(root.dataset.passScore),highGradeThreshold=Number(root.dataset.highGradeThreshold);
     const picker=root.querySelector('.mode-picker'),workspace=root.querySelector('.sim-workspace'),fields=root.querySelector('.known-fields'),secondKnown=root.querySelector('.second-known'),firstInput=root.querySelector('#ifeFirstTerm'),secondInput=root.querySelector('#ifeSecondTerm'),stage=root.querySelector('.result-stage'),range=root.querySelector('.sim-range'),zones=root.querySelector('.sim-zones'),marker=root.querySelector('.pass-marker'),mainNumber=root.querySelector('.main-number'),modeTwoVisual=root.querySelector('.mode-two-visual'),modeTwoImage=modeTwoVisual.querySelector('img'),modeTwoMessage=modeTwoVisual.querySelector('.mode-two-message');let mode=null,currentResult=null;
     const palettes={green:['#16a34a','rgba(22,163,74,.15)','rgba(22,163,74,.34)'],orange:['#f59e0b','rgba(245,158,11,.17)','rgba(245,158,11,.36)'],red:['#ef4444','rgba(239,68,68,.16)','rgba(239,68,68,.34)']};
@@ -103,10 +104,13 @@
     function pulse(){mainNumber.classList.remove('pulse');void mainNumber.offsetWidth;mainNumber.classList.add('pulse')}
     function selectMode(next){mode=next;root.classList.toggle('mode-one',mode==='one');root.classList.toggle('mode-two',mode==='two');picker.hidden=true;workspace.hidden=false;secondKnown.hidden=mode==='one';fields.classList.toggle('one',mode==='one');root.querySelector('.mode-current').textContent=mode==='one'?'1 NOTA':'2 NOTAS';root.querySelector('[data-slider-label]').textContent=mode==='one'?'SIMULA EL 2.º TRIMESTRE':'SIMULA EL 3.º TRIMESTRE';root.querySelector('[data-role="second"]').textContent=mode==='one'?'SIMULADO':'REAL';root.querySelector('[data-role="third"]').textContent=mode==='one'?'NECESITAS':'SIMULADO';root.querySelector('[data-legend-left]').textContent=mode==='one'?'0 · NO ALCANZA':'0 · REPRUEBA';root.querySelector('[data-legend-right]').textContent=mode==='one'?'VAS BIEN · 100':'APRUEBA · 100';firstInput.focus();update()}
     function update(){
-        const first=grade(firstInput,'first'),second=mode==='two'?grade(secondInput,'second'):0,ready=first!==null&&(mode==='one'||second!==null);stage.classList.toggle('sim-pending',!ready);modeTwoVisual.hidden=!ready||mode!=='two';if(!ready){currentResult=null;knownNotes='';records.update(mode,null,null);return}
+        const first=grade(firstInput,'first'),second=mode==='two'?grade(secondInput,'second'):0,ready=first!==null&&(mode==='one'||second!==null);stage.classList.toggle('sim-pending',!ready);modeTwoVisual.hidden=!ready||mode!=='two';if(!ready){stage.hidden=true;currentResult=null;knownNotes='';records.update(mode,null,null);return}
         const notesKey=mode+':'+first+':'+second;
         if(notesKey!==knownNotes){range.value=IfeSimulatorRecords.defaultSlider(mode,first,second,passScore);knownNotes=notesKey}
         records.update(mode,first,second);
+        const showResult=mode!=='two'||records.hasConsulted();
+        stage.hidden=!showResult;modeTwoVisual.hidden=!showResult||mode!=='two';
+        if(!showResult){currentResult=null;return}
         currentResult=IfeGradeEngine.calculate({mode,first,second,simulated:Number(range.value),passScore,highGradeThreshold});const r=currentResult,impossible=r.requiredThird>100,scenarioTone=mode==='two'&&!r.projectedPass?'red':r.status.tone;theme(scenarioTone,r.status.tone);
         if(mode==='two'){
             const situation=r.requiredThird>100?'aplazo':r.requiredThird<=0?'aprobado':'riesgo';
