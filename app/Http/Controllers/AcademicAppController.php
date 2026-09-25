@@ -19,7 +19,7 @@ use Illuminate\View\View;
 
 class AcademicAppController extends Controller
 {
-    private const PASS_SCORE = 153;
+    public const PASS_SCORE = 153;
     private const HIGH_THIRD_TERM_SCORE = 70;
 
     public function showAuth(TikTokFollowerService $tiktokFollowers): View

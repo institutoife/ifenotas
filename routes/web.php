@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\AcademicAppController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SimulatorRecordController;
 
 Route::get('/simulador-notas', [AcademicAppController::class, 'notesSimulator'])->name('notes.simulator');
+Route::post('/simulador-notas/registros', [SimulatorRecordController::class, 'store'])->middleware('throttle:60,1')->name('simulator-records.store');
+Route::get('/admin/simulador-registros', [SimulatorRecordController::class, 'index'])->middleware('auth')->name('admin.simulator-records');
+
 Route::redirect('/simulador-tercer-trimestre', '/simulador-notas');
 Route::redirect('/live-notas', '/simulador-notas')->name('live.notes');
 Route::get('/live-sorteo', [AcademicAppController::class, 'liveNotes'])->name('live.prize');
