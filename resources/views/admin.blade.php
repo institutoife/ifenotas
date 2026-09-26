@@ -57,7 +57,7 @@
     @endif
 
     <div class="card">
-        <h3>Consultas del simulador</h3><p class="sub">Consulta las dos notas ingresadas, los aplazados y quienes ya aprobaron.</p><a class="btn btn-primary" href="{{ route('admin.simulator-records') }}">Ver notas y estadisticas</a></div>
+        <h3>Consultas del simulador</h3><p class="sub">Consulta las dos notas ingresadas, los aplazados y quienes ya aprobaron.</p><a class="btn btn-primary" href="{{ route('admin.simulator-records') }}">Ver cantidades y notas</a> <a class="btn btn-soft" href="{{ route('admin.simulator-charts') }}">Graficos y porcentajes</a></div>
     <div class="card"><h3>Comunidad TikTok</h3>
         <form class="setting-form" method="POST" action="{{ route('admin.tiktok-followers.update') }}">
             @csrf

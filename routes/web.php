@@ -36,3 +36,5 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/admin/requests/{enableRequest}', [AcademicAppController::class, 'showEnableRequest'])->name('admin.requests.show')->middleware('signed');
     Route::post('/admin/requests/{enableRequest}/approve', [AcademicAppController::class, 'approveEnableRequest'])->name('admin.requests.approve');
 });
+
+Route::get('/admin/simulador-graficos', [SimulatorRecordController::class, 'charts'])->middleware('auth')->name('admin.simulator-charts');
