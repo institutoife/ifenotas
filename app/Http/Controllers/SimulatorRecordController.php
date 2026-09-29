@@ -68,6 +68,8 @@ class SimulatorRecordController extends Controller
             'to' => ['nullable', 'date_format:Y-m-d', ...($request->filled('from') ? ['after_or_equal:from'] : [])],
         ]);
         $query = SimulatorRecord::query()
+            ->whereIn('status', ['passed', 'pending', 'failed'])
+            ->whereBetween('first', [0, 100])->whereBetween('second', [0, 100])
             ->when($filters['subject'] ?? null, fn ($q, $subject) => $q->where('subject', $subject))
             ->when($filters['from'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
             ->when($filters['to'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
@@ -88,9 +90,12 @@ class SimulatorRecordController extends Controller
                 }
                 return $stats;
             })->values();
+        $counter = DB::table('page_counters')->where('page', 'homepage')->value('visits');
+        $projection = app(\App\Services\StatisticsProjection::class)->build($subjectStats->all(), $counter === null ? null : (int) $counter);
+        $statePresentation = config('ife_statistics.states');
         $records = $query->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status))
             ->orderByDesc('id')->paginate(30)->withQueryString();
 
-        return view($charts ? 'admin-simulator-charts' : 'admin-simulator-records', compact('records', 'counts', 'filters', 'total', 'percentages', 'subjectStats'));
+        return view($charts ? 'admin-simulator-charts' : 'admin-simulator-records', compact('records', 'counts', 'filters', 'total', 'percentages', 'subjectStats', 'projection', 'statePresentation'));
     }
 }
