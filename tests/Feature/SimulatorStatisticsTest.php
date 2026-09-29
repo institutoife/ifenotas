@@ -19,7 +19,7 @@ class SimulatorStatisticsTest extends TestCase
         $this->actingAs($user)->get(route('admin.simulator-charts'))->assertForbidden();
         $user->update(['is_admin'=>true]);
         $this->get(route('admin.simulator-records'))->assertOk()->assertViewIs('admin-simulator-records')
-            ->assertSee('Total proyectado')->assertDontSee('subject-stats-title');
+            ->assertSee('Panorama general')->assertDontSee('subject-stats-title');
         $this->get(route('admin.simulator-charts'))->assertOk()->assertViewIs('admin-simulator-charts')
             ->assertSee('overall-title')->assertDontSee('Detalle de consultas');
     }

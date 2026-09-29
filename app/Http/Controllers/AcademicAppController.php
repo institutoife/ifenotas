@@ -28,7 +28,19 @@ class AcademicAppController extends Controller
             ->where('page', 'homepage')
             ->increment('visits');
 
+        $counts = \App\Models\SimulatorRecord::query()
+            ->whereIn('status', ['passed', 'pending', 'failed'])
+            ->whereBetween('first', [0, 100])->whereBetween('second', [0, 100])
+            ->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status');
+        $counter = DB::table('page_counters')->where('page', 'homepage')->value('visits');
+        $projection = app(\App\Services\StatisticsProjection::class)->build([
+            ['subject'=>'Todas', 'passed'=>(int) ($counts['passed'] ?? 0),
+             'pending'=>(int) ($counts['pending'] ?? 0), 'failed'=>(int) ($counts['failed'] ?? 0)],
+        ], $counter === null ? null : (int) $counter);
+
         return view('welcome', [
+            'projection' => $projection,
+            'statePresentation' => config('ife_statistics.states'),
             'ife' => config('ife'),
             'visitorCount' => DB::table('page_counters')
                 ->where('page', 'homepage')

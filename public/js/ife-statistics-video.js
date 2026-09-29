@@ -31,7 +31,7 @@
                 const value = node.dataset.projected;
                 node.textContent = value === '' ? '—' : Number(value).toLocaleString('es-BO');
             });
-            frame.querySelectorAll('.count-label').forEach(node => node.textContent = 'proyectados');
+            frame.querySelectorAll('.count-label').forEach(node => node.textContent = 'estimados');
             frame.querySelector('.projection-label').textContent = 'Proyección basada en registros de IFE Notas';
         });
         requestAnimationFrame(draw);

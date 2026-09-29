@@ -86,6 +86,11 @@
             </div>
         </section>
 
+        <section class="section wrap" aria-labelledby="statisticsTitle">
+            <h2 class="section-title" id="statisticsTitle">Así van las notas</h2>
+            @include('partials.statistics-summary')
+        </section>
+
         <section class="section wrap" aria-labelledby="servicesTitle">
             <header class="services-head"><h2 class="section-title" id="servicesTitle">Servicios de IFE</h2><span class="services-count">{{ count($ife['services']) }} opciones de formación</span></header>
             <div class="service-grid">

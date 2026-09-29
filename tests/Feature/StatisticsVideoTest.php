@@ -30,7 +30,12 @@ class StatisticsVideoTest extends TestCase
             ->assertViewHas('projection', fn($p) => $p['comparisons'][0]['projected'] === 101 && $p['comparisons'][0]['states']['passed']['projected'] === 34);
         $this->assertSame($before,SimulatorRecord::all()->toArray());
         $this->assertDatabaseHas('page_counters',['page'=>'homepage','visits'=>101]);
-        $this->get(route('admin.simulator-charts',['from'=>now()->addDay()->format('Y-m-d')]))->assertOk()
+        auth()->logout();
+        $this->get('/')->assertOk()->assertSeeInOrder(['supportTitle', 'statisticsTitle', 'servicesTitle'], false)
+            ->assertSee('TOTAL ESTIMADO')->assertSee('APLAZADOS')->assertSee('APROBADOS')->assertSee('EN RIESGO')
+            ->assertViewHas('projection', fn($p) => $p['universe'] === 102 && array_sum(array_column($p['states'], 'projected')) === 102);
+        $this->assertSame($before, SimulatorRecord::all()->toArray());
+        $this->actingAs($admin)->get(route('admin.simulator-charts',['from'=>now()->addDay()->format('Y-m-d')]))->assertOk()
             ->assertViewHas('projection',fn($p)=>$p['sample']===0 && !$p['projectionAvailable']);
     }
 }
