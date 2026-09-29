@@ -59,6 +59,27 @@ class StatisticsProjection
                 ], $rows, array_keys($rows)),
             ];
         }
-        return compact('sample', 'universe', 'projectionAvailable', 'states');
+        $comparisons = [];
+        foreach ($subjects as $subject) {
+            $weights = [];
+            foreach ($keys as $key) $weights[$key] = (int) $subject[$key];
+            $subjectTotal = array_sum($weights);
+            $tenths = $this->allocate($weights, 1000);
+            $cells = [];
+            foreach ($keys as $key) {
+                $allocated = 0;
+                foreach ($states[$key]['subjects'] as $row) {
+                    if ($row['subject'] === $subject['subject']) $allocated = $row['projected'];
+                }
+                $cells[$key] = [
+                    'projected' => $projectionAvailable ? $allocated : null,
+                    'percentage' => $subjectTotal ? $weights[$key] * 100 / $subjectTotal : 0,
+                    'display_percentage' => $tenths[$key] / 10,
+                ];
+            }
+            $comparisons[] = ['subject' => $subject['subject'], 'states' => $cells,
+                'projected' => $projectionAvailable ? array_sum(array_column($cells, 'projected')) : null];
+        }
+        return compact('sample', 'universe', 'projectionAvailable', 'states', 'comparisons');
     }
 }

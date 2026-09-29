@@ -13,9 +13,9 @@
     <p class="note">Cada registro corresponde a una consulta confirmada con el boton Consultar y una materia. Los totales cuentan consultas, no estudiantes unicos. Escribir o mover la barra no guarda registros.</p>
     <p><a href="{{ route('admin.simulator-charts', collect($filters)->except('status')->all()) }}">Ver graficos y porcentajes &rarr;</a></p>
     <div class="stats">
-        <div class="stat">Total de consultas<b>{{ $total }}</b></div>
+        <div class="stat">Total proyectado<b>{{ $projection['projectionAvailable'] ? number_format($projection['universe'], 0, ',', '.') : '—' }}</b></div>
         @foreach(['failed'=>'APLAZADOS', 'passed'=>'APROBADOS', 'pending'=>'EN RIESGO'] as $key=>$label)
-            <div class="stat {{ $key }}">{{ $label }}<b>{{ $counts[$key] ?? 0 }}</b></div>
+            <div class="stat {{ $key }}">{{ $label }} · proyectados<b>{{ $projection['states'][$key]['projected'] === null ? '—' : number_format($projection['states'][$key]['projected'], 0, ',', '.') }}</b></div>
         @endforeach
     </div>
     <form method="GET"><label>Materia<select name="subject"><option value="">Todas</option>@foreach(config('ife.subjects') as $subject)<option value="{{ $subject }}" @selected(($filters['subject'] ?? '') === $subject)>{{ $subject }}</option>@endforeach</select></label>
@@ -25,8 +25,8 @@
         <button type="submit">Filtrar</button><a href="{{ route('admin.simulator-records') }}">Limpiar</a>
     </form>
     @if($errors->any())<p role="alert">{{ $errors->first() }}</p>@endif
-    <p class="note">APLAZADO: necesita más de 100. APROBADO: necesita 0. Los contadores corresponden al período seleccionado.</p>
-    <h2>Detalle de consultas</h2>
+    <p class="note">APLAZADO: necesita más de 100. APROBADO: necesita 0. Las cantidades son proyecciones sobre el contador acumulado; el período filtra la muestra original. No representan estudiantes únicos.</p>
+    <h2>Detalle de consultas originales (sin escalar)</h2>
     <div class="panel"><div class="table-wrap"><table>
         <thead><tr><th>Fecha</th><th>Materia</th><th>1.ª nota</th><th>2.ª nota</th><th>Necesita</th><th>Estado</th></tr></thead>
         <tbody>@forelse($records as $record)<tr><td>{{ $record->created_at->format('d/m/Y H:i') }}</td><td>{{ $record->subject ?? 'Sin materia (registro anterior)' }}</td><td>{{ $record->first }}</td><td>{{ $record->second }}</td><td>{{ $record->required_third }}</td><td class="{{ $record->status }}">{{ ['failed'=>'APLAZADO','passed'=>'APROBADO','pending'=>'EN RIESGO'][$record->status] }}</td></tr>@empty<tr><td colspan="6">No hay consultas registradas con estos filtros.</td></tr>@endforelse</tbody>

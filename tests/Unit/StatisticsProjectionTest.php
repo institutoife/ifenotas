@@ -18,6 +18,14 @@ class StatisticsProjectionTest extends TestCase
         foreach ([0,1,2,10,800005] as $universe) {
             $data = $service->build($rows, $universe);
             $this->assertSame(12, $data['sample']);
+            $this->assertSame($universe, array_sum(array_column($data['comparisons'], 'projected')));
+            foreach ($data['comparisons'] as $comparison) {
+                $this->assertSame($comparison['projected'], array_sum(array_column($comparison['states'], 'projected')));
+                $this->assertEqualsWithDelta(100, array_sum(array_column($comparison['states'], 'display_percentage')), .00001);
+            }
+            foreach (['passed','pending','failed'] as $key) {
+                $this->assertSame($data['states'][$key]['projected'], array_sum(array_map(fn ($row) => $row['states'][$key]['projected'], $data['comparisons'])));
+            }
             $this->assertSame($universe, array_sum(array_column($data['states'], 'projected')));
             $this->assertEqualsWithDelta(100, array_sum(array_column($data['states'], 'display_percentage')), .00001);
             $this->assertEqualsWithDelta(4/12*100, $data['states']['failed']['percentage'], .000001);

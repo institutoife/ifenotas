@@ -24,7 +24,10 @@ class StatisticsVideoTest extends TestCase
         $this->actingAs($admin)->get(route('admin.simulator-charts'))->assertOk()
             ->assertViewHas('projection',fn($p)=>$p['universe']===101 && $p['sample']===3 && array_sum(array_column($p['states'],'projected'))===101)
             ->assertSee('EN RIESGO')->assertDontSee('En carrera')->assertSee('#FFA500',false)->assertSee('#FF2C2C',false)
-            ->assertSee('Sin materia')->assertSee('no representa visitantes');
+            ->assertSee('Sin materia')->assertSee('no representa visitantes')
+            ->assertSee('data-frame="subject-0"', false)->assertSee('Comparativo de estados')
+            ->assertDontSee('video-values')->assertDontSee('data-real=', false)
+            ->assertViewHas('projection', fn($p) => $p['comparisons'][0]['projected'] === 101 && $p['comparisons'][0]['states']['passed']['projected'] === 34);
         $this->assertSame($before,SimulatorRecord::all()->toArray());
         $this->assertDatabaseHas('page_counters',['page'=>'homepage','visits'=>101]);
         $this->get(route('admin.simulator-charts',['from'=>now()->addDay()->format('Y-m-d')]))->assertOk()

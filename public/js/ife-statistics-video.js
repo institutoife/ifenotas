@@ -1,7 +1,7 @@
 (() => {
     'use strict';
     const frames = [...document.querySelectorAll('[data-frame]')];
-    const state = document.getElementById('video-state'), mode = document.getElementById('video-values');
+    const state = document.getElementById('video-state');
     const prev = document.getElementById('video-prev'), next = document.getElementById('video-next');
     const message = document.getElementById('video-message');
     const positions = {}, graphs = new Map();
@@ -13,8 +13,8 @@
             if (!node.getClientRects().length) return;
             let chart = graphs.get(node);
             if (!chart) { chart = new google.visualization.BarChart(node); graphs.set(node, chart); }
-            const data = google.visualization.arrayToDataTable([['', 'Porcentaje'], ['', Number(node.dataset.value)]]);
-            chart.draw(data, {colors:[node.dataset.color],backgroundColor:'#eff2f3',height:32,legend:'none',enableInteractivity:false,chartArea:{left:0,top:0,width:'100%',height:'100%'},bar:{groupWidth:'100%'},hAxis:{viewWindow:{min:0,max:100},textPosition:'none',gridlines:{color:'transparent'},baselineColor:'transparent'},vAxis:{textPosition:'none',baselineColor:'transparent'}});
+            const data = google.visualization.arrayToDataTable([['', 'Porcentaje', 'Resto hasta 100%'], ['', Number(node.dataset.value), 100 - Number(node.dataset.value)]]);
+            chart.draw(data, {isStacked:true,colors:[node.dataset.color,'#B5C6D2'],backgroundColor:'#B5C6D2',height:32,legend:'none',enableInteractivity:false,chartArea:{left:0,top:0,width:'100%',height:'100%'},bar:{groupWidth:'100%'},hAxis:{viewWindow:{min:0,max:100},textPosition:'none',gridlines:{color:'transparent'},baselineColor:'transparent'},vAxis:{textPosition:'none',baselineColor:'transparent'}});
         });
     }
     function render() {
@@ -27,16 +27,16 @@
         document.getElementById('video-page').textContent = label;
         active().querySelector('[data-page-label]').textContent = label ? `· Página ${label}` : '';
         frames.forEach(frame => {
-            frame.querySelectorAll('[data-real]').forEach(node => {
-                const value = mode.value === 'projected' ? node.dataset.projected : node.dataset.real;
+            frame.querySelectorAll('[data-projected]').forEach(node => {
+                const value = node.dataset.projected;
                 node.textContent = value === '' ? '—' : Number(value).toLocaleString('es-BO');
             });
-            frame.querySelectorAll('.count-label').forEach(node => node.textContent = mode.value === 'projected' ? 'proyectados' : 'registros reales');
-            frame.querySelector('.projection-label').textContent = mode.value === 'projected' ? 'Proyección basada en registros de IFE Notas' : 'Distribución de registros reales de IFE Notas';
+            frame.querySelectorAll('.count-label').forEach(node => node.textContent = 'proyectados');
+            frame.querySelector('.projection-label').textContent = 'Proyección basada en registros de IFE Notas';
         });
         requestAnimationFrame(draw);
     }
-    state.addEventListener('change', render); mode.addEventListener('change', render);
+    state.addEventListener('change', render);
     prev.addEventListener('click', () => { positions[state.value] = Math.max(0, (positions[state.value] || 0)-1); render(); });
     next.addEventListener('click', () => { positions[state.value] = Math.min(active().querySelectorAll('[data-page]').length-1, (positions[state.value] || 0)+1); render(); });
     document.getElementById('video-fullscreen').addEventListener('click', async () => {
