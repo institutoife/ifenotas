@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="{{ asset('css/ife-statistics-summary.css') }}?v=2">
+<link rel="stylesheet" href="{{ asset('css/ife-statistics-summary.css') }}?v=3">
 <div class="ife-summary">
-    <div class="ife-summary-heading"><span class="ife-estimate">Estimación</span><span>Panorama general</span></div>
+    <div class="ife-summary-heading"><span class="ife-estimate">Estimación</span><span>Panorama general</span><button type="button" class="ife-replay" data-replay-charts>↻ Repetir animación</button></div>
     @if($projection['projectionAvailable'])
         @php($passed = $projection['states']['passed']['percentage'])
         @php($pending = $projection['states']['pending']['percentage'])
@@ -35,3 +35,5 @@
     @else<p>Sin consultas suficientes para mostrar la estimación.</p>@endif
     
 </div>
+
+<script src="{{ asset('js/ife-chart-motion.js') }}?v=1" defer></script>

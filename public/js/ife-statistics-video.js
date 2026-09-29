@@ -34,9 +34,10 @@
             frame.querySelectorAll('.count-label').forEach(node => node.textContent = 'estimados');
             frame.querySelector('.projection-label').textContent = 'Proyección basada en registros de IFE Notas';
         });
-        requestAnimationFrame(draw);
+        requestAnimationFrame(() => { draw(); window.ifeChartMotion?.(active()); });
     }
     state.addEventListener('change', render);
+    document.getElementById('video-replay').addEventListener('click', () => window.ifeChartMotion?.(active()));
     prev.addEventListener('click', () => { positions[state.value] = Math.max(0, (positions[state.value] || 0)-1); render(); });
     next.addEventListener('click', () => { positions[state.value] = Math.min(active().querySelectorAll('[data-page]').length-1, (positions[state.value] || 0)+1); render(); });
     document.getElementById('video-fullscreen').addEventListener('click', async () => {
@@ -53,6 +54,6 @@
     })));
     render();
     const loader=document.createElement('script');loader.src='https://www.gstatic.com/charts/loader.js';
-    loader.onload=()=>{try{google.charts.load('current',{packages:['corechart'],language:'es'});google.charts.setOnLoadCallback(()=>{chartsReady=true;draw()});}catch{message.textContent='Las barras y cifras siguen disponibles sin Google Charts.';}};
+    loader.onload=()=>{try{google.charts.load('current',{packages:['corechart'],language:'es'});google.charts.setOnLoadCallback(()=>{chartsReady=true;draw();window.ifeChartMotion?.(active())});}catch{message.textContent='Las barras y cifras siguen disponibles sin Google Charts.';}};
     loader.onerror=()=>{message.textContent='Las barras y cifras siguen disponibles sin Google Charts.';};document.head.appendChild(loader);
 })();

@@ -18,3 +18,5 @@
 .ife-column-label{font-size:clamp(12px,2.6cqi,25px);margin-top:14px;line-height:1.2;min-height:2.4em;display:flex;align-items:center}
 .ife-column-count{font-size:clamp(20px,4cqi,42px);letter-spacing:-.04em;line-height:1.2;color:#203f52}
 @media(max-width:640px){.ife-summary-card header span{font-size:44px}.ife-summary-card header{font-size:16px}}
+
+.ife-summary-heading{flex-wrap:wrap}.ife-replay{margin-left:auto;border:1px solid #b5c6d2;border-radius:20px;background:#e7eff5;color:#203f52;padding:8px 12px;font:inherit;cursor:pointer}.ife-replay:hover{background:#cfdee9}.ife-replay:focus-visible{outline:3px solid #375f7a;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ife-replay{display:none}}

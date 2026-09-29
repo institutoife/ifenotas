@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Estadísticas para video · IFE Notas</title><link rel="stylesheet" href="{{ asset('css/ife-statistics-video.css') }}?v=2"></head>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Estadísticas para video · IFE Notas</title><link rel="stylesheet" href="{{ asset('css/ife-statistics-video.css') }}?v=3"></head>
 <body><main>
     <header class="page-header"><h1>Estadísticas para video</h1><nav><a href="{{ route('admin.simulator-records', $filters) }}">Cantidades y notas</a><a href="{{ route('admin') }}">Administración</a></nav></header>
     <details class="settings"><summary>Fechas, materia y base de la proyección</summary>
@@ -8,7 +8,7 @@
         <p>El contador existente comenzó con una base manual y suma accesos y consultas. No permite conocer cuántos visitantes únicos reales hubo. Los registros pueden contener varias consultas de la misma persona. Esta proyección es ilustrativa y no una estimación representativa de todos los visitantes.</p>
         <p>Los porcentajes internos de materias dividen por el total de su estado. Los enteros estimados se distribuyen por restos mayores, con desempates fijos. Los porcentajes visibles se ajustan a décimas para sumar 100,0%; nunca se calculan desde cantidades estimadas.</p>
     </details>
-    <div class="toolbar"><label>Visualización<select id="video-state"><option value="general">GENERAL</option><option value="failed">APLAZADOS POR MATERIA</option><option value="pending">EN RIESGO POR MATERIA</option><option value="passed">APROBADOS POR MATERIA</option><optgroup label="COMPARATIVO POR MATERIA">@foreach($projection['comparisons'] as $subjectIndex=>$comparison)<option value="subject-{{ $subjectIndex }}">{{ $comparison['subject'] }}</option>@endforeach</optgroup></select></label><button type="button" id="video-fullscreen">Pantalla completa</button></div>
+    <div class="toolbar"><label>Visualización<select id="video-state"><option value="general">GENERAL</option><option value="failed">APLAZADOS POR MATERIA</option><option value="pending">EN RIESGO POR MATERIA</option><option value="passed">APROBADOS POR MATERIA</option><optgroup label="COMPARATIVO POR MATERIA">@foreach($projection['comparisons'] as $subjectIndex=>$comparison)<option value="subject-{{ $subjectIndex }}">{{ $comparison['subject'] }}</option>@endforeach</optgroup></select></label><button type="button" id="video-replay">↻ Repetir animación</button><button type="button" id="video-fullscreen">Pantalla completa</button></div>
     <div class="page-controls"><button type="button" id="video-prev">← Materias anteriores</button><span id="video-page" role="status"></span><button type="button" id="video-next">Siguientes materias →</button></div>
     <div class="frame-container" id="overall-title">
         @include('partials.statistics-video-frame', ['frameKey'=>'general','title'=>'PANORAMA GENERAL','palette'=>[]])
@@ -22,5 +22,6 @@
     @if(!$total)<p class="empty">Sin consultas para calcular porcentajes.</p>@endif
     <p id="video-message" class="note" role="status">Los números permanecen visibles sin depender de tooltips. Las barras usan Google Charts.</p>
     <details class="settings"><summary>Proyecciones y tablas ordenables</summary>@include('partials.statistics-real-tables')</details>
+    <script src="{{ asset('js/ife-chart-motion.js') }}?v=1" defer></script>
     <script src="{{ asset('js/ife-statistics-video.js') }}?v=2" defer></script>
 </main></body></html>
