@@ -20,6 +20,8 @@ return [
         'Química',
         'Filosofía Psicología',
         'Religión',
+        'Música',
+        'Tecnología',
     ],
     'services' => [
         ['name' => 'Programación', 'icon' => 'fa-code'],
