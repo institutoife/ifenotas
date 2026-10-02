@@ -22,6 +22,7 @@ return [
         'Religión',
         'Música',
         'Tecnología',
+        'Computación',
     ],
     'services' => [
         ['name' => 'Programación', 'icon' => 'fa-code'],
