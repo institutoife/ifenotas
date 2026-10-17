@@ -16,6 +16,7 @@ class SimulatorRecordController extends Controller
     {
         $data = $request->validate([
             'submission_id' => ['required', 'uuid'],
+            'department' => ['required', 'string', Rule::in(config('ife.departments'))],
             'subject' => ['required', 'string', Rule::in(config('ife.subjects'))],
             'first' => ['required', 'integer', 'between:0,100'],
             'second' => ['required', 'integer', 'between:0,100'],
@@ -35,6 +36,7 @@ class SimulatorRecordController extends Controller
             'first' => $data['first'],
             'second' => $data['second'],
             'subject' => $data['subject'],
+            'department' => $data['department'],
             'required_third' => $required,
             'pass_score' => AcademicAppController::PASS_SCORE,
             'status' => $required > 100 ? 'failed' : ($required === 0 ? 'passed' : 'pending'),
@@ -58,10 +60,21 @@ class SimulatorRecordController extends Controller
         return $this->report($request, true);
     }
 
-    private function report(Request $request, bool $charts): View
+    public function departments(Request $request): View
+    {
+        return $this->report($request, false, true);
+    }
+
+    public function departmentCharts(Request $request): View
+    {
+        return $this->report($request, true, true);
+    }
+
+    private function report(Request $request, bool $charts, bool $byDepartment = false): View
     {
         abort_unless($request->user()?->is_admin, 403);
         $filters = $request->validate([
+            ...($byDepartment ? ['department' => ['nullable', 'string', Rule::in(config('ife.departments'))]] : []),
             'subject' => ['nullable', 'string', Rule::in(config('ife.subjects'))],
             'status' => ['nullable', Rule::in(['failed', 'passed', 'pending'])],
             'from' => ['nullable', 'date_format:Y-m-d'],
@@ -73,6 +86,9 @@ class SimulatorRecordController extends Controller
             ->when($filters['subject'] ?? null, fn ($q, $subject) => $q->where('subject', $subject))
             ->when($filters['from'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
             ->when($filters['to'] ?? null, fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
+        if ($byDepartment) {
+            $query->when($filters['department'] ?? null, fn ($q, $department) => $q->where('department', $department));
+        }
         $counts = (clone $query)->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status');
         $total = (int) $counts->sum();
         $percentages = collect(['failed', 'passed', 'pending'])->mapWithKeys(
@@ -91,11 +107,15 @@ class SimulatorRecordController extends Controller
                 return $stats;
             })->values();
         $counter = DB::table('page_counters')->where('page', 'homepage')->value('visits');
+        if ($byDepartment) $counter = $total;
         $projection = app(\App\Services\StatisticsProjection::class)->build($subjectStats->all(), $counter === null ? null : (int) $counter);
         $statePresentation = config('ife_statistics.states');
         $records = $query->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status))
             ->orderByDesc('id')->paginate(30)->withQueryString();
 
-        return view($charts ? 'admin-simulator-charts' : 'admin-simulator-records', compact('records', 'counts', 'filters', 'total', 'percentages', 'subjectStats', 'projection', 'statePresentation'));
+        $view = $byDepartment
+            ? ($charts ? 'admin-simulator-department-charts' : 'admin-simulator-departments')
+            : ($charts ? 'admin-simulator-charts' : 'admin-simulator-records');
+        return view($view, compact('records', 'counts', 'filters', 'total', 'percentages', 'subjectStats', 'projection', 'statePresentation'));
     }
 }

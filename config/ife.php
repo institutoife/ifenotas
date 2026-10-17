@@ -8,6 +8,7 @@ return [
         'instagram' => 'https://www.instagram.com/ife_educabol',
         'youtube' => 'https://www.youtube.com/@ife_educabol',
     ],
+    'departments' => ['La Paz', 'Cochabamba', 'Santa Cruz', 'Oruro', 'Potosí', 'Chuquisaca', 'Tarija', 'Beni', 'Pando'],
     'subjects' => [
         'Lenguaje',
         'Inglés',

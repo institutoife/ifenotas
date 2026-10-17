@@ -11,6 +11,7 @@
     function create(root, onConsult = () => {}) {
         const status = root.querySelector('[data-save-status]');
         const controls = root.querySelector('[data-consult-controls]');
+        const department = root.querySelector('[data-consult-department]');
         const subject = root.querySelector('[data-consult-subject]');
         const button = root.querySelector('[data-consult-button]');
         let current = null, busy = false, pending = null, signature = '', consultedSignature = null;
@@ -23,7 +24,7 @@
             return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
         }
         function sync() {
-            const next = current ? `${current.first}:${current.second}:${subject.value}` : '';
+            const next = current ? `${current.first}:${current.second}:${subject.value}:${department.value}` : '';
             if (next !== signature) { signature = next; consultedSignature = null; pending = null; status.textContent = ''; }
             button.disabled = busy;
         }
@@ -35,14 +36,15 @@
             sync();
         }
         subject.addEventListener('change', () => { sync(); onConsult(); });
-        subject.addEventListener('click', () => { try { subject.showPicker?.(); } catch (error) { /* Native select remains available. */ } });
+        department.addEventListener('change', () => { sync(); onConsult(); });
         button.addEventListener('click', async () => {
             if (busy) return;
             if (!current) { status.textContent = 'Completa las dos notas entre 0 y 100.'; return; }
             if (!subject.value) { status.textContent = 'Elige una materia antes de consultar.'; subject.focus(); return; }
+            if (!department.value) { status.textContent = 'Elige un departamento antes de consultar.'; department.focus(); return; }
             consultedSignature = signature;
             onConsult();
-            pending ??= {...current, subject: subject.value, submission_id: uuid()};
+            pending ??= {...current, subject: subject.value, department: department.value, submission_id: uuid()};
             const payload = pending, submittedSignature = signature;
             busy = true; button.disabled = true; button.textContent = 'Consultando…';
             status.textContent = 'Guardando consulta…';

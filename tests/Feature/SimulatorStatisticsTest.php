@@ -29,7 +29,7 @@ class SimulatorStatisticsTest extends TestCase
         $admin = User::factory()->create(['is_admin'=>true, 'phone'=>'+59170000555']);
         $subjects = config('ife.subjects');
         foreach ([[$subjects[0],'failed'],[$subjects[0],'passed'],[$subjects[0],'pending'],[$subjects[0],'pending'],[$subjects[1],'passed'],[null,'failed']] as [$subject,$status]) {
-            SimulatorRecord::create(['visitor_key'=>str_repeat('a',64),'submission_id'=>(string) Str::uuid(),'first'=>50,'second'=>50,'required_third'=>53,'pass_score'=>153,'subject'=>$subject,'status'=>$status]);
+            SimulatorRecord::create(['visitor_key'=>str_repeat('a',64),'department'=>'La Paz', 'submission_id'=>(string) Str::uuid(),'first'=>50,'second'=>50,'required_third'=>53,'pass_score'=>153,'subject'=>$subject,'status'=>$status]);
         }
         $this->actingAs($admin)->get(route('admin.simulator-charts', ['subject'=>$subjects[0], 'status'=>'failed']))
             ->assertOk()->assertViewHas('total', 4)

@@ -13,7 +13,7 @@ class SimulatorSubjectTest extends TestCase
 
     public function test_subject_is_required_and_must_be_in_the_list(): void
     {
-        $payload = ['submission_id'=>(string) Str::uuid(), 'first'=>60, 'second'=>70];
+        $payload = ['department'=>'La Paz', 'submission_id'=>(string) Str::uuid(), 'first'=>60, 'second'=>70];
         $this->postJson(route('simulator-records.store'), $payload)->assertUnprocessable()->assertJsonValidationErrors('subject');
         $this->postJson(route('simulator-records.store'), [...$payload, 'subject'=>'inventada'])->assertUnprocessable();
         $this->assertDatabaseCount('simulator_records', 0);
@@ -21,10 +21,22 @@ class SimulatorSubjectTest extends TestCase
         $this->assertDatabaseHas('simulator_records', ['subject'=>config('ife.subjects.0'), 'first'=>60, 'second'=>70]);
     }
 
+    public function test_department_is_required_validated_and_saved(): void
+    {
+        $payload = ['submission_id' => (string) Str::uuid(), 'subject' => config('ife.subjects.0'), 'first' => 60, 'second' => 70];
+        $this->postJson(route('simulator-records.store'), $payload)->assertUnprocessable()->assertJsonValidationErrors('department');
+        $this->postJson(route('simulator-records.store'), [...$payload, 'department' => 'inventado'])->assertUnprocessable()->assertJsonValidationErrors('department');
+        $this->assertDatabaseCount('simulator_records', 0);
+        foreach (config('ife.departments') as $department) {
+            $this->postJson(route('simulator-records.store'), [...$payload, 'submission_id' => (string) Str::uuid(), 'department' => $department])->assertCreated();
+            $this->assertDatabaseHas('simulator_records', ['department' => $department, 'first' => 60, 'second' => 70]);
+        }
+    }
+
     public function test_admin_can_filter_consultations_by_subject(): void
     {
         foreach (array_slice(config('ife.subjects'), 0, 2) as $subject) {
-            $this->postJson(route('simulator-records.store'), ['submission_id'=>(string) Str::uuid(), 'first'=>60, 'second'=>70, 'subject'=>$subject])->assertCreated();
+            $this->postJson(route('simulator-records.store'), ['department'=>'La Paz', 'submission_id'=>(string) Str::uuid(), 'first'=>60, 'second'=>70, 'subject'=>$subject])->assertCreated();
         }
         $admin = User::factory()->create(['is_admin'=>true, 'phone'=>'+59170000202']);
         $this->actingAs($admin)->get(route('admin.simulator-records', ['subject'=>config('ife.subjects.0')]))

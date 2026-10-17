@@ -17,7 +17,7 @@ class StatisticsVideoTest extends TestCase
     {
         DB::table('page_counters')->where('page','homepage')->update(['visits'=>101]);
         foreach ([['passed',100,100],['pending',60,60],['failed',1,2]] as [$status,$first,$second]) {
-            SimulatorRecord::create(['visitor_key'=>str_repeat('a',64),'submission_id'=>(string)Str::uuid(),'subject'=>null,'first'=>$first,'second'=>$second,'status'=>$status,'pass_score'=>153,'required_third'=>max(0,153-$first-$second)]);
+            SimulatorRecord::create(['visitor_key'=>str_repeat('a',64),'department'=>'La Paz', 'submission_id'=>(string)Str::uuid(),'subject'=>null,'first'=>$first,'second'=>$second,'status'=>$status,'pass_score'=>153,'required_third'=>max(0,153-$first-$second)]);
         }
         $before=SimulatorRecord::all()->toArray();
         $admin=User::factory()->create(['is_admin'=>true,'phone'=>'+59171111111']);

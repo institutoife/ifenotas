@@ -38,3 +38,6 @@ Route::middleware('auth')->group(function (): void {
 });
 
 Route::get('/admin/simulador-graficos', [SimulatorRecordController::class, 'charts'])->middleware('auth')->name('admin.simulator-charts');
+
+Route::get('/admin/simulador-departamentos', [SimulatorRecordController::class, 'departments'])->middleware('auth')->name('admin.simulator-departments');
+Route::get('/admin/simulador-departamentos/graficos', [SimulatorRecordController::class, 'departmentCharts'])->middleware('auth')->name('admin.simulator-department-charts');

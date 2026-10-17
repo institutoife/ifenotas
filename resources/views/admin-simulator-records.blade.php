@@ -23,7 +23,7 @@
 
     <h2>Consultas guardadas</h2>
     <div class="panel"><div class="table-wrap"><table>
-        <thead><tr><th>Fecha</th><th>Materia</th><th>1.ª nota</th><th>2.ª nota</th><th>Necesita</th><th>Estado</th></tr></thead>
-        <tbody>@forelse($records as $record)<tr><td>{{ $record->created_at->format('d/m/Y H:i') }}</td><td>{{ $record->subject ?? 'Sin materia (registro anterior)' }}</td><td>{{ $record->first }}</td><td>{{ $record->second }}</td><td>{{ $record->required_third }}</td><td class="{{ $record->status }}">{{ ['failed'=>'APLAZADO','passed'=>'APROBADO','pending'=>'EN RIESGO'][$record->status] }}</td></tr>@empty<tr><td colspan="6">No hay consultas registradas con estos filtros.</td></tr>@endforelse</tbody>
+        <thead><tr><th>Fecha</th><th>Materia</th><th>Departamento</th><th>1.ª nota</th><th>2.ª nota</th><th>Necesita</th><th>Estado</th></tr></thead>
+        <tbody>@forelse($records as $record)<tr><td>{{ $record->created_at->format('d/m/Y H:i') }}</td><td>{{ $record->subject ?? 'Sin materia (registro anterior)' }}</td><td>{{ $record->department ?? 'Sin departamento (registro anterior)' }}</td><td>{{ $record->first }}</td><td>{{ $record->second }}</td><td>{{ $record->required_third }}</td><td class="{{ $record->status }}">{{ ['failed'=>'APLAZADO','passed'=>'APROBADO','pending'=>'EN RIESGO'][$record->status] }}</td></tr>@empty<tr><td colspan="7">No hay consultas registradas con estos filtros.</td></tr>@endforelse</tbody>
     </table></div><nav class="pagination" aria-label="Páginas">@if($records->previousPageUrl())<a href="{{ $records->previousPageUrl() }}">Anterior</a>@endif<span>Página {{ $records->currentPage() }} de {{ $records->lastPage() }}</span>@if($records->hasMorePages())<a href="{{ $records->nextPageUrl() }}">Siguiente</a>@endif</nav></div>
 </main></body></html>
