@@ -18,23 +18,27 @@ class ThirdTermSimulatorTest extends TestCase
             ->assertSee('¿Cuántas notas ya tienes?')
             ->assertSee('UNA NOTA')
             ->assertSee('DOS NOTAS')
-            ->assertSee('Enviar resultado por WhatsApp')
+            ->assertSee('Compartir nota')
             ->assertDontSee('data-quick', false)
             ->assertDontSee('Promedio');
     }
 
-    public function test_homepage_prioritizes_both_simulator_modes_and_ife_services(): void
+    public function test_homepage_prioritizes_starting_the_simulator_and_ife_services(): void
     {
         $this->get('/')
             ->assertOk()
             ->assertSee('Calcula si')
             ->assertSee('cuántos puntos te faltan')
             ->assertDontSee('Simula tus notas y descubre')
-            ->assertSee('/simulador-notas?mode=one', false)
-            ->assertSee('/simulador-notas?mode=two', false)
+            ->assertSee('Calcular mi nota')
+            ->assertSee('href="'.route('notes.simulator').'"', false)
+            ->assertDontSee('/simulador-notas?mode=one', false)
+            ->assertDontSee('/simulador-notas?mode=two', false)
+            ->assertSee('Me interesa')
+            ->assertDontSee('Más información')
             ->assertSee('¿Qué materia necesitas reforzar?')
             ->assertSee('Matemáticas')
-            ->assertSee('Lectura y escritura')
+            ->assertSee('Lenguaje')
             ->assertSee('Programación')
             ->assertSee('Robótica')
             ->assertSee('Cubo Rubik')

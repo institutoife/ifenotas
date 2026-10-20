@@ -2,6 +2,9 @@
 
 return [
     'whatsapp' => env('IFE_WHATSAPP', '59171324941'),
+    'support_whatsapp' => env('IFE_NOTAS_SUPPORT_WHATSAPP', '59160902299'),
+    'school_year_end_date' => env('IFE_NOTAS_SCHOOL_YEAR_END_DATE', '2026-12-02'),
+    'school_timezone' => 'America/La_Paz',
     'social' => [
         'tiktok' => 'https://www.tiktok.com/@ife_educabol',
         'facebook' => 'https://www.facebook.com/ife.educabol',

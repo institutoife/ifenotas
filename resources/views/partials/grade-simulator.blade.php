@@ -21,14 +21,22 @@
     .slider-block{margin-top:8px}.slider-title{display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px;font-size:clamp(.85rem,3vw,1.1rem);font-weight:1000}.slider-value-wrap{text-align:right}.slider-title strong{display:block;color:var(--sim-state);font-size:clamp(4.5rem,20vw,8rem);line-height:.72}.slider-outcome{display:block;color:var(--sim-state);font-size:clamp(.9rem,3.8vw,1.35rem);font-weight:1000}.ife-sim.mode-two [data-slider-value]{display:none}
     .sim-range-wrap{position:relative;padding:34px 2px 19px}.sim-zones{position:absolute;inset:46px 2px auto;height:26px;border-radius:999px;background:#d6e8e5;box-shadow:inset 0 0 0 4px rgba(255,255,255,.6)}.sim-range{position:relative;z-index:2;width:100%;height:46px;margin:0;appearance:none;background:transparent;cursor:pointer}.sim-range::-webkit-slider-runnable-track{height:26px;background:transparent}.sim-range::-webkit-slider-thumb{appearance:none;width:58px;height:58px;margin-top:-16px;border:8px solid #fff;border-radius:50%;background:var(--sim-state);box-shadow:0 8px 22px var(--sim-shadow),0 0 0 3px var(--sim-state);transition:background .12s}.sim-range::-moz-range-track{height:26px;background:transparent}.sim-range::-moz-range-thumb{width:42px;height:42px;border:8px solid #fff;border-radius:50%;background:var(--sim-state);box-shadow:0 8px 22px var(--sim-shadow)}
     .pass-marker{position:absolute;z-index:1;top:0;transform:translateX(-50%);pointer-events:none;text-align:center}.pass-marker span{display:block;white-space:nowrap;border:3px solid #fff;border-radius:999px;background:#375f7a;color:#fff;padding:4px 8px;font-size:clamp(.7rem,2.8vw,.95rem);font-weight:1000;box-shadow:0 4px 10px rgba(55,95,122,.25)}.pass-marker::after{content:"";display:block;width:7px;height:64px;margin:2px auto;background:#375f7a;border:2px solid #fff;border-radius:8px}.range-legend{display:flex;justify-content:space-between;color:#375f7a;font-size:clamp(.68rem,2.5vw,.86rem);font-weight:1000}.whatsapp-result{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:7px;border-radius:12px;background:var(--sim-state);color:#fff;text-decoration:none;font-size:clamp(.9rem,3.5vw,1.1rem);font-weight:1000;box-shadow:0 8px 20px var(--sim-shadow);transition:background .16s,box-shadow .16s}.sim-pending{opacity:.38;pointer-events:none}
-    .mode-two-visual{display:grid;place-items:center;margin-top:12px;border:4px solid var(--visual-state);border-radius:20px;background:var(--visual-soft);padding:10px;overflow:hidden;transition:background .16s,border-color .16s}.mode-two-visual.aplazo{--visual-state:#ef4444;--visual-soft:rgba(239,68,68,.16)}.mode-two-visual.riesgo{--visual-state:#f59e0b;--visual-soft:rgba(245,158,11,.17)}.mode-two-visual.aprobado{--visual-state:#16a34a;--visual-soft:rgba(22,163,74,.15)}.mode-two-visual img{display:block;width:min(340px,100%);height:auto;max-height:340px;object-fit:contain}.mode-two-message{margin:3px 0 5px;color:var(--visual-state);text-align:center;font-size:clamp(1rem,3.5vw,1.35rem);font-weight:1000}
+
+    .main-number{color:var(--general-text,var(--general-state))}.main-status{max-width:100%;justify-content:center;color:var(--general-ink,#fff);font-size:clamp(.95rem,4.5vw,2rem);line-height:1.15;overflow-wrap:anywhere}.state-dot{flex:0 0 .7em;border-color:currentColor}
+    .main-result.passed .main-number,.main-result.impossible .main-number{font-size:clamp(1.35rem,9vw,4.8rem);font-size:clamp(1.35rem,10cqi,4.8rem);line-height:1.15;white-space:normal;overflow-wrap:anywhere;animation:none}.main-result.passed .main-status{font-size:clamp(1.2rem,6vw,2.5rem)}.result-message{max-width:40em;margin:12px auto 3px;font-size:clamp(.88rem,3vw,1rem);line-height:1.45}.scenario-message{margin:8px auto 3px;font-size:.8rem;line-height:1.4;color:#496171}
+    .mode-two .notes-row{display:none}.slider-title{align-items:center}.slider-title>span{min-width:0}.slider-outcome{color:var(--general-text);max-width:15em;font-size:clamp(.75rem,2.5vw,1.1rem);overflow-wrap:anywhere}.sim-range:focus-visible{outline:3px solid #375f7a;outline-offset:4px}.note-result{min-width:0}.note-result.active{border-color:var(--general-state);background:var(--general-soft)}.note-result.active strong{color:var(--general-text)}
+    .academic-support{margin-top:20px;border-top:3px solid var(--general-state);padding:25px 4px 5px;color:#375f7a}.support-eyebrow{margin:0 0 14px;color:#26BAA5;font-size:.9rem;font-weight:950;letter-spacing:.09em}.academic-support h2{max-width:27ch;margin:0 0 16px;font-size:clamp(1.8rem,6.5vw,2.65rem);font-weight:950;line-height:1.14;letter-spacing:-.025em;text-wrap:balance;overflow-wrap:anywhere}.academic-support p{max-width:44em;line-height:1.5}.academic-support [data-support-message]{max-width:42ch;margin:0 0 22px;color:#405d6b;font-size:clamp(1.17rem,4vw,1.3rem)}.academic-support:is([data-severity="4"],[data-severity="5"],[data-severity="6"]){border-top-width:4px}.academic-support:is([data-severity="4"],[data-severity="5"],[data-severity="6"]) h2{color:var(--general-text)}.academic-support[data-campaign-phase="after"] h2{color:#375f7a}.support-subject-slot:empty{display:none}.support-subject-slot{margin:14px 0}.support-subject-slot .consult-label{position:static;width:auto;height:auto;margin:0;overflow:visible;clip-path:none;white-space:normal;font-size:.9rem}.support-subject-slot select{margin-top:6px;width:100%;max-width:100%;min-width:0;border:1px solid #b9d3d0;border-radius:10px;background:#fff;color:#375f7a;font:inherit;font-size:16px}
+    .support-action{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:78px;margin-top:16px;border-radius:16px;background:#25D366;color:#fff;padding:19px 14px;text-align:center;text-decoration:none;font-size:clamp(1.125rem,4.8vw,1.4rem);font-weight:950;line-height:1.3;text-shadow:0 1px 1px #075e54,0 0 2px #075e54;box-shadow:0 7px 18px rgba(7,94,84,.18);transition:transform .18s,box-shadow .18s;animation:supportPam 9s ease-in-out 2s infinite}.support-action svg{width:32px;height:32px;flex:0 0 32px;filter:drop-shadow(0 1px 1px rgba(7,94,84,.55))}.support-action [data-support-label]{min-width:0;text-wrap:balance;overflow-wrap:anywhere}.support-action:hover,.support-action:focus-visible{animation:none;transform:translateY(-1px) scale(1.01);box-shadow:0 10px 24px rgba(7,94,84,.25)}.support-action:active{animation:none;transform:scale(.985)}.support-action:focus-visible{outline:3px solid #375f7a;outline-offset:4px}
+    .whatsapp-result{width:max-content;max-width:100%;min-height:44px;margin:12px auto 0;padding:8px;background:transparent;color:#375f7a;box-shadow:none;text-decoration:underline;text-align:center;font-size:.85rem;font-weight:600}.whatsapp-result:focus-visible{outline:3px solid #159987;outline-offset:2px}
+    .mode-two .slider-block{margin-top:22px}.mode-two .slider-title{align-items:start;gap:8px}.mode-two .slider-outcome{color:var(--third-state,#16a34a);font-size:clamp(.9rem,3.7vw,1.3rem)}.mode-two .sim-range-wrap{padding:48px 2px 10px}.mode-two .sim-zones{top:58px;height:26px}.mode-two .sim-range{padding:0;border:0}.mode-two .sim-range::-webkit-slider-runnable-track{height:26px}.mode-two .sim-range::-webkit-slider-thumb{background:var(--third-state,#16a34a);box-shadow:0 8px 22px rgba(55,95,122,.2),0 0 0 3px var(--third-state,#16a34a)}.mode-two .sim-range::-moz-range-track{height:26px}.mode-two .sim-range::-moz-range-thumb{background:var(--third-state,#16a34a);box-shadow:0 8px 22px rgba(55,95,122,.2),0 0 0 3px var(--third-state,#16a34a)}.mode-two .pass-marker{top:2px}.mode-two .pass-marker span{padding:5px 9px;font-size:clamp(.75rem,2.9vw,.95rem)}.mode-two .pass-marker::after{height:50px}
+    @keyframes supportPam{0%,32%,64%,80%,86%,92%,100%{transform:scale(1);box-shadow:0 7px 18px rgba(7,94,84,.18)}16%,48%,76%{transform:scale(1.012);box-shadow:0 9px 24px rgba(37,211,102,.3)}83%{transform:scale(1.025);box-shadow:0 10px 28px rgba(37,211,102,.36)}89%{transform:scale(1.015);box-shadow:0 9px 24px rgba(37,211,102,.28)}}
     @keyframes numberPulse{50%{transform:scale(1.035)}}
     @media(max-width:580px){.mode-options{gap:7px}.mode-card{min-height:170px;padding:8px;border-radius:16px}.mode-card small{font-size:.72rem}.sim-workspace{border-width:8px;border-radius:20px;padding:7px;box-shadow:0 0 0 2px var(--sim-soft),0 16px 38px var(--sim-shadow)}.grade-field input{min-height:64px;font-size:clamp(3.35rem,17vw,5rem);padding:0 1px}.main-result{border-width:4px;padding:6px}.main-number{font-size:clamp(7.2rem,36vw,11rem)}.main-status{margin-top:10px;padding:7px 13px}.notes-row{gap:4px}.note-result{min-height:100px;border-radius:11px}.note-result strong{font-size:clamp(3.25rem,17vw,5.2rem)}.slider-title strong{font-size:clamp(4.7rem,23vw,7rem)}.sim-range-wrap{padding-top:34px}.sim-zones{height:24px}.sim-range::-webkit-slider-runnable-track{height:24px}.whatsapp-result{min-height:48px}}
     @media(max-width:350px){.mode-options{grid-template-columns:1fr}.mode-card{min-height:130px}.mode-number{font-size:4.2rem}.main-number{font-size:6.5rem}.note-result strong{font-size:2.8rem}}
-    @media(prefers-reduced-motion:reduce){.ife-sim *{animation:none!important;transition:none!important}}
+    @media(prefers-reduced-motion:reduce){.ife-sim *{animation:none!important;transition:none!important}.ife-sim .support-action{transform:none!important}}
 </style>
 
-<div class="ife-sim" data-records-url="{{ route('simulator-records.store') }}" data-csrf="{{ csrf_token() }}" data-pass-score="{{ $passScore }}" data-high-grade-threshold="{{ $highGradeThreshold }}">
+<div class="ife-sim" data-support-whatsapp="{{ config('ife.support_whatsapp') }}" data-school-year-end-date="{{ config('ife.school_year_end_date') }}" data-school-timezone="{{ config('ife.school_timezone') }}" data-server-time="{{ now()->toIso8601String() }}" data-records-url="{{ route('simulator-records.store') }}" data-csrf="{{ csrf_token() }}" data-pass-score="{{ $passScore }}" data-high-grade-threshold="{{ $highGradeThreshold }}">
     @unless($creatorInHeader ?? false)
     <div style="display:flex;justify-content:center">
         @include('partials.creator-live-link')
@@ -55,75 +63,23 @@
             <button type="button" class="consult-button" data-consult-button>Consultar</button>
         </div>
         <p style="font-size:.75rem;margin:4px 0" role="status" data-save-status></p>
+        <div class="support-subject-slot" data-support-subject-slot></div>
         <div class="result-stage sim-pending" hidden>
-            <div class="main-result"><span class="main-kicker">NECESITAS</span><strong class="main-number">—</strong><span class="main-status"><i class="state-dot"></i><b>INGRESA TUS NOTAS</b></span></div>
+            <div class="main-result" role="status" aria-live="polite" aria-atomic="true"><span class="main-kicker">NECESITAS</span><strong class="main-number">—</strong><span class="main-status"><i class="state-dot" aria-hidden="true"></i><b>INGRESA TUS NOTAS</b></span><p class="result-message" data-result-message></p><p class="scenario-message" data-scenario-message hidden></p></div>
             <div class="notes-row">
-                <div class="note-result"><span>1.º</span><strong data-note="first">—</strong><small>REAL</small></div>
-                <div class="note-result"><span>2.º</span><strong data-note="second">—</strong><small data-role="second">SIMULADO</small></div>
+                <div class="note-result"><span>1.ºx</span><strong data-note="first">c—</strong><small>REAL</small></div>
+                <div class="note-result"><span>2.ºx</span><strong data-note="second">—</strong><small data-role="second">SIMULADO</small></div>
                 <div class="note-result active"><span>3.º</span><strong data-note="third">—</strong><small data-role="third">NECESITAS</small></div>
             </div>
             <div class="slider-block">
                 <div class="slider-title"><span data-slider-label>SIMULA EL 2.º TRIMESTRE</span><span class="slider-value-wrap"><strong data-slider-value>50</strong><b class="slider-outcome"></b></span></div>
                 <div class="sim-range-wrap"><div class="sim-zones"></div><div class="pass-marker"><span data-marker-label>MÍNIMO</span></div><input class="sim-range" type="range" min="0" max="100" value="50" aria-label="Nota simulada"><div class="range-legend"><span data-legend-left>REPRUEBA</span><span data-legend-right>APRUEBA</span></div></div>
             </div>
-            <a class="whatsapp-result" href="#" target="_blank" rel="noopener">Enviar resultado por WhatsApp</a>
+            <x-academic-support-cta />
         </div>
-        <section class="mode-two-visual" hidden aria-live="polite">
-            <img src="" alt="" data-aplazo-image="{{ asset('images/chicolte.png') }}" data-riesgo-image="{{ asset('images/jalon.png') }}" data-aprobado-image="{{ asset('images/feliz.png') }}">
-            <strong class="mode-two-message"></strong>
-        </section>
     </section>
 </div>
 
-<script src="{{ asset('js/ife-grade-engine.js') }}"></script>
+<script src="{{ asset('js/ife-grade-engine.js').'?v=4' }}"></script>
 <script src="{{ asset('js/ife-simulator-records.js').'?v=4' }}"></script>
-<script>
-(function(){
-    const root=document.querySelector('.ife-sim');if(!root||!window.IfeGradeEngine)return;
-    const records=IfeSimulatorRecords.create(root, () => update());let knownNotes='';
-    const passScore=Number(root.dataset.passScore),highGradeThreshold=Number(root.dataset.highGradeThreshold);
-    const picker=root.querySelector('.mode-picker'),workspace=root.querySelector('.sim-workspace'),fields=root.querySelector('.known-fields'),secondKnown=root.querySelector('.second-known'),firstInput=root.querySelector('#ifeFirstTerm'),secondInput=root.querySelector('#ifeSecondTerm'),stage=root.querySelector('.result-stage'),range=root.querySelector('.sim-range'),zones=root.querySelector('.sim-zones'),marker=root.querySelector('.pass-marker'),mainNumber=root.querySelector('.main-number'),modeTwoVisual=root.querySelector('.mode-two-visual'),modeTwoImage=modeTwoVisual.querySelector('img'),modeTwoMessage=modeTwoVisual.querySelector('.mode-two-message');let mode=null,currentResult=null;
-    const palettes={green:['#16a34a','rgba(22,163,74,.15)','rgba(22,163,74,.34)'],orange:['#f59e0b','rgba(245,158,11,.17)','rgba(245,158,11,.36)'],red:['#ef4444','rgba(239,68,68,.16)','rgba(239,68,68,.34)']};
-    function grade(input,key){const raw=input.value.trim(),error=root.querySelector(`[data-error="${key}"]`);let value=null,message='';if(raw===''){if(input.dataset.touched)message='Ingresa esta nota.'}else{const number=Number(raw);if(Number.isInteger(number)&&number>=0&&number<=100)value=number;else message='Usa un entero de 0 a 100.'}input.classList.toggle('invalid',!!message);input.setAttribute('aria-invalid',message?'true':'false');error.textContent=message;return value}
-    function applyPalette(prefix,tone){const colors=palettes[tone];root.style.setProperty(`--${prefix}-state`,colors[0]);root.style.setProperty(`--${prefix}-soft`,colors[1]);if(prefix==='sim')root.style.setProperty('--sim-shadow',colors[2]);return colors}
-    function theme(scenarioTone,generalTone){const scenario=applyPalette('sim',scenarioTone);applyPalette('general',generalTone);document.body.style.background=`linear-gradient(155deg,${scenario[1]},#f5f9f9 72%)`;document.body.style.transition='background .16s ease'}
-    function fitAplazado(){
-        if(mainNumber.textContent!=='APLAZADO')return;
-        const available=mainNumber.clientWidth*.95;
-        if(!available)return;
-        mainNumber.style.setProperty('--aplazado-size','100px');
-        const textRange=document.createRange();
-        textRange.selectNodeContents(mainNumber);
-        const measured=textRange.getBoundingClientRect().width;
-        if(measured)mainNumber.style.setProperty('--aplazado-size',Math.floor(100*available/measured*100)/100+'px');
-    }
-    let lastResultWidth=0;
-    if('ResizeObserver' in window)new ResizeObserver(entries=>{
-        const width=entries[0].contentRect.width;
-        if(width!==lastResultWidth){lastResultWidth=width;fitAplazado()}
-    }).observe(mainNumber);
-    if(document.fonts)document.fonts.ready.then(fitAplazado);
-    function pulse(){mainNumber.classList.remove('pulse');void mainNumber.offsetWidth;mainNumber.classList.add('pulse')}
-    function selectMode(next){mode=next;root.classList.toggle('mode-one',mode==='one');root.classList.toggle('mode-two',mode==='two');picker.hidden=true;workspace.hidden=false;secondKnown.hidden=mode==='one';fields.classList.toggle('one',mode==='one');root.querySelector('.mode-current').textContent=mode==='one'?'1 NOTA':'2 NOTAS';root.querySelector('[data-slider-label]').textContent=mode==='one'?'SIMULA EL 2.º TRIMESTRE':'SIMULA EL 3.º TRIMESTRE';root.querySelector('[data-role="second"]').textContent=mode==='one'?'SIMULADO':'REAL';root.querySelector('[data-role="third"]').textContent=mode==='one'?'NECESITAS':'SIMULADO';root.querySelector('[data-legend-left]').textContent=mode==='one'?'0 · NO ALCANZA':'0 · REPRUEBA';root.querySelector('[data-legend-right]').textContent=mode==='one'?'VAS BIEN · 100':'APRUEBA · 100';firstInput.focus();update()}
-    function update(){
-        const first=grade(firstInput,'first'),second=mode==='two'?grade(secondInput,'second'):0,ready=first!==null&&(mode==='one'||second!==null);stage.classList.toggle('sim-pending',!ready);modeTwoVisual.hidden=!ready||mode!=='two';if(!ready){stage.hidden=true;currentResult=null;knownNotes='';records.update(mode,null,null);return}
-        const notesKey=mode+':'+first+':'+second;
-        if(notesKey!==knownNotes){range.value=IfeSimulatorRecords.defaultSlider(mode,first,second,passScore);knownNotes=notesKey}
-        records.update(mode,first,second);
-        const showResult=mode!=='two'||records.hasConsulted();
-        stage.hidden=!showResult;modeTwoVisual.hidden=!showResult||mode!=='two';
-        if(!showResult){currentResult=null;return}
-        currentResult=IfeGradeEngine.calculate({mode,first,second,simulated:Number(range.value),passScore,highGradeThreshold});const r=currentResult,impossible=r.requiredThird>100,scenarioTone=mode==='two'&&!r.projectedPass?'red':r.status.tone;theme(scenarioTone,r.status.tone);
-        if(mode==='two'){
-            const situation=r.requiredThird>100?'aplazo':r.requiredThird<=0?'aprobado':'riesgo';
-            const situations={aplazo:{message:'YA NO TE ALCANZA NI SACANDO 100',alt:'Estudiante aplazado'},riesgo:{message:'TODAVÍA PUEDES PASAR',alt:'Estudiante que todavía puede pasar'},aprobado:{message:'YA PASASTE DE CURSO AUNQUE SAQUES 0 EN EL TERCER TRIMESTRE',alt:'Estudiante feliz porque ya pasó de curso'}};
-            modeTwoVisual.classList.remove('aplazo','riesgo','aprobado');modeTwoVisual.classList.add(situation);modeTwoImage.src=modeTwoImage.dataset[`${situation}Image`];modeTwoImage.alt=situations[situation].alt;modeTwoMessage.textContent=situations[situation].message;
-        }
-        const main=root.querySelector('.main-result');main.classList.toggle('impossible',impossible);root.querySelector('.main-kicker').textContent=impossible?'':'NECESITAS';mainNumber.textContent=impossible?'APLAZADO':r.requiredThird;root.querySelector('.main-status b').textContent=impossible?'REPROBADO':r.status.label;root.querySelector('[data-note="first"]').textContent=r.first;root.querySelector('[data-note="second"]').textContent=r.second;root.querySelector('[data-note="third"]').textContent=mode==='one'?(impossible?'100':r.requiredThird):r.third;root.querySelector('[data-slider-value]').textContent=range.value;root.querySelector('.slider-outcome').textContent=mode==='two'?(r.projectedPass?'APRUEBA':'REPRUEBA'):r.status.label;pulse();fitAplazado();
-        marker.style.transform=r.slider.marker>=92?'translateX(-100%)':'translateX(-50%)';marker.style.left=`${r.slider.marker}%`;
-        if(mode==='one'){zones.style.background=`linear-gradient(90deg,#ef4444 0 ${r.slider.redEnd}%,#f59e0b ${r.slider.redEnd}% ${r.slider.orangeEnd}%,#16a34a ${r.slider.orangeEnd}% 100%)`;marker.hidden=r.slider.marker<=0;root.querySelector('[data-marker-label]').textContent=`${r.slider.marker} MÍNIMO`}else{const cutoff=r.slider.marker;zones.style.background=impossible?'#ef4444':r.requiredThird<=0?'#16a34a':`linear-gradient(90deg,#ef4444 0 ${cutoff}%,#16a34a ${cutoff}% 100%)`;marker.hidden=impossible||r.requiredThird<=0;root.querySelector('[data-marker-label]').textContent=`${r.requiredThird} MÍNIMO`}
-        root.querySelector('.whatsapp-result').href=`https://wa.me/?text=${encodeURIComponent(IfeGradeEngine.buildWhatsAppMessage(r))}`;
-    }
-    root.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.mode)));root.querySelector('.change-mode').addEventListener('click',()=>{workspace.hidden=true;picker.hidden=false;mode=null;currentResult=null;knownNotes='';records.update(null,null,null);document.body.style.background=''});[firstInput,secondInput].forEach(input=>{input.addEventListener('click',()=>{input.value='';delete input.dataset.touched;update()});input.addEventListener('input',()=>{IfeSimulatorRecords.clampInput(input);update()});input.addEventListener('keydown',event=>{if(['e','E','+','-','.'].includes(event.key))event.preventDefault()});input.addEventListener('blur',()=>{input.dataset.touched='1';update()})});range.addEventListener('input',update);const initialMode=new URLSearchParams(window.location.search).get('mode');if(initialMode==='one'||initialMode==='two')selectMode(initialMode);
-}());
-</script>
+<script src="{{ asset('js/ife-grade-simulator.js').'?v=3' }}"></script>
