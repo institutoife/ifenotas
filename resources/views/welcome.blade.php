@@ -66,7 +66,7 @@
                     </a>
                 </div>
                 <div class="hero-action">
-                    <a class="hero-start" href="{{ route('notes.simulator') }}"><span><i class="fa-solid fa-calculator" aria-hidden="true"></i> Calcular mi nota</span><span aria-hidden="true">→</span></a>
+                    <a class="hero-start" href="{{ route('notes.simulator', ['mode' => 'two']) }}"><span><i class="fa-solid fa-calculator" aria-hidden="true"></i> Calcular mi nota</span><span aria-hidden="true">→</span></a>
                 </div>
             </div>
         </section>
