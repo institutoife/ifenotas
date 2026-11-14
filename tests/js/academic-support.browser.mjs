@@ -80,6 +80,18 @@ try {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
     assert.equal(await evaluate('!!window.IfeGradeEngine'), true, 'Engine loaded');
+    for (const mode of ['one','two','one','two']) {
+        await evaluate(`(() => {
+            const first=document.querySelector('#ifeFirstTerm');first.value='57';first.dispatchEvent(new Event('input'));
+            document.querySelector('[data-mode=${mode}]').click();
+        })()`);
+        assert.equal(await evaluate("document.querySelector('#ifeFirstTerm').value"),'57','First grade retained when switching modes');
+        assert.equal(await evaluate("document.querySelector('.mode-picker').hidden"),false,'Mode selector always available');
+        assert.equal(await evaluate(`document.querySelector('[data-mode=${mode}]').getAttribute('aria-pressed')`),'true');
+        await new Promise(resolve=>setTimeout(resolve,180));
+        assert.equal(await evaluate(`getComputedStyle(document.querySelector('[data-mode=${mode}]')).backgroundColor`),'rgb(38, 186, 165)');
+        checks++;
+    }
     const cases = [[0, 'PASSED', 'YA PASASTE'], [24, 'VERY_GOOD', 'VAS MUY BIEN'],
         [42, 'REINFORCEMENT', 'CONVIENE REFORZAR'], [58, 'NEEDS_SUPPORT', 'NECESITA APOYO'],
         [68, 'RISK', 'EN RIESGO'], [78, 'HIGH_RISK', 'RIESGO ALTO'],
@@ -219,7 +231,7 @@ try {
     await screenshot('390-third-term-85');
     checks++;
     // The real subject list is reused in one-note mode and remains synchronized.
-    await evaluate(`document.querySelector('.change-mode').click();document.querySelector('[data-mode="one"]').click();`);
+    await evaluate(`document.querySelector('[data-mode="one"]').click();`);
     for (const width of widths) {
         await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
         await evaluate(`(() => {
@@ -248,7 +260,7 @@ try {
     await evaluate(`(() => {const first=document.querySelector('#ifeFirstTerm');first.value='100';first.dispatchEvent(new Event('input'));const range=document.querySelector('.sim-range');range.value='53';range.dispatchEvent(new Event('input'));})()`);
     assert.equal(await evaluate("document.querySelector('.main-number').textContent"), 'FELICIDADES');
     assert.doesNotMatch(await evaluate("decodeURIComponent(document.querySelector('[data-support-link]').href)"), /necesit[oaí].*0/);
-    await evaluate("document.querySelector('.change-mode').click();document.querySelector('[data-mode=two]').click();");
+    await evaluate("document.querySelector('[data-mode=two]').click();");
     assert.equal(await evaluate("!!document.querySelector('[data-consult-controls] [data-consult-subject]')"), true);
     const subjects = await evaluate("Array.from(document.querySelector('[data-consult-subject]').options).map(option=>option.value).filter(Boolean)");
     for (const subject of subjects) {

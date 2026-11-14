@@ -14,6 +14,7 @@
     <meta property="og:image:alt" content="Logo de IFE Educabol">
     <link rel="icon" href="{{ asset('images/icono-ife-educabol-instituto-formacion-educabol.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/ife-countries.css') }}?v=3">
     <style>
         :root{--primary:#26baa5;--primary-dark:#159987;--secondary:#375f7a;--deep:#203f52;--bg:#f4faf9;--soft:#e5f8f5;--line:#cfe7e4;--text:#294c61;--muted:#5c7482;--white:#fff;--whatsapp:#25d366}
         *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;overflow-x:hidden;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.45}a{color:inherit}img{max-width:100%}button,input{font:inherit}.wrap{width:min(1120px,100%);margin:auto;padding-inline:14px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -70,6 +71,8 @@
                 </div>
             </div>
         </section>
+
+        @include('partials.country-simulators')
 
         <section class="support section" aria-labelledby="supportTitle">
             <div class="wrap support-grid">

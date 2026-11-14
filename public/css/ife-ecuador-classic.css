@@ -1,0 +1,15 @@
+.ife-sim.ecuador-sim .grade-field input{font-size:clamp(2rem,11vw,4.4rem)}
+.ife-sim.ecuador-sim .main-result:not(.impossible) .main-number{font-size:clamp(4.5rem,23vw,9rem)}
+.ife-sim.ecuador-sim .note-result strong,.ife-sim.ecuador-sim .simulated-note{font-size:clamp(1.3rem,7.5vw,3.6rem);line-height:1.05}
+.ife-sim.ecuador-sim .simulated-note{display:block;width:100%;min-width:0;margin:0;border:0;border-radius:6px;background:transparent;padding:0 2px;color:#375F7A;font-weight:1000;text-align:center}
+.ife-sim.ecuador-sim .simulated-note:focus-visible{outline:3px solid #26BAA5;outline-offset:-3px}
+.ife-sim.ecuador-sim .simulated-note.invalid{outline:2px solid #ef4444;outline-offset:-2px}
+.ife-sim.ecuador-sim .note-result label{font-size:.72rem;font-weight:1000}
+.ife-sim.ecuador-sim .ec-context-field{min-width:0}
+.ife-sim.ecuador-sim .ec-context-error{margin:4px 0 0}
+.ife-sim.ecuador-sim .ec-context-error:empty{display:none}
+.ife-sim.ecuador-sim .ec-other-field{margin-top:10px}
+.ife-sim.ecuador-sim .ec-other-field input{width:100%;min-width:0;min-height:52px;border:1px solid #b9d3d0;border-radius:10px;background:#fff;padding:12px;color:#375F7A;font-size:16px}
+.ife-sim.ecuador-sim .ec-other-field input:focus-visible{outline:3px solid #375F7A;outline-offset:2px}
+.ife-sim.ecuador-sim .slider-title strong{font-size:clamp(3rem,15vw,6rem)}
+.ife-sim.ecuador-sim .main-number{font-variant-numeric:tabular-nums}

@@ -1,8 +1,42 @@
 <?php
 
+$supportWhatsApp = env('IFE_NOTAS_SUPPORT_WHATSAPP', '59160902299');
+
 return [
     'whatsapp' => env('IFE_WHATSAPP', '59171324941'),
-    'support_whatsapp' => env('IFE_NOTAS_SUPPORT_WHATSAPP', '59160902299'),
+    'support_whatsapp' => $supportWhatsApp,
+    'countries' => [
+        'bolivia' => [
+            'name' => 'Bolivia',
+            'flag' => '🇧🇴',
+            'flag_image' => 'images/flags/bolivia.svg',
+            'route' => 'notes.simulator',
+            'simulator' => 'partials.grade-simulator',
+            'whatsapp' => env('IFE_BOLIVIA_WHATSAPP', $supportWhatsApp),
+        ],
+        'ecuador' => [
+            'name' => 'Ecuador',
+            'flag' => '🇪🇨',
+            'flag_image' => 'images/flags/ecuador.svg',
+            'route' => 'notes.ecuador',
+            'simulator' => 'partials.ecuador-simulator',
+            'whatsapp' => env('IFE_ECUADOR_WHATSAPP', $supportWhatsApp),
+            // INEC provincial list; curriculum subject names: see docs/ecuador.md.
+            'provinces' => [
+                'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi',
+                'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja',
+                'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza',
+                'Pichincha', 'Santa Elena', 'Santo Domingo de los Tsáchilas', 'Sucumbíos',
+                'Tungurahua', 'Zamora Chinchipe',
+            ],
+            'subjects' => [
+                'Matemática', 'Lengua y Literatura', 'Inglés', 'Ciencias Naturales',
+                'Estudios Sociales', 'Educación Física', 'Educación Cultural y Artística',
+                'Biología', 'Física', 'Química', 'Historia', 'Filosofía',
+                'Educación para la Ciudadanía', 'Emprendimiento y Gestión',
+            ],
+        ],
+    ],
     'school_year_end_date' => env('IFE_NOTAS_SCHOOL_YEAR_END_DATE', '2026-12-02'),
     'school_timezone' => 'America/La_Paz',
     'social' => [

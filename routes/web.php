@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SimulatorRecordController;
 
 Route::get('/simulador-notas', [AcademicAppController::class, 'notesSimulator'])->name('notes.simulator');
+Route::get('/ecuador/simulador-notas', [AcademicAppController::class, 'ecuadorSimulator'])->name('notes.ecuador');
+Route::get('/', [AcademicAppController::class, 'showAuth'])->name('auth');
 Route::post('/simulador-notas/registros', [SimulatorRecordController::class, 'store'])->middleware('throttle:60,1')->name('simulator-records.store');
 Route::get('/admin/simulador-registros', [SimulatorRecordController::class, 'index'])->middleware('auth')->name('admin.simulator-records');
 
@@ -15,7 +17,6 @@ Route::get('/live-ganadores', [AcademicAppController::class, 'liveWinners'])->na
 Route::post('/live-ganadores', [AcademicAppController::class, 'storeLiveWinner'])->name('live.winners.store');
 
 Route::middleware('guest')->group(function (): void {
-    Route::get('/', [AcademicAppController::class, 'showAuth'])->name('auth');
     Route::get('/login', [AcademicAppController::class, 'showLogin'])->name('login.view');
     Route::get('/register', [AcademicAppController::class, 'showRegister'])->name('register.view');
     Route::post('/register', [AcademicAppController::class, 'register'])->name('register');

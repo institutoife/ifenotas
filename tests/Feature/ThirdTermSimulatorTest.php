@@ -16,8 +16,8 @@ class ThirdTermSimulatorTest extends TestCase
         $this->get('/simulador-notas')
             ->assertOk()
             ->assertSee('¿Cuántas notas ya tienes?')
-            ->assertSee('UNA NOTA')
-            ->assertSee('DOS NOTAS')
+            ->assertSee('TENGO 1 NOTA')
+            ->assertSee('TENGO 2 NOTAS')
             ->assertSee('Compartir nota')
             ->assertDontSee('data-quick', false)
             ->assertDontSee('Promedio');

@@ -25,6 +25,11 @@ final class IfeWhatsApp
         return self::url($phone, 'Hola, vengo de IFE Notas y quiero más información sobre IFE.');
     }
 
+    public static function messageUrl(string $phone, string $message): string
+    {
+        return self::url($phone, $message);
+    }
+
     private static function url(string $phone, string $message): string
     {
         $normalizedPhone = preg_replace('/\D+/', '', $phone) ?? '';

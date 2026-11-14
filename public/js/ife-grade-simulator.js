@@ -49,11 +49,15 @@
         find('[data-support-link]').href = engine.supportWhatsAppUrl(root.dataset.supportWhatsapp, result, subject.value, context);
     }
 
-    function selectMode(next) {
+    function selectMode(next, focus = true) {
+        if (mode === next) return;
         mode = next;
         root.classList.toggle('mode-one', mode === 'one');
         root.classList.toggle('mode-two', mode === 'two');
-        picker.hidden = true;
+        picker.hidden = false;
+        root.querySelectorAll('[data-mode]').forEach(button => {
+            button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
+        });
         workspace.hidden = false;
         find('.second-known').hidden = mode === 'one';
         find('.known-fields').classList.toggle('one', mode === 'one');
@@ -70,7 +74,7 @@
         if (mode === 'one') find('[data-support-subject-slot]').append(subjectField);
         else consultRow.insertBefore(subjectField, consultButton);
         subjectField.querySelector('.consult-label').textContent = mode === 'one' ? '¿En qué materia necesitas apoyo?' : 'Materia';
-        firstInput.focus();
+        if (focus) firstInput.focus();
         update();
     }
 
@@ -172,12 +176,7 @@
         find('.whatsapp-result').href = `https://wa.me/?text=${encodeURIComponent(engine.buildWhatsAppMessage(result))}`;
     }
 
-    root.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => selectMode(button.dataset.mode)));
-    find('.change-mode').addEventListener('click', () => {
-        workspace.hidden = true; picker.hidden = false; stage.hidden = true; support.hidden = true;
-        mode = null; currentResult = null; knownNotes = ''; previousResult = '';
-        records.update(null, null, null);
-    });
+    root.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => selectMode(button.dataset.mode, false)));
     [firstInput, secondInput].forEach(input => {
         input.addEventListener('click', () => { input.value = ''; delete input.dataset.touched; update(); });
         input.addEventListener('input', () => { window.IfeSimulatorRecords.clampInput(input); update(); });
@@ -193,6 +192,6 @@
     });
     // Keep campaign copy current even when a tab stays open across the closing date.
     window.setInterval(() => { if (currentResult) renderSupport(currentResult); }, 60000);
-    const initialMode = new URLSearchParams(window.location.search).get('mode');
-    if (initialMode === 'one' || initialMode === 'two') selectMode(initialMode);
+    const initialMode = new URLSearchParams(window.location.search).get('mode') || root.dataset.initialMode;
+    if (initialMode === 'one' || initialMode === 'two') selectMode(initialMode, root.dataset.autofocus !== 'false');
 }());

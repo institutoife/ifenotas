@@ -42,9 +42,8 @@ class AcademicAppController extends Controller
             'projection' => $projection,
             'statePresentation' => config('ife_statistics.states'),
             'ife' => config('ife'),
-            'visitorCount' => DB::table('page_counters')
-                ->where('page', 'homepage')
-                ->value('visits'),
+            'countries' => config('ife.countries'),
+            'visitorCount' => $counter,
             'tiktokFollowers' => $tiktokFollowers->followers(),
         ]);
     }
@@ -71,6 +70,15 @@ class AcademicAppController extends Controller
         return view('third-term-simulator', [
             'passScore' => self::PASS_SCORE,
             'highGradeThreshold' => self::HIGH_THIRD_TERM_SCORE,
+            'supportWhatsapp' => config('ife.countries.bolivia.whatsapp', config('ife.support_whatsapp')),
+        ]);
+    }
+
+    public function ecuadorSimulator(): View
+    {
+        return view('ecuador-simulator', [
+            'countryCode' => 'ecuador',
+            'country' => config('ife.countries.ecuador'),
         ]);
     }
 
