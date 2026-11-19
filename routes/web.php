@@ -3,9 +3,12 @@
 use App\Http\Controllers\AcademicAppController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SimulatorRecordController;
+use App\Http\Controllers\EcuadorSimulatorRecordController;
 
 Route::get('/simulador-notas', [AcademicAppController::class, 'notesSimulator'])->name('notes.simulator');
 Route::get('/ecuador/simulador-notas', [AcademicAppController::class, 'ecuadorSimulator'])->name('notes.ecuador');
+Route::post('/ecuador/simulador-notas/registros', [EcuadorSimulatorRecordController::class, 'store'])->middleware('throttle:60,1')->name('ecuador-records.store');
+Route::get('/admin/ecuador/simulador-registros', [EcuadorSimulatorRecordController::class, 'index'])->middleware('auth')->name('admin.ecuador-records');
 Route::get('/', [AcademicAppController::class, 'showAuth'])->name('auth');
 Route::post('/simulador-notas/registros', [SimulatorRecordController::class, 'store'])->middleware('throttle:60,1')->name('simulator-records.store');
 Route::get('/admin/simulador-registros', [SimulatorRecordController::class, 'index'])->middleware('auth')->name('admin.simulator-records');

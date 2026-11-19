@@ -20,6 +20,10 @@ class EcuadorSimulatorTest extends TestCase
             ->assertSee('Elige tu país')
             ->assertSee('data-country-choice="bolivia"', false)
             ->assertSee('data-country-choice="ecuador"', false)
+            ->assertSee('data-coming-soon', false)
+            ->assertSee('data-country-choice="argentina"', false)
+            ->assertSee('images/flags/argentina.svg', false)
+            ->assertSee('En desarrollo')
             ->assertDontSee('data-ecuador-simulator', false)
             ->assertDontSee('ife-grade-simulator.js', false)
             ->assertSee('hero-boletin-ife-notas.png')
@@ -94,6 +98,9 @@ class EcuadorSimulatorTest extends TestCase
     {
         foreach (['notes.simulator', 'notes.ecuador'] as $routeName) {
             $this->get(route($routeName))->assertOk()
+                ->assertSee('TENGO 1 NOTA')->assertSee('TENGO 2 NOTAS')
+                ->assertDontSee('Solo tengo la nota del primer trimestre')
+                ->assertDontSee('Ya tengo las notas del primer y segundo trimestre')
                 ->assertSee('class="page-head"', false)
                 ->assertSee('class="mode-card"', false)
                 ->assertSee('class="sim-workspace"', false)

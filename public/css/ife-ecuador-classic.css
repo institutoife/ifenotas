@@ -13,3 +13,4 @@
 .ife-sim.ecuador-sim .ec-other-field input:focus-visible{outline:3px solid #375F7A;outline-offset:2px}
 .ife-sim.ecuador-sim .slider-title strong{font-size:clamp(3rem,15vw,6rem)}
 .ife-sim.ecuador-sim .main-number{font-variant-numeric:tabular-nums}
+.ife-sim.ecuador-sim .ec-save-status{margin:4px 0;font-size:.75rem;line-height:1.4}

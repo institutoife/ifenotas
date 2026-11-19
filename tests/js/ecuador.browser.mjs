@@ -129,6 +129,7 @@ try {
     await waitFor("location.pathname==='/ecuador/simulador-notas' && document.readyState==='complete' && !!window.IfeEcuadorEngine");
     assert.equal(await evaluate("new URL(document.querySelector('.country-back').href).pathname"),'/');
     assert.equal(await evaluate(`${ec}.querySelector('[data-ec-modes]').hidden`), false);
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-ec-mode]')].map(button=>button.textContent.trim())"),['TENGO 1 NOTA','TENGO 2 NOTAS']);
     assert.equal(await evaluate(`${ec}.querySelector('[data-ec-regime]')`), null,'No school regime step');
     await click('[data-ec-mode][value=two]');
     assert.equal(await evaluate(`(() => {
@@ -145,6 +146,37 @@ try {
     assert.equal(await evaluate("document.activeElement.hasAttribute('data-ec-subject')"),true);
     await choose('[data-ec-subject]','Matemática');
     checks++;
+    // Exercise actual browser insertion (including paste/IME replacement path), not only assigned values.
+    const focusAndClear = async selector => {
+        await evaluate(`(()=>{const field=document.querySelector(${JSON.stringify(selector)});field.focus();field.click();})()`);
+        assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).value`),'','Click clears the grade');
+    };
+    for (const selector of ['[data-ec-first]','[data-ec-second]']) {
+        for (const invalid of ['11','10.01','-1','6,567','1e1','abc']) {
+            await focusAndClear(selector);
+            await send('Input.insertText',{text:invalid});
+            assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).value`),'','Invalid pasted/typed grade cannot remain in field');
+            assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).getAttribute('aria-invalid')`),'true');
+            assert.equal((await state()).hidden,true);
+            checks++;
+        }
+        await focusAndClear(selector);
+        await send('Input.insertText',{text:'6'});
+        await send('Input.insertText',{text:','});
+        await send('Input.insertText',{text:'5'});
+        await send('Input.insertText',{text:'6'});
+        assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).value`),'6,56');
+        await send('Input.insertText',{text:'7'});
+        assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).value`),'6,56','Third decimal rejected');
+        await click('[data-ec-calculate]');
+        assert.equal((await state()).hidden,true,'A rejected edit cannot calculate the retained previous text');
+        await focusAndClear(selector);
+        await send('Input.insertText',{text:'10.00'});
+        assert.equal(await evaluate(`document.querySelector(${JSON.stringify(selector)}).value`),'10.00');
+        checks++;
+    }
+    await fill('[data-ec-first]','6,56');await fill('[data-ec-second]','6,83');await click('[data-ec-calculate]');
+    assert.equal((await state()).value,'7,61');
     for (const [first, second, expected, status] of [['6,56','6.83','7,61','RIESGO ALTO'],['5,50','5,50','10,00','NECESIDAD EXTREMA'],['5,00','5,00','6,67','YA NO ALCANZA'],['5,50','5,49','7,00','YA NO ALCANZA']]) {
         await fill('[data-ec-first]', first);
         await fill('[data-ec-second]', second);
@@ -205,6 +237,11 @@ try {
     await click('[data-ec-mode][value=one]');
     await fill('[data-ec-first]', '6.56', true);
     await fill('[data-ec-simulated]', '6,83', true);
+    await focusAndClear('[data-ec-simulated]');
+    assert.equal((await state()).hidden,true);
+    await send('Input.insertText',{text:'12'});
+    assert.equal((await state()).simulated,'','Simulated grades use the same limits');
+    await send('Input.insertText',{text:'6,83'});
     assert.equal((await state()).value, '7,61');
     assert.equal((await state()).range, '6.83');
     let text = new URL((await state()).href).searchParams.get('text');
@@ -290,6 +327,7 @@ try {
     await click('[data-country-choice=bolivia]');
     await waitFor("location.pathname==='/simulador-notas' && document.readyState==='complete' && !!window.IfeGradeEngine");
     assert.equal(await evaluate("document.querySelector('.mode-picker').hidden"),false);
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-mode]')].map(button=>button.textContent.trim())"),['TENGO 1 NOTA','TENGO 2 NOTAS']);
     assert.equal(await evaluate("new URL(document.querySelector('.country-back').href).pathname"),'/');
     checks++;
     for (const mode of ['one','two']) {

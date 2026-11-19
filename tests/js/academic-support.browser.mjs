@@ -80,6 +80,7 @@ try {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
     assert.equal(await evaluate('!!window.IfeGradeEngine'), true, 'Engine loaded');
+    assert.deepEqual(await evaluate("[...document.querySelectorAll('[data-mode]')].map(button=>button.textContent.trim())"),['TENGO 1 NOTA','TENGO 2 NOTAS']);
     for (const mode of ['one','two','one','two']) {
         await evaluate(`(() => {
             const first=document.querySelector('#ifeFirstTerm');first.value='57';first.dispatchEvent(new Event('input'));

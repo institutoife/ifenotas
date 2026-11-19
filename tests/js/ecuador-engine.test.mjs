@@ -17,6 +17,16 @@ test('accepts comma or dot and converts decimal text to exact integer hundredths
     }
 });
 
+test('grade editing allows decimal drafts but rejects invalid characters, ranges and extra precision', () => {
+    for (const value of ['', '0', '00', '10', '10,', '10.', '10,0', '10.00', '6,', '6.', '6,56', '6.56', '.', ',', ',25', '.25', '09.99']) {
+        assert.equal(engine.isGradeDraft(value), true, value);
+    }
+    for (const value of ['-1', '+1', '11', '99', '100', '10.01', '10,1', '6.567', '6,567', '1e1', 'abc', '6,5.1', '6 5', 'Infinity']) {
+        assert.equal(engine.isGradeDraft(value), false, value);
+    }
+    assert.equal(engine.parseGrade('6,'), null, 'Incomplete drafts cannot be calculated');
+});
+
 test('6,56 and 6,83 require exactly 7,61', () => {
     const result = engine.calculate(engine.parseGrade('6,56'), engine.parseGrade('6,83'));
     assert.equal(result.requiredCents, 761);

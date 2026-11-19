@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     const engine = window.IfeEcuadorEngine;
-    if (!engine || !window.IfeGradeEngine) return;
+    if (!engine || !window.IfeGradeEngine || !window.IfeEcuadorRecords) return;
 
     document.querySelectorAll('[data-ecuador-simulator]').forEach(root => {
         const find = selector => root.querySelector(selector);
@@ -13,6 +13,7 @@
         const support = find('[data-support-cta]'), whatsapp = find('[data-support-link]');
         const share = find('.whatsapp-result'), contextRow = find('[data-ec-context]');
         const calculate = find('[data-ec-calculate]');
+        const records = window.IfeEcuadorRecords.create(root);
         whatsapp.setAttribute('data-ec-whatsapp', '');
         whatsapp.hidden = true;
         const acceptedGrades = new WeakMap([[first, first.value], [second, second.value], [simulated, simulated.value]]);
@@ -131,6 +132,10 @@
             if (firstCents === null) knownNotes = '';
             const secondCents = mode === 'one' ? validate(simulated, 'simulated', force) : realSecond;
             const contextValid = validateContext(force);
+            records.sync(mode === 'two' && firstCents !== null && realSecond !== null && contextValid ? {
+                first_cents:firstCents, second_cents:realSecond, province:province.value,
+                subject:subject.value, ...(subject.value === '__other__' ? {other_subject:otherSubject.value.trim()} : {}),
+            } : null);
             find('[data-ec-note-first]').textContent = firstCents === null ? '—' : engine.formatGrade(firstCents);
             if (firstCents === null || secondCents === null || !contextValid || (mode === 'two' && !calculated)) {
                 hideResult(mode === 'one' && firstCents !== null);
@@ -283,6 +288,7 @@
             render(true);
             const invalid = root.querySelector('[aria-invalid="true"]:not([disabled])');
             if (invalid) invalid.focus();
+            else if (!resultBox.hidden) records.save();
         });
         let resizeFrame;
         window.addEventListener('resize', () => {

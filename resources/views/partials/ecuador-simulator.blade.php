@@ -1,4 +1,4 @@
-<div class="ife-sim ecuador-sim" data-ecuador-simulator data-country-name="{{ $country['name'] }}" data-whatsapp-base="{{ \App\Support\IfeWhatsApp::messageUrl($country['whatsapp'], '') }}" data-send-label="Enviar mi resultado por WhatsApp">
+<div class="ife-sim ecuador-sim" data-ecuador-simulator data-country-name="{{ $country['name'] }}" data-whatsapp-base="{{ \App\Support\IfeWhatsApp::messageUrl($country['whatsapp'], '') }}" data-records-url="{{ route('ecuador-records.store') }}" data-csrf="{{ csrf_token() }}" data-send-label="Enviar mi resultado por WhatsApp">
     @include('partials.simulator-mode-picker')
 
     <form class="sim-workspace" id="{{ $countryCode }}SimWorkspace" data-ec-form data-ec-fields hidden novalidate>
@@ -47,6 +47,7 @@
             </div>
             <button type="submit" class="consult-button" data-ec-calculate>Calcular</button>
         </div>
+        <p class="ec-save-status" data-ec-save-status role="status" aria-live="polite" hidden></p>
         <div class="support-subject-slot" data-ec-subject-slot></div>
 
         <div class="result-stage" data-ec-stage hidden>
